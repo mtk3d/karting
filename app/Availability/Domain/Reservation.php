@@ -25,7 +25,7 @@ class Reservation extends Model
         return new Reservation([
             'from' => $period->getStartDate()->toISOString(),
             'to' => $period->getEndDate()->toISOString(),
-            'resource_item_id' => $resourceId->id(),
+            'resource_item_id' => (string)$resourceId->id(),
         ]);
     }
 
