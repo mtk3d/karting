@@ -11,7 +11,7 @@ use App\Availability\Application\GoCartAvailabilityConfiguration;
 use App\Availability\Domain\ResourceReserved;
 use App\Availability\Domain\ResourceUnavailableException;
 use App\Availability\Infrastructure\Repository\InMemoryResourceRepository;
-use App\Shared\InMemoryDomainEventDispatcher;
+use App\Shared\Common\InMemoryDomainEventDispatcher;
 use Carbon\CarbonPeriod;
 use PHPUnit\Framework\TestCase;
 use function Tests\Fixtures\aResourceReservedBetween;

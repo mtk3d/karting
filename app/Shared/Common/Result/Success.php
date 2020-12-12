@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Result;
+namespace App\Shared\Common\Result;
 
-use App\Shared\DomainEvent;
-use App\Shared\Result;
-use App\Shared\UUID;
+use App\Shared\Common\DomainEvent;
+use App\Shared\Common\Result;
 use Illuminate\Support\Collection;
 
 final class Success extends Result

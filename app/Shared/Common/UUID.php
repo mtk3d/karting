@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared;
+namespace App\Shared\Common;
 
 use Ramsey\Uuid\Uuid as RamseyUuid;
 

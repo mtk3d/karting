@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Result;
+namespace App\Shared\Common\Result;
 
-use App\Shared\Result;
+use App\Shared\Common\Result;
 
 final class Failure extends Result
 {

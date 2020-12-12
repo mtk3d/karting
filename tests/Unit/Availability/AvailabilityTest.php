@@ -8,7 +8,7 @@ use App\Availability\Domain\ResourceAvailabilityException;
 use App\Availability\Domain\ResourceTurnedOn;
 use App\Availability\Domain\ResourceWithdrawn;
 use App\Availability\Infrastructure\Repository\InMemoryResourceRepository;
-use App\Shared\InMemoryDomainEventDispatcher;
+use App\Shared\Common\InMemoryDomainEventDispatcher;
 use PHPUnit\Framework\TestCase;
 use function Tests\Fixtures\aResource;
 use function Tests\Fixtures\aWithdrawnResource;

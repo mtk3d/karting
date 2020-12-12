@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Availability\Domain;
 
-use App\Shared\Result;
-use App\Shared\UuidsTrait;
+use App\Shared\Common\Result;
+use App\Shared\Common\UuidsTrait;
+use App\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;

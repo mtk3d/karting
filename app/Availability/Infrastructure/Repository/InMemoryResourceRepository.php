@@ -6,8 +6,8 @@ declare(strict_types=1);
 namespace App\Availability\Infrastructure\Repository;
 
 use App\Availability\Domain\ResourceItem;
-use App\Availability\Domain\ResourceId;
 use App\Availability\Domain\ResourceRepository;
+use App\Shared\ResourceId;
 use Illuminate\Support\Collection;
 
 class InMemoryResourceRepository implements ResourceRepository

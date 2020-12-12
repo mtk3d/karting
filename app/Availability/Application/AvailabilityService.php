@@ -7,10 +7,9 @@ namespace App\Availability\Application;
 
 use App\Availability\Domain\ResourceItem;
 use App\Availability\Domain\ResourceAvailabilityException;
-use App\Availability\Domain\ResourceId;
+use App\Shared\ResourceId;
 use App\Availability\Domain\ResourceRepository;
-use App\Shared\DomainEventDispatcher;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use App\Shared\Common\DomainEventDispatcher;
 
 class AvailabilityService
 {

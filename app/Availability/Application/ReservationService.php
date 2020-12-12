@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Availability\Application;
 
-use App\Availability\Domain\ResourceId;
+use App\Shared\ResourceId;
 use App\Availability\Domain\ResourceRepository;
 use App\Availability\Domain\ResourceItem;
 use App\Availability\Domain\ResourceUnavailableException;
-use App\Shared\DomainEventDispatcher;
+use App\Shared\Common\DomainEventDispatcher;
 use Carbon\CarbonPeriod;
 
 class ReservationService

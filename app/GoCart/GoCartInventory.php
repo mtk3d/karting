@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GoCart;
 
-use App\Availability\Domain\ResourceId;
+use App\Shared\ResourceId;
 use Illuminate\Database\Eloquent\Collection;
 
 class GoCartInventory

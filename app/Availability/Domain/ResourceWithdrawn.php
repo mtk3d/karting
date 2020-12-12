@@ -5,8 +5,9 @@ declare(strict_types=1);
 
 namespace App\Availability\Domain;
 
-use App\Shared\DomainEvent;
-use App\Shared\UUID;
+use App\Shared\Common\DomainEvent;
+use App\Shared\Common\UUID;
+use App\Shared\ResourceId;
 
 class ResourceWithdrawn implements DomainEvent
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Shared;
+namespace App\Shared\Common;
 
-use App\Shared\Result\Failure;
-use App\Shared\Result\Success;
+use App\Shared\Common\Result\Failure;
+use App\Shared\Common\Result\Success;
 use Illuminate\Support\Collection;
 
 abstract class Result

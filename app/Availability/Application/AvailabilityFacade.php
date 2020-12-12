@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace App\Availability\Application;
 
-use App\Availability\Domain\ResourceId;
+use App\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 
 class AvailabilityFacade

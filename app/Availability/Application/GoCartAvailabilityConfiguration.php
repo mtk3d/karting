@@ -6,8 +6,8 @@ namespace App\Availability\Application;
 
 use App\Availability\Domain\ResourceRepository;
 use App\Availability\Infrastructure\Repository\InMemoryResourceRepository;
-use App\Shared\DomainEventDispatcher;
-use App\Shared\InMemoryDomainEventDispatcher;
+use App\Shared\Common\DomainEventDispatcher;
+use App\Shared\Common\InMemoryDomainEventDispatcher;
 
 class GoCartAvailabilityConfiguration
 {

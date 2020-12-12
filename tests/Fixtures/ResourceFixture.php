@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Fixtures;
 
 use App\Availability\Domain\ResourceItem;
-use App\Availability\Domain\ResourceId;
+use App\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 
 function aResource(): ResourceItem

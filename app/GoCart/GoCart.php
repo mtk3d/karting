@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\GoCart;
 
-use App\Shared\UuidsTrait;
+use App\Shared\Common\UuidsTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 

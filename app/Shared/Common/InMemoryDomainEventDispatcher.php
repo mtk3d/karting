@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace App\Shared;
+namespace App\Shared\Common;
 
 use Illuminate\Support\Collection;
 

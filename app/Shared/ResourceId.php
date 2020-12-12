@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Availability\Domain;
+namespace App\Shared;
 
-use App\Shared\UUID;
+use App\Shared\Common\UUID;
 
 class ResourceId
 {
