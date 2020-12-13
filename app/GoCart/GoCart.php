@@ -13,9 +13,13 @@ class GoCart extends Model
     use UuidsTrait;
 
     protected $fillable = [
-        'id',
         'name',
-        'description'
+        'description',
+        'is_available'
+    ];
+
+    protected $casts = [
+        'is_available' => 'boolean'
     ];
 
     public function reservations(): HasMany

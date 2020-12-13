@@ -4,26 +4,17 @@ declare(strict_types=1);
 
 namespace App\Availability\Infrastructure;
 
-use App\Availability\Infrastructure\Listener\GoCartCreatedListener;
-use App\GoCart\GoCartCreated;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use App\Availability\Domain\ResourceRepository;
+use App\Availability\Infrastructure\Repository\EloquentResourceRepository;
+use Illuminate\Support\ServiceProvider;
+
 
 class AvailabilityServiceProvider extends ServiceProvider
 {
     /**
      * @var array
      */
-    protected $listen = [
-        GoCartCreated::class => [
-            GoCartCreatedListener::class
-        ]
+    public $bindings = [
+        ResourceRepository::class => EloquentResourceRepository::class,
     ];
-
-    /**
-     * @return void
-     */
-    public function boot()
-    {
-        //
-    }
 }

@@ -7,6 +7,6 @@ namespace App\Availability\Infrastructure\Http;
 
 use App\Shared\Http\Controller;
 
-class GoCartReservationController extends Controller
+class AvailabilityController extends Controller
 {
 }

@@ -12,7 +12,7 @@ class ResourceReservedListener
     public function handle(ResourceReserved $event): void
     {
         /** @var GoCart $goCart */
-        $goCart = GoCart::find($event->resourceId());
+        $goCart = GoCart::find((string)$event->resourceId()->id());
 
         if ($goCart) {
             $reservation = GoCartReservation::of($event->period());

@@ -1,10 +1,14 @@
 <?php
 
-namespace App\GoCart;
+declare(strict_types=1);
+
+
+namespace App\Availability\Infrastructure\Http;
+
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GoCartRequest extends FormRequest
+class ReservationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +17,7 @@ class GoCartRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +28,8 @@ class GoCartRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|uuid',
-            'name' => 'required|max:100|min:3',
-            'description' => 'present',
-            'available' => 'boolean',
+            'from' => 'required|date',
+            'to' => 'required|date',
         ];
     }
 }
