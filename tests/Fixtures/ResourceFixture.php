@@ -8,19 +8,31 @@ use App\Availability\Domain\ResourceItem;
 use App\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 
-function aResource(): ResourceItem
+function aResource(ResourceId $resourceId = null): ResourceItem
 {
-    return ResourceItem::of(ResourceId::newOne());
+    if (!$resourceId) {
+        $resourceId = ResourceId::newOne();
+    }
+
+    return ResourceItem::of($resourceId);
 }
 
-function aWithdrawnResource(): ResourceItem
+function aWithdrawnResource(ResourceId $resourceId = null): ResourceItem
 {
-    return ResourceItem::of(ResourceId::newOne(), false);
+    if (!$resourceId) {
+        $resourceId = ResourceId::newOne();
+    }
+
+    return ResourceItem::of($resourceId, false);
 }
 
-function aResourceReservedBetween(string $from, string $to): ResourceItem
+function aResourceReservedBetween(ResourceId $resourceId = null, string $from, string $to): ResourceItem
 {
-    $resource = ResourceItem::of(ResourceId::newOne());
+    if (!$resourceId) {
+        $resourceId = ResourceId::newOne();
+    }
+
+    $resource = ResourceItem::of($resourceId);
     $resource->reserve(CarbonPeriod::create($from, $to));
     return $resource;
 }

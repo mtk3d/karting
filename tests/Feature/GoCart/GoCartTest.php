@@ -16,11 +16,13 @@ class GoCartTest extends TestCase
 
     public function testCreateGoCart(): void
     {
-        $this->post('api/go-cart', [
+        $response = $this->post('api/go-cart', [
             'name' => 'example go cart name',
             'description' => 'some description',
             'is_available' => false,
         ]);
+
+        $response->assertCreated();
 
         $response = $this->get('api/go-cart/all');
 
@@ -47,20 +49,22 @@ class GoCartTest extends TestCase
             'is_available' => false,
         ]);
 
+        $response->assertCreated();
+
         $id = $response->decodeResponseJson()['id'];
 
         $date = Carbon::create(2020, 3, 14, 12, 30);
         $from = $date->toISOString();
         $to = $date->addHour()->toISOString();
 
-        $response = $this->post("api/availability/resource/$id/reservation", [
+        $response = $this->post("api/availability/resources/$id/reservations", [
             'from' => $from,
             'to' => $to,
         ]);
 
         $response->assertOk();
 
-        $response = $this->get("api/go-cart/$id/reservation");
+        $response = $this->get("api/go-cart/$id/reservations");
 
         $response->assertJson([
             [

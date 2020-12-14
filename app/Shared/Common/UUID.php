@@ -15,7 +15,7 @@ class UUID
 
     public function __construct(string $value)
     {
-        if (!\preg_match('/^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$/', $value)) {
+        if (!RamseyUuid::isValid($value)) {
             throw new \InvalidArgumentException('Invalid UUID format');
         }
 

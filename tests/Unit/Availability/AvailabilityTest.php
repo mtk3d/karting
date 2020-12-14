@@ -54,6 +54,9 @@ class AvailabilityTest extends TestCase
             new ResourceWithdrawn($this->eventDispatcher->first()->eventId(), $resource->getId()),
             $this->eventDispatcher->first()
         );
+
+        $resource = aWithdrawnResource($resource->getId());
+        self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
     }
 
     public function testWithdrawWithdrawnResource(): void
@@ -83,6 +86,9 @@ class AvailabilityTest extends TestCase
             new ResourceTurnedOn($this->eventDispatcher->first()->eventId(), $resource->getId()),
             $this->eventDispatcher->first()
         );
+
+        $resource = aResource($resource->getId());
+        self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
     }
 
     public function testTurnOnResource(): void

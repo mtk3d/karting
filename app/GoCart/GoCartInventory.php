@@ -6,9 +6,7 @@ namespace App\GoCart;
 
 use App\GoCart\Http\GoCartRequest;
 use App\Shared\Common\DomainEventDispatcher;
-use App\Shared\Common\UUID;
 use App\Shared\ResourceId;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Collection;
 
 class GoCartInventory

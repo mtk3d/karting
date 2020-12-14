@@ -175,7 +175,6 @@ return [
         App\Registration\RegistrationServiceProvider::class,
         App\GoCart\GoCartServiceProvider::class,
         App\Availability\Infrastructure\AvailabilityServiceProvider::class,
-        App\Shared\Common\CommonServiceProvider::class,
     ],
 
     /*

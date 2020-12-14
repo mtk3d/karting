@@ -14,6 +14,7 @@ use App\Availability\Infrastructure\Repository\InMemoryResourceRepository;
 use App\Shared\Common\InMemoryDomainEventDispatcher;
 use Carbon\CarbonPeriod;
 use PHPUnit\Framework\TestCase;
+use function Tests\Fixtures\aResource;
 use function Tests\Fixtures\aResourceReservedBetween;
 use function Tests\Fixtures\aWithdrawnResource;
 
@@ -42,7 +43,7 @@ class ReservationTest extends TestCase
     public function testReservation(string $alreadyFrom, string $alreadyTo, string $from, string $to): void
     {
         // given
-        $resource = aResourceReservedBetween($alreadyFrom, $alreadyTo);
+        $resource = aResourceReservedBetween(null, $alreadyFrom, $alreadyTo);
         $this->resourceRepository->save($resource);
 
         // when
@@ -53,6 +54,8 @@ class ReservationTest extends TestCase
         self::assertEquals(
             new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reservationPeriod),
             $this->eventDispatcher->first());
+
+        self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
     }
 
     public function succeedReservedDates(): array
@@ -84,7 +87,7 @@ class ReservationTest extends TestCase
     public function testReserveAlreadyReservedResource(string $alreadyFrom, string $alreadyTo, string $from, string $to): void
     {
         // given
-        $resource = aResourceReservedBetween($alreadyFrom, $alreadyTo);
+        $resource = aResourceReservedBetween(null, $alreadyFrom, $alreadyTo);
         $this->resourceRepository->save($resource);
 
         // should
