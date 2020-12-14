@@ -2,8 +2,7 @@
 
 namespace Tests\Unit\Availability;
 
-use App\Availability\Application\AvailabilityFacade;
-use App\Availability\Application\GoCartAvailabilityConfiguration;
+use App\Availability\Application\AvailabilityService;
 use App\Availability\Domain\ResourceAvailabilityException;
 use App\Availability\Domain\ResourceTurnedOn;
 use App\Availability\Domain\ResourceWithdrawn;
@@ -15,10 +14,9 @@ use function Tests\Fixtures\aWithdrawnResource;
 
 class AvailabilityTest extends TestCase
 {
-    private AvailabilityFacade $availabilityFacade;
     private InMemoryResourceRepository $resourceRepository;
     private InMemoryDomainEventDispatcher $eventDispatcher;
-    private GoCartAvailabilityConfiguration $availabilityConfiguration;
+    private AvailabilityService $availabilityService;
 
     public function setUp(): void
     {
@@ -26,16 +24,14 @@ class AvailabilityTest extends TestCase
 
         $this->resourceRepository = new InMemoryResourceRepository();
         $this->eventDispatcher = new InMemoryDomainEventDispatcher();
-        $this->availabilityConfiguration = new GoCartAvailabilityConfiguration();
 
-        $this->availabilityFacade = $this->availabilityConfiguration
-            ->availabilityFacade($this->resourceRepository, $this->eventDispatcher);
+        $this->availabilityService = new AvailabilityService($this->resourceRepository, $this->eventDispatcher);
     }
 
     public function testCreateResource(): void
     {
         $resource = aResource();
-        $this->availabilityFacade->createResource($resource->getId());
+        $this->availabilityService->createResource($resource->getId());
 
         self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
     }
@@ -47,7 +43,7 @@ class AvailabilityTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // when
-        $this->availabilityFacade->withdrawResource($resource->getId());
+        $this->availabilityService->withdrawResource($resource->getId());
 
         // then
         self::assertEquals(
@@ -69,7 +65,7 @@ class AvailabilityTest extends TestCase
         self::expectExceptionObject(new ResourceAvailabilityException('ResourceItem already withdrawn'));
 
         // when
-        $this->availabilityFacade->withdrawResource($resource->getId());
+        $this->availabilityService->withdrawResource($resource->getId());
     }
 
     public function testTurnOnWithdrawnResource(): void
@@ -79,7 +75,7 @@ class AvailabilityTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // when
-        $this->availabilityFacade->turnOnResource($resource->getId());
+        $this->availabilityService->turnOnResource($resource->getId());
 
         // then
         self::assertEquals(
@@ -101,6 +97,6 @@ class AvailabilityTest extends TestCase
         self::expectExceptionObject(new ResourceAvailabilityException('ResourceItem already turned on'));
 
         // when
-        $this->availabilityFacade->turnOnResource($resource->getId());
+        $this->availabilityService->turnOnResource($resource->getId());
     }
 }

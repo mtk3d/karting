@@ -6,24 +6,21 @@ declare(strict_types=1);
 namespace Tests\Unit\Availability;
 
 
-use App\Availability\Application\AvailabilityFacade;
-use App\Availability\Application\GoCartAvailabilityConfiguration;
+use App\Availability\Application\ReservationService;
 use App\Availability\Domain\ResourceReserved;
 use App\Availability\Domain\ResourceUnavailableException;
 use App\Availability\Infrastructure\Repository\InMemoryResourceRepository;
 use App\Shared\Common\InMemoryDomainEventDispatcher;
 use Carbon\CarbonPeriod;
 use PHPUnit\Framework\TestCase;
-use function Tests\Fixtures\aResource;
 use function Tests\Fixtures\aResourceReservedBetween;
 use function Tests\Fixtures\aWithdrawnResource;
 
 class ReservationTest extends TestCase
 {
-    private AvailabilityFacade $availabilityFacade;
     private InMemoryResourceRepository $resourceRepository;
     private InMemoryDomainEventDispatcher $eventDispatcher;
-    private GoCartAvailabilityConfiguration $availabilityConfiguration;
+    private ReservationService $reservationService;
 
     public function setUp(): void
     {
@@ -31,10 +28,7 @@ class ReservationTest extends TestCase
 
         $this->resourceRepository = new InMemoryResourceRepository();
         $this->eventDispatcher = new InMemoryDomainEventDispatcher();
-        $this->availabilityConfiguration = new GoCartAvailabilityConfiguration();
-
-        $this->availabilityFacade = $this->availabilityConfiguration
-            ->availabilityFacade($this->resourceRepository, $this->eventDispatcher);
+        $this->reservationService = new ReservationService($this->resourceRepository, $this->eventDispatcher);
     }
 
     /**
@@ -48,7 +42,7 @@ class ReservationTest extends TestCase
 
         // when
         $reservationPeriod = CarbonPeriod::create($from, $to);
-        $this->availabilityFacade->reserve($resource->getId(), $reservationPeriod);
+        $this->reservationService->reserve($resource->getId(), $reservationPeriod);
 
         // then
         self::assertEquals(
@@ -78,7 +72,7 @@ class ReservationTest extends TestCase
 
         // when
         $reservationPeriod = CarbonPeriod::create('2020-12-06 15:30', '2020-12-06 16:30');
-        $this->availabilityFacade->reserve($resource->getId(), $reservationPeriod);
+        $this->reservationService->reserve($resource->getId(), $reservationPeriod);
     }
 
     /**
@@ -95,7 +89,7 @@ class ReservationTest extends TestCase
 
         // when
         $reservationPeriod = CarbonPeriod::create($from, $to);
-        $this->availabilityFacade->reserve($resource->getId(), $reservationPeriod);
+        $this->reservationService->reserve($resource->getId(), $reservationPeriod);
     }
 
     public function failedReservedDates(): array
