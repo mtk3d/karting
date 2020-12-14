@@ -20,6 +20,6 @@ class GoCartCreatedListener
 
     public function handle(GoCartCreated $event): void
     {
-        $this->availabilityService->createResource($event->resourceId());
+        $this->availabilityService->createResource($event->resourceId(), $event->isAvailable());
     }
 }

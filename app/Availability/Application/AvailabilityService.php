@@ -22,9 +22,9 @@ class AvailabilityService
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    public function createResource(ResourceId $id): void
+    public function createResource(ResourceId $id, bool $isAvailable = true): void
     {
-        $resource = ResourceItem::of($id);
+        $resource = ResourceItem::of($id, $isAvailable);
 
         $this->resourceRepository->save($resource);
     }

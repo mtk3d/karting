@@ -19,5 +19,11 @@ class EventServiceProvider extends ServiceProvider
         \App\Availability\Domain\ResourceReserved::class => [
             \App\GoCart\ResourceReservedListener::class
         ],
+        \App\Availability\Domain\ResourceWithdrawn::class => [
+            \App\GoCart\ResourceWithdrawnListener::class
+        ],
+        \App\Availability\Domain\ResourceTurnedOn::class => [
+            \App\GoCart\ResourceTurnedOnListener::class
+        ]
     ];
 }

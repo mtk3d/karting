@@ -21,7 +21,7 @@ class GoCartInventory
     public function create(GoCartRequest $request): GoCart
     {
         $goCart = GoCart::create($request->validated());
-        $this->dispatcher->dispatch(GoCartCreated::newOne(ResourceId::of($goCart->id)));
+        $this->dispatcher->dispatch(GoCartCreated::newOne(ResourceId::of($goCart->id), $goCart->is_available));
         return $goCart;
     }
 

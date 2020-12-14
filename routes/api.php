@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('availability')->namespace('App\Availability\Infrastructure\Http')->group(function () {
     Route::post('resources/{id}/reservations', 'ReservationController@reserve');
+    Route::patch('resources/{id}', 'AvailabilityController@changeResource');
 });
 
 Route::prefix('go-cart')->namespace('App\GoCart\Http')->group(function () {

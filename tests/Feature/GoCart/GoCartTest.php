@@ -8,6 +8,8 @@ namespace Tests\Feature\GoCart;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class GoCartTest extends TestCase
@@ -16,13 +18,9 @@ class GoCartTest extends TestCase
 
     public function testCreateGoCart(): void
     {
-        $response = $this->post('api/go-cart', [
-            'name' => 'example go cart name',
-            'description' => 'some description',
-            'is_available' => false,
-        ]);
+        $response = $this->createWithdrawnGoCart();
 
-        $response->assertCreated();
+        $id = $response->decodeResponseJson()['id'];
 
         $response = $this->get('api/go-cart/all');
 
@@ -34,22 +32,15 @@ class GoCartTest extends TestCase
             ]
         ]);
 
-        $id = $response->decodeResponseJson()[0]['id'];
-
         $this->assertDatabaseHas('resource_items', [
-            'id' => $id
+            'id' => $id,
+            'is_available' => false
         ]);
     }
 
     public function testReserveGoCart(): void
     {
-        $response = $this->post('api/go-cart', [
-            'name' => 'example go cart name',
-            'description' => 'some description',
-            'is_available' => false,
-        ]);
-
-        $response->assertCreated();
+        $response = $this->createGoCart();
 
         $id = $response->decodeResponseJson()['id'];
 
@@ -72,5 +63,67 @@ class GoCartTest extends TestCase
                 'to' => $to,
             ]
         ]);
+    }
+
+    public function testWithdrawGoCart(): void
+    {
+        $response = $this->createGoCart();
+
+        $id = $response->decodeResponseJson()['id'];
+
+        $response = $this->patch("api/availability/resources/$id", [
+            'is_available' => false
+        ]);
+
+        $response->assertOk();
+
+        $this->assertDatabaseHas('resource_items', [
+            'id' => $id,
+            'is_available' => false
+        ]);
+    }
+
+    public function testTurnOnGoCart(): void
+    {
+        $response = $this->createWithdrawnGoCart();
+
+        $id = $response->decodeResponseJson()['id'];
+
+        $response = $this->patch("api/availability/resources/$id", [
+            'is_available' => true
+        ]);
+
+        $response->assertOk();
+
+        $this->assertDatabaseHas('resource_items', [
+            'id' => $id,
+            'is_available' => true
+        ]);
+    }
+
+    private function createGoCart(): TestResponse
+    {
+        $response = $this->post('api/go-cart', [
+            'name' => 'example go cart name',
+            'description' => 'some description',
+            'is_available' => true,
+        ]);
+
+        $response->assertCreated();
+
+        return $response;
+    }
+
+    private function createWithdrawnGoCart(): TestResponse
+    {
+        $response = $this->post('api/go-cart', [
+            'name' => 'example go cart name',
+            'description' => 'some description',
+            'is_available' => false,
+        ]);
+
+        $response->assertCreated();
+
+        return $response;
     }
 }

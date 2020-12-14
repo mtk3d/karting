@@ -13,16 +13,18 @@ class GoCartCreated implements DomainEvent
 {
     private UUID $eventId;
     private ResourceId $resourceId;
+    private bool $isAvailable;
 
-    public function __construct(UUID $eventId, ResourceId $resourceId)
+    public function __construct(UUID $eventId, ResourceId $resourceId, bool $isAvailable)
     {
         $this->eventId = $eventId;
         $this->resourceId = $resourceId;
+        $this->isAvailable = $isAvailable;
     }
 
-    public static function newOne(ResourceId $resourceId): GoCartCreated
+    public static function newOne(ResourceId $resourceId, bool $isAvailable): GoCartCreated
     {
-        return new GoCartCreated(UUID::random(), $resourceId);
+        return new GoCartCreated(UUID::random(), $resourceId, $isAvailable);
     }
 
     public function eventId(): UUID
@@ -33,5 +35,10 @@ class GoCartCreated implements DomainEvent
     public function resourceId(): ResourceId
     {
         return $this->resourceId;
+    }
+
+    public function isAvailable(): bool
+    {
+        return $this->isAvailable;
     }
 }
