@@ -8,7 +8,6 @@ namespace Tests\Feature\GoCart;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Response;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
