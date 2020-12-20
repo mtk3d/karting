@@ -169,9 +169,9 @@ return [
         /*
          * Application Service Providers...
          */
+        App\App\AppServiceProvider::class,
         App\App\RouteServiceProvider::class,
         App\App\EventServiceProvider::class,
-        App\App\AppServiceProvider::class,
         App\Registration\RegistrationServiceProvider::class,
         App\GoCart\GoCartServiceProvider::class,
         App\Availability\Infrastructure\AvailabilityServiceProvider::class,

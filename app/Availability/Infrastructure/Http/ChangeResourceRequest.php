@@ -27,7 +27,7 @@ class ChangeResourceRequest extends FormRequest
     public function rules()
     {
         return [
-            'is_available' => 'boolean',
+            'is_available' => 'boolean|required',
         ];
     }
 }

@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
+
 namespace App\Availability\Application;
 
-use App\Shared\ResourceId;
-use App\Availability\Domain\ResourceRepository;
+
+use App\Availability\Application\Command\ReserveResource;
 use App\Availability\Domain\ResourceItem;
+use App\Availability\Domain\ResourceRepository;
 use App\Availability\Domain\ResourceUnavailableException;
 use App\Shared\Common\DomainEventDispatcher;
-use Carbon\CarbonPeriod;
 
-class ReservationService
+class ReserveResourceHandler
 {
     private ResourceRepository $resourceRepository;
     private DomainEventDispatcher $eventDispatcher;
@@ -25,11 +26,11 @@ class ReservationService
     /**
      * @throws ResourceUnavailableException
      */
-    public function reserve(ResourceId $id, CarbonPeriod $period): void
+    public function handle(ReserveResource $reserveResource): void
     {
         /** @var ResourceItem $resource */
-        $resource = $this->resourceRepository->find($id);
-        $result = $resource->reserve($period);
+        $resource = $this->resourceRepository->find($reserveResource->id());
+        $result = $resource->reserve($reserveResource->period());
 
         if ($result->isFailure()) {
             throw new ResourceUnavailableException($result->reason());

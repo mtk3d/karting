@@ -6,12 +6,12 @@ declare(strict_types=1);
 namespace Tests\Unit\Availability;
 
 
-use App\Availability\Application\ReservationService;
+use App\Availability\Application\Command\ReserveResource;
+use App\Availability\Application\ReserveResourceHandler;
 use App\Availability\Domain\ResourceReserved;
 use App\Availability\Domain\ResourceUnavailableException;
 use App\Availability\Infrastructure\Repository\InMemoryResourceRepository;
 use App\Shared\Common\InMemoryDomainEventDispatcher;
-use Carbon\CarbonPeriod;
 use PHPUnit\Framework\TestCase;
 use function Tests\Fixtures\aResourceReservedBetween;
 use function Tests\Fixtures\aWithdrawnResource;
@@ -20,7 +20,7 @@ class ReservationTest extends TestCase
 {
     private InMemoryResourceRepository $resourceRepository;
     private InMemoryDomainEventDispatcher $eventDispatcher;
-    private ReservationService $reservationService;
+    private ReserveResourceHandler $reservationHandler;
 
     public function setUp(): void
     {
@@ -28,7 +28,7 @@ class ReservationTest extends TestCase
 
         $this->resourceRepository = new InMemoryResourceRepository();
         $this->eventDispatcher = new InMemoryDomainEventDispatcher();
-        $this->reservationService = new ReservationService($this->resourceRepository, $this->eventDispatcher);
+        $this->reservationHandler = new ReserveResourceHandler($this->resourceRepository, $this->eventDispatcher);
     }
 
     /**
@@ -41,12 +41,13 @@ class ReservationTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // when
-        $reservationPeriod = CarbonPeriod::create($from, $to);
-        $this->reservationService->reserve($resource->getId(), $reservationPeriod);
+        $id = $resource->getId()->id()->toString();
+        $reserveCommand = ReserveResource::fromRaw($id, $from, $to);
+        $this->reservationHandler->handle($reserveCommand);
 
         // then
         self::assertEquals(
-            new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reservationPeriod),
+            new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reserveCommand->period()),
             $this->eventDispatcher->first());
 
         self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
@@ -71,8 +72,9 @@ class ReservationTest extends TestCase
         self::expectExceptionObject(new ResourceUnavailableException('ResourceItem unavailable'));
 
         // when
-        $reservationPeriod = CarbonPeriod::create('2020-12-06 15:30', '2020-12-06 16:30');
-        $this->reservationService->reserve($resource->getId(), $reservationPeriod);
+        $id = $resource->getId()->id()->toString();
+        $reserveCommand = ReserveResource::fromRaw($id, '2020-12-06 15:30', '2020-12-06 16:30');
+        $this->reservationHandler->handle($reserveCommand);
     }
 
     /**
@@ -88,8 +90,9 @@ class ReservationTest extends TestCase
         self::expectExceptionObject(new ResourceUnavailableException('Cannot reserve in this period'));
 
         // when
-        $reservationPeriod = CarbonPeriod::create($from, $to);
-        $this->reservationService->reserve($resource->getId(), $reservationPeriod);
+        $id = $resource->getId()->id()->toString();
+        $reserveCommand = ReserveResource::fromRaw($id, $from, $to);
+        $this->reservationHandler->handle($reserveCommand);
     }
 
     public function failedReservedDates(): array

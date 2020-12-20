@@ -27,9 +27,14 @@ class UUID
         return new self(RamseyUuid::getFactory()->uuid4()->toString());
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return $this->value;
+    }
+
+    public function __toString(): string
+    {
+        return $this->toString();
     }
 
     public function isEqual(self $id): bool

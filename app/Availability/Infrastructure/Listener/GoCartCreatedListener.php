@@ -5,21 +5,21 @@ declare(strict_types=1);
 
 namespace App\Availability\Infrastructure\Listener;
 
-use App\Availability\Application\AvailabilityService;
-use App\Availability\Application\ReservationService;
+use App\Availability\Application\Command\CreateResource;
 use App\GoCart\GoCartCreated;
+use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class GoCartCreatedListener
 {
-    private AvailabilityService $availabilityService;
+    private CommandBusInterface $bus;
 
-    public function __construct(AvailabilityService $availabilityService)
+    public function __construct(CommandBusInterface $bus)
     {
-        $this->availabilityService = $availabilityService;
+        $this->bus = $bus;
     }
 
     public function handle(GoCartCreated $event): void
     {
-        $this->availabilityService->createResource($event->resourceId(), $event->isAvailable());
+        $this->bus->dispatch(new CreateResource($event->resourceId(), $event->isAvailable()));
     }
 }

@@ -5,24 +5,27 @@ declare(strict_types=1);
 namespace App\Availability\Infrastructure\Http;
 
 
-use App\Availability\Application\ReservationService;
+use App\Availability\Application\Command\ReserveResource;
 use App\Shared\Http\Controller;
-use App\Shared\ResourceId;
-use Carbon\CarbonPeriod;
+use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class ReservationController extends Controller
 {
-    private ReservationService $reservationService;
+    private CommandBusInterface $bus;
 
-    public function __construct(ReservationService $reservationService)
+    public function __construct(CommandBusInterface $bus)
     {
-        $this->reservationService = $reservationService;
+        $this->bus = $bus;
     }
 
     public function reserve(string $id, ReservationRequest $request): void
     {
-        $period = CarbonPeriod::create($request->get('from'), $request->get('to'));
+        $command = ReserveResource::fromRaw(
+            $id,
+            $request->get('from'),
+            $request->get('to')
+        );
 
-        $this->reservationService->reserve(ResourceId::of($id), $period);
+        $this->bus->dispatch($command);
     }
 }
