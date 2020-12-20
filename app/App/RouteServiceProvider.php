@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
+    const HOME = '/';
+
     /**
      * @return void
      */

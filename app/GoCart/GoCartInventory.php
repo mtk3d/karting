@@ -26,7 +26,7 @@ class GoCartInventory
     }
 
     /**
-     * @return Collection<GoCart>
+     * @return Collection<int, GoCart>
      */
     public function getList(): Collection
     {

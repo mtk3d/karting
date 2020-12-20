@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Availability\Infrastructure\Http;
 
-
 use App\Availability\Application\Command\TurnOnResource;
 use App\Availability\Application\Command\WithdrawResource;
 use App\Shared\Http\Controller;

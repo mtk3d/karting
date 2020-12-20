@@ -8,7 +8,6 @@ use App\Availability\Domain\ResourceRepository;
 use App\Availability\Infrastructure\Repository\EloquentResourceRepository;
 use Illuminate\Support\ServiceProvider;
 
-
 class AvailabilityServiceProvider extends ServiceProvider
 {
     /**

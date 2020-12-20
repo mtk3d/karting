@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\Availability\Application;
 
-
 use App\Availability\Application\Command\TurnOnResource;
 use App\Availability\Domain\ResourceAvailabilityException;
 use App\Availability\Domain\ResourceRepository;

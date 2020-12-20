@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\Availability\Infrastructure\Http;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class ReservationRequest extends FormRequest

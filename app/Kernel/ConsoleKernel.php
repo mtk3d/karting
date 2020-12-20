@@ -24,7 +24,6 @@ class ConsoleKernel extends IlluminateConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-
     }
 
     /**
@@ -34,6 +33,5 @@ class ConsoleKernel extends IlluminateConsoleKernel
      */
     protected function commands()
     {
-
     }
 }

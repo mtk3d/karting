@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\App;
 
-
 use App\Availability\Application\Command\CreateResource;
 use App\Availability\Application\CreateResourceHandler;
 use App\Availability\Application\TurnOnResourceHandler;
@@ -39,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
     {
         /** @var CommandBusInterface $bus */
         $bus = $this->app->make(CommandBusInterface::class);
-        collect($this->commandBindings)->each(function (string $handler, string $command) use ($bus): void{
+        collect($this->commandBindings)->each(function (string $handler, string $command) use ($bus): void {
             $bus->addHandler($command, $handler);
         });
         $this->app->instance(CommandBusInterface::class, $bus);

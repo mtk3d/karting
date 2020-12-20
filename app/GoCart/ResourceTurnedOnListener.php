@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\GoCart;
 
-
 use App\Availability\Domain\ResourceTurnedOn;
 
 class ResourceTurnedOnListener
