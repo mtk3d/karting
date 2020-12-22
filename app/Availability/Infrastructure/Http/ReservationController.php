@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace App\Availability\Infrastructure\Http;
 
 use App\Availability\Application\Command\ReserveResource;
+use App\Shared\Common\CommandBus;
 use App\Shared\Http\Controller;
-use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class ReservationController extends Controller
 {
-    private CommandBusInterface $bus;
+    private CommandBus $bus;
 
-    public function __construct(CommandBusInterface $bus)
+    public function __construct(CommandBus $bus)
     {
         $this->bus = $bus;
     }

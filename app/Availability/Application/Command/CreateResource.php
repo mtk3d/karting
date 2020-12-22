@@ -5,9 +5,10 @@ declare(strict_types=1);
 
 namespace App\Availability\Application\Command;
 
+use App\Shared\Common\Command;
 use App\Shared\ResourceId;
 
-class CreateResource
+class CreateResource implements Command
 {
     private ResourceId $id;
     private bool $isAvailable;

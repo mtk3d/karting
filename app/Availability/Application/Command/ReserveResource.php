@@ -5,10 +5,11 @@ declare(strict_types=1);
 
 namespace App\Availability\Application\Command;
 
+use App\Shared\Common\Command;
 use App\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 
-class ReserveResource
+class ReserveResource implements Command
 {
     private ResourceId $id;
     private CarbonPeriod $period;

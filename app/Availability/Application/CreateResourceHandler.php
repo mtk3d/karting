@@ -8,13 +8,12 @@ namespace App\Availability\Application;
 use App\Availability\Application\Command\CreateResource;
 use App\Availability\Domain\ResourceItem;
 use App\Availability\Domain\ResourceRepository;
-use App\Shared\Common\DomainEventDispatcher;
 
 class CreateResourceHandler
 {
     private ResourceRepository $resourceRepository;
 
-    public function __construct(ResourceRepository $resourceRepository, DomainEventDispatcher $eventDispatcher)
+    public function __construct(ResourceRepository $resourceRepository)
     {
         $this->resourceRepository = $resourceRepository;
     }

@@ -5,9 +5,10 @@ declare(strict_types=1);
 
 namespace App\Availability\Application\Command;
 
+use App\Shared\Common\Command;
 use App\Shared\ResourceId;
 
-class TurnOnResource
+class TurnOnResource implements Command
 {
     private ResourceId $id;
 

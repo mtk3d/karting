@@ -7,13 +7,13 @@ namespace App\Availability\Infrastructure\Listener;
 
 use App\Availability\Application\Command\CreateResource;
 use App\GoCart\GoCartCreated;
-use Joselfonseca\LaravelTactician\CommandBusInterface;
+use App\Shared\Common\CommandBus;
 
 class GoCartCreatedListener
 {
-    private CommandBusInterface $bus;
+    private CommandBus $bus;
 
-    public function __construct(CommandBusInterface $bus)
+    public function __construct(CommandBus $bus)
     {
         $this->bus = $bus;
     }

@@ -5,9 +5,10 @@ declare(strict_types=1);
 
 namespace App\Availability\Application\Command;
 
+use App\Shared\Common\Command;
 use App\Shared\ResourceId;
 
-class WithdrawResource
+class WithdrawResource implements Command
 {
     private ResourceId $id;
 

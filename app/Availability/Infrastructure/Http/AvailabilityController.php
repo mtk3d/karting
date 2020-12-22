@@ -6,15 +6,15 @@ namespace App\Availability\Infrastructure\Http;
 
 use App\Availability\Application\Command\TurnOnResource;
 use App\Availability\Application\Command\WithdrawResource;
+use App\Shared\Common\CommandBus;
 use App\Shared\Http\Controller;
 use App\Shared\ResourceId;
-use Joselfonseca\LaravelTactician\CommandBusInterface;
 
 class AvailabilityController extends Controller
 {
-    private CommandBusInterface $bus;
+    private CommandBus $bus;
 
-    public function __construct(CommandBusInterface $bus)
+    public function __construct(CommandBus $bus)
     {
         $this->bus = $bus;
     }
