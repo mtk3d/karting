@@ -6,8 +6,8 @@ declare(strict_types=1);
 namespace App\Availability\Application;
 
 use App\Availability\Application\Command\TurnOnResource;
-use App\Availability\Domain\ResourceAvailabilityException;
 use App\Availability\Domain\ResourceRepository;
+use App\Availability\Domain\ResourceUnavailableException;
 use App\Shared\Common\DomainEventDispatcher;
 
 class TurnOnResourceHandler
@@ -27,7 +27,7 @@ class TurnOnResourceHandler
         $result = $resource->turnOn();
 
         if ($result->isFailure()) {
-            throw new ResourceAvailabilityException($result->reason());
+            throw new ResourceUnavailableException($result->reason());
         }
 
         $this->resourceRepository->save($resource);

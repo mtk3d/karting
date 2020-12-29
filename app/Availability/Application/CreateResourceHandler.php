@@ -20,7 +20,12 @@ class CreateResourceHandler
 
     public function handle(CreateResource $createResource): void
     {
-        $resource = ResourceItem::of($createResource->id(), $createResource->isAvailable());
+        $resource = ResourceItem::of(
+            $createResource->id(),
+            $createResource->slots(),
+            $createResource->isAvailable()
+        );
+
         $this->resourceRepository->save($resource);
     }
 }

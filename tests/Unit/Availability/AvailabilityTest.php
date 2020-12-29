@@ -2,16 +2,16 @@
 
 namespace Tests\Unit\Availability;
 
-use App\Availability\Application\AvailabilityService;
 use App\Availability\Application\Command\CreateResource;
 use App\Availability\Application\Command\TurnOnResource;
 use App\Availability\Application\Command\WithdrawResource;
 use App\Availability\Application\CreateResourceHandler;
 use App\Availability\Application\TurnOnResourceHandler;
 use App\Availability\Application\WithdrawResourceHandler;
-use App\Availability\Domain\ResourceAvailabilityException;
 use App\Availability\Domain\ResourceTurnedOn;
+use App\Availability\Domain\ResourceUnavailableException;
 use App\Availability\Domain\ResourceWithdrawn;
+use App\Availability\Domain\Slots;
 use App\Availability\Infrastructure\Repository\InMemoryResourceRepository;
 use App\Shared\Common\InMemoryDomainEventDispatcher;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +33,7 @@ class AvailabilityTest extends TestCase
         $this->resourceRepository = new InMemoryResourceRepository();
         $this->eventDispatcher = new InMemoryDomainEventDispatcher();
 
-        $this->createResourceHandler = new CreateResourceHandler($this->resourceRepository, $this->eventDispatcher);
+        $this->createResourceHandler = new CreateResourceHandler($this->resourceRepository);
         $this->turnOnResourceHandler = new TurnOnResourceHandler($this->resourceRepository, $this->eventDispatcher);
         $this->withdrawResourceHandler = new WithdrawResourceHandler($this->resourceRepository, $this->eventDispatcher);
     }
@@ -41,7 +41,7 @@ class AvailabilityTest extends TestCase
     public function testCreateResource(): void
     {
         $resource = aResource();
-        $this->createResourceHandler->handle(new CreateResource($resource->getId(), true));
+        $this->createResourceHandler->handle(new CreateResource($resource->getId(), Slots::of(1), true));
 
         self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
     }
@@ -72,7 +72,7 @@ class AvailabilityTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // should
-        self::expectExceptionObject(new ResourceAvailabilityException('ResourceItem already withdrawn'));
+        self::expectExceptionObject(new ResourceUnavailableException('ResourceItem already withdrawn'));
 
         // when
         $this->withdrawResourceHandler->handle(new WithdrawResource($resource->getId()));
@@ -104,7 +104,7 @@ class AvailabilityTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // should
-        self::expectExceptionObject(new ResourceAvailabilityException('ResourceItem already turned on'));
+        self::expectExceptionObject(new ResourceUnavailableException('ResourceItem already turned on'));
 
         // when
         $this->turnOnResourceHandler->handle(new TurnOnResource($resource->getId()));

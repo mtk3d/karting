@@ -41,4 +41,9 @@ class GoCartCreated implements DomainEvent
     {
         return $this->isAvailable;
     }
+
+    public function slots(): int
+    {
+        return 1;
+    }
 }

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Tests\Psalm\LaravelPlugin\Models\Car;
 
 class ResourceItem extends Model
 {
@@ -21,6 +22,7 @@ class ResourceItem extends Model
 
     protected $fillable = [
         'id',
+        'slots',
         'is_available',
     ];
 
@@ -38,10 +40,11 @@ class ResourceItem extends Model
         $this->relations['reservations'] = new EloquentCollection();
     }
 
-    public static function of(ResourceId $id, bool $available = true): ResourceItem
+    public static function of(ResourceId $id, Slots $slots, bool $available = true): ResourceItem
     {
         return new ResourceItem([
             'id' => (string)$id->id(),
+            'slots' => $slots->slots(),
             'is_available' => $available
         ]);
     }
@@ -113,9 +116,12 @@ class ResourceItem extends Model
 
     private function isAvailableIn(CarbonPeriod $period): bool
     {
-        return !$this->relations['reservations']
-            ->map(fn (Reservation $reservation): CarbonPeriod => $reservation->getPeriod())
-            ->filter(fn (CarbonPeriod $p): bool => $p->overlaps($period))
-            ->count();
+        $slots = Slots::of((int)$this->attributes['slots']);
+        $taken = $this->relations['reservations']
+            ->filter(function (Reservation $reservation) use ($period): bool {
+                return $reservation->getPeriod()->overlaps($period);
+            })->count();
+
+        return $slots->hasMoreThan($taken);
     }
 }
