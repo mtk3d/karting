@@ -6,6 +6,7 @@ namespace App\GoCart;
 
 use App\GoCart\Http\GoCartRequest;
 use App\Shared\Common\DomainEventDispatcher;
+use App\Shared\ResourceCreated;
 use App\Shared\ResourceId;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -21,7 +22,8 @@ class GoCartInventory
     public function create(GoCartRequest $request): GoCart
     {
         $goCart = GoCart::create($request->validated());
-        $this->dispatcher->dispatch(GoCartCreated::newOne(ResourceId::of($goCart->id), $goCart->is_available));
+        $resourceCreated = ResourceCreated::newOne(ResourceId::of($goCart->id), 1, $goCart->is_available);
+        $this->dispatcher->dispatch($resourceCreated);
         return $goCart;
     }
 

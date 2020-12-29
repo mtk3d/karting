@@ -13,17 +13,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        \App\GoCart\GoCartCreated::class => [
-            \App\Availability\Infrastructure\Listener\GoCartCreatedListener::class
+        \App\Shared\ResourceCreated::class => [
+            \App\Availability\Infrastructure\Listener\ResourceCreatedListener::class
         ],
         \App\Availability\Domain\ResourceReserved::class => [
-            \App\GoCart\ResourceReservedListener::class
+            \App\GoCart\ResourceReservedListener::class,
+            \App\Track\ResourceReservedListener::class,
         ],
         \App\Availability\Domain\ResourceWithdrawn::class => [
-            \App\GoCart\ResourceWithdrawnListener::class
+            \App\GoCart\ResourceWithdrawnListener::class,
+            \App\Track\ResourceWithdrawnListener::class
         ],
         \App\Availability\Domain\ResourceTurnedOn::class => [
-            \App\GoCart\ResourceTurnedOnListener::class
+            \App\GoCart\ResourceTurnedOnListener::class,
+            \App\Track\ResourceTurnedOnListener::class
         ]
     ];
 }

@@ -173,7 +173,6 @@ return [
         App\App\RouteServiceProvider::class,
         App\App\EventServiceProvider::class,
         App\Registration\RegistrationServiceProvider::class,
-        App\GoCart\GoCartServiceProvider::class,
         App\Availability\Infrastructure\AvailabilityServiceProvider::class,
     ],
 

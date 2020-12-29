@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateResourceItemsTable extends Migration
+class CreateTracksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateResourceItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('resource_items', function (Blueprint $table) {
+        Schema::create('tracks', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->text('name');
+            $table->longText('description')->nullable();
+            $table->integer('slots');
             $table->boolean('is_available');
-            $table->integer('slots')->default(1);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateResourceItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resources');
+        Schema::dropIfExists('tracks');
     }
 }

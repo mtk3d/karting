@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateResourceItemsTable extends Migration
+class CreateTrackReservationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateResourceItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('resource_items', function (Blueprint $table) {
+        Schema::create('track_reservations', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->boolean('is_available');
-            $table->integer('slots')->default(1);
+            $table->uuid('track_id');
+            $table->dateTime('from');
+            $table->dateTime('to');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateResourceItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resources');
+        Schema::dropIfExists('track_reservations');
     }
 }

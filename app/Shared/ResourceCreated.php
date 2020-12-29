@@ -3,28 +3,30 @@
 declare(strict_types=1);
 
 
-namespace App\GoCart;
+namespace App\Shared;
+
 
 use App\Shared\Common\DomainEvent;
 use App\Shared\Common\UUID;
-use App\Shared\ResourceId;
 
-class GoCartCreated implements DomainEvent
+class ResourceCreated implements DomainEvent
 {
     private UUID $eventId;
     private ResourceId $resourceId;
+    private int $slots;
     private bool $isAvailable;
 
-    public function __construct(UUID $eventId, ResourceId $resourceId, bool $isAvailable)
+    public function __construct(UUID $eventId, ResourceId $resourceId, int $slots, bool $isAvailable)
     {
         $this->eventId = $eventId;
         $this->resourceId = $resourceId;
+        $this->slots = $slots;
         $this->isAvailable = $isAvailable;
     }
 
-    public static function newOne(ResourceId $resourceId, bool $isAvailable): GoCartCreated
+    public static function newOne(ResourceId $resourceId, int $slots, bool $isAvailable): ResourceCreated
     {
-        return new GoCartCreated(UUID::random(), $resourceId, $isAvailable);
+        return new ResourceCreated(UUID::random(), $resourceId, $slots, $isAvailable);
     }
 
     public function eventId(): UUID
@@ -44,6 +46,6 @@ class GoCartCreated implements DomainEvent
 
     public function slots(): int
     {
-        return 1;
+        return $this->slots;
     }
 }

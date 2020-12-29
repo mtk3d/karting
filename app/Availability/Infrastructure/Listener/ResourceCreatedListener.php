@@ -7,10 +7,10 @@ namespace App\Availability\Infrastructure\Listener;
 
 use App\Availability\Application\Command\CreateResource;
 use App\Availability\Domain\Slots;
-use App\GoCart\GoCartCreated;
 use App\Shared\Common\CommandBus;
+use App\Shared\ResourceCreated;
 
-class GoCartCreatedListener
+class ResourceCreatedListener
 {
     private CommandBus $bus;
 
@@ -19,7 +19,7 @@ class GoCartCreatedListener
         $this->bus = $bus;
     }
 
-    public function handle(GoCartCreated $event): void
+    public function handle(ResourceCreated $event): void
     {
         $this->bus->dispatch(new CreateResource($event->resourceId(), Slots::of($event->slots()), $event->isAvailable()));
     }
