@@ -14,7 +14,8 @@ class CreateReservationsTable extends Migration
     public function up()
     {
         Schema::create('reservations', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->unique();
             $table->uuid('resource_item_id');
             $table->dateTime('from');
             $table->dateTime('to');

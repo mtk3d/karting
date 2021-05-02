@@ -12,7 +12,7 @@ class EloquentResourceRepository implements ResourceRepository
 {
     public function find(ResourceId $id): ResourceItem
     {
-        return ResourceItem::find($id->id());
+        return ResourceItem::where('uuid', $id->id())->first();
     }
 
     public function save(ResourceItem $resource): void

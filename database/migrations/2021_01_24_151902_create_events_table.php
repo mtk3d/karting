@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGoCartReservationsTable extends Migration
+class CreateEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateGoCartReservationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('go_cart_reservations', function (Blueprint $table) {
+        Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->integer('go_cart_id');
-            $table->dateTime('from');
-            $table->dateTime('to');
+            $table->dateTime('start_date');
+            $table->dateTime('end_date')->nullable();
+            $table->json('days');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateGoCartReservationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('go_cart_reservations');
+        Schema::dropIfExists('events');
     }
 }

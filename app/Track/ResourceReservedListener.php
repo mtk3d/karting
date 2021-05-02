@@ -13,7 +13,8 @@ class ResourceReservedListener
     public function handle(ResourceReserved $event): void
     {
         /** @var Track $track */
-        $track = Track::find((string)$event->resourceId()->id());
+        $id = $event->resourceId()->id()->toString();
+        $track = Track::where('uuid', $id)->first();
 
         if ($track) {
             $reservation = TrackReservation::of($event->period());

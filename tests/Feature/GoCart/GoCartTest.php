@@ -19,7 +19,7 @@ class GoCartTest extends TestCase
     {
         $response = $this->createWithdrawnGoCart();
 
-        $id = $response->decodeResponseJson()['id'];
+        $id = $response->decodeResponseJson()['uuid'];
 
         $response = $this->get('api/go-cart/all');
 
@@ -32,7 +32,7 @@ class GoCartTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('resource_items', [
-            'id' => $id,
+            'uuid' => $id,
             'is_available' => false
         ]);
     }
@@ -41,7 +41,7 @@ class GoCartTest extends TestCase
     {
         $response = $this->createGoCart();
 
-        $id = $response->decodeResponseJson()['id'];
+        $id = $response->decodeResponseJson()['uuid'];
 
         $date = Carbon::create(2020, 3, 14, 12, 30);
         $from = $date->toISOString();
@@ -68,7 +68,7 @@ class GoCartTest extends TestCase
     {
         $response = $this->createGoCart();
 
-        $id = $response->decodeResponseJson()['id'];
+        $id = $response->decodeResponseJson()['uuid'];
 
         $response = $this->patch("api/availability/resources/$id", [
             'is_available' => false
@@ -77,7 +77,7 @@ class GoCartTest extends TestCase
         $response->assertOk();
 
         $this->assertDatabaseHas('resource_items', [
-            'id' => $id,
+            'uuid' => $id,
             'is_available' => false
         ]);
     }
@@ -86,7 +86,7 @@ class GoCartTest extends TestCase
     {
         $response = $this->createWithdrawnGoCart();
 
-        $id = $response->decodeResponseJson()['id'];
+        $id = $response->decodeResponseJson()['uuid'];
 
         $response = $this->patch("api/availability/resources/$id", [
             'is_available' => true
@@ -95,7 +95,7 @@ class GoCartTest extends TestCase
         $response->assertOk();
 
         $this->assertDatabaseHas('resource_items', [
-            'id' => $id,
+            'uuid' => $id,
             'is_available' => true
         ]);
     }

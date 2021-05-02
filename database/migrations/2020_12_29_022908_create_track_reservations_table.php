@@ -14,8 +14,9 @@ class CreateTrackReservationsTable extends Migration
     public function up()
     {
         Schema::create('track_reservations', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('track_id');
+            $table->id();
+            $table->uuid('uuid')->unique();
+            $table->integer('track_id');
             $table->dateTime('from');
             $table->dateTime('to');
             $table->timestamps();

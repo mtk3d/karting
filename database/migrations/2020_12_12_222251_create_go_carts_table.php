@@ -14,7 +14,8 @@ class CreateGoCartsTable extends Migration
     public function up()
     {
         Schema::create('go_carts', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->unique();
             $table->text('name');
             $table->longText('description')->nullable();
             $table->boolean('is_available');

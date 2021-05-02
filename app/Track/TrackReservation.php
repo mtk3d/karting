@@ -6,15 +6,14 @@ declare(strict_types=1);
 namespace App\Track;
 
 
-use App\Shared\Common\UuidsTrait;
+use App\Shared\Common\UUID;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
 
 class TrackReservation extends Model
 {
-    use UuidsTrait;
-
     protected $fillable = [
+        'uuid',
         'from',
         'to'
     ];
@@ -22,6 +21,7 @@ class TrackReservation extends Model
     public static function of(CarbonPeriod $period): TrackReservation
     {
         return new TrackReservation([
+            'uuid' => UUID::random()->toString(),
             'from' => $period->getStartDate()->toISOString(),
             'to' => $period->getEndDate()->toISOString()
         ]);

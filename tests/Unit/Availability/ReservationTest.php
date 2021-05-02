@@ -13,7 +13,6 @@ use App\Availability\Domain\ResourceUnavailableException;
 use App\Availability\Infrastructure\Repository\InMemoryResourceRepository;
 use App\Shared\Common\InMemoryDomainEventDispatcher;
 use PHPUnit\Framework\TestCase;
-use function Tests\Fixtures\aResourceNoPlacesBetween;
 use function Tests\Fixtures\aResourceNoSlotsBetween;
 use function Tests\Fixtures\aResourceReservedBetween;
 use function Tests\Fixtures\aResourceWithSlotBetween;

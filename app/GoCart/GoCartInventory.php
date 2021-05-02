@@ -22,7 +22,7 @@ class GoCartInventory
     public function create(GoCartRequest $request): GoCart
     {
         $goCart = GoCart::create($request->validated());
-        $resourceCreated = ResourceCreated::newOne(ResourceId::of($goCart->id), 1, $goCart->is_available);
+        $resourceCreated = ResourceCreated::newOne(ResourceId::of($goCart->uuid), 1, $goCart->is_available);
         $this->dispatcher->dispatch($resourceCreated);
         return $goCart;
     }
@@ -40,8 +40,7 @@ class GoCartInventory
      */
     public function reservations(ResourceId $resourceId): Collection
     {
-        $id = (string)$resourceId->id();
-        return GoCartReservation::where('go_cart_id', $id)
-            ->get();
+        $id = $resourceId->id()->toString();
+        return GoCart::where('uuid', $id)->first()->reservations()->get();
     }
 }

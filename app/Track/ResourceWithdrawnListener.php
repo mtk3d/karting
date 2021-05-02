@@ -13,7 +13,8 @@ class ResourceWithdrawnListener
     public function handle(ResourceWithdrawn $event): void
     {
         /** @var Track $track */
-        $track = Track::find((string)$event->resourceId()->id());
+        $trackUuid = $event->resourceId()->id()->toString();
+        $track = Track::where('uuid', $trackUuid)->first();
 
         if ($track) {
             $track->is_available = false;

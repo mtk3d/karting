@@ -16,9 +16,9 @@ class IlluminateCommandBus implements CommandBus
         $this->bus = $bus;
     }
 
-    public function dispatch(Command $command): void
+    public function dispatch(Command $command)
     {
-        $this->bus->dispatch($command);
+        return $this->bus->dispatch($command);
     }
 
     public function map(array $map): void

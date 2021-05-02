@@ -23,7 +23,7 @@ class TrackInventory
     {
         $track = Track::create($request->validated());
         $trackCreated = ResourceCreated::newOne(
-            ResourceId::of($track->id),
+            ResourceId::of($track->uuid),
             $track->slots,
             $track->is_available
         );
@@ -45,8 +45,7 @@ class TrackInventory
      */
     public function reservations(ResourceId $resourceId): Collection
     {
-        $id = (string)$resourceId->id();
-        return TrackReservation::where('track_id', $id)
-            ->get();
+        $id = $resourceId->id()->toString();
+        return Track::where('uuid', $id)->first()->reservations()->get();
     }
 }

@@ -174,6 +174,7 @@ return [
         App\App\EventServiceProvider::class,
         App\Registration\RegistrationServiceProvider::class,
         App\Availability\Infrastructure\AvailabilityServiceProvider::class,
+        App\Event\EventServiceProvider::class,
     ],
 
     /*

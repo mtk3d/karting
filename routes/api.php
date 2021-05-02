@@ -20,3 +20,8 @@ Route::prefix('track')->namespace('App\Track\Http')->group(function () {
     Route::get('/{id}/reservations', 'TrackInventoryController@reservations');
     Route::post('/', 'TrackInventoryController@create');
 });
+
+Route::prefix('event')->namespace('App\Event\Http')->group(function () {
+    Route::get('/', 'EventController@show');
+    Route::post('/', 'EventController@create');
+});

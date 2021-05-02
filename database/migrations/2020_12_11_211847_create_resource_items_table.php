@@ -14,7 +14,8 @@ class CreateResourceItemsTable extends Migration
     public function up()
     {
         Schema::create('resource_items', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->unique();
             $table->boolean('is_available');
             $table->integer('slots')->default(1);
             $table->timestamps();

@@ -19,7 +19,7 @@ class TrackTest extends TestCase
     {
         $response = $this->createWithdrawnTrack();
 
-        $id = $response->decodeResponseJson()['id'];
+        $id = $response->decodeResponseJson()['uuid'];
 
         $response = $this->get('api/track/all');
 
@@ -33,7 +33,7 @@ class TrackTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('resource_items', [
-            'id' => $id,
+            'uuid' => $id,
             'is_available' => false
         ]);
     }
@@ -42,7 +42,7 @@ class TrackTest extends TestCase
     {
         $response = $this->createTrack();
 
-        $id = $response->decodeResponseJson()['id'];
+        $id = $response->decodeResponseJson()['uuid'];
 
         $date = Carbon::create(2020, 3, 14, 12, 30);
         $from = $date->toISOString();
@@ -69,7 +69,7 @@ class TrackTest extends TestCase
     {
         $response = $this->createTrack();
 
-        $id = $response->decodeResponseJson()['id'];
+        $id = $response->decodeResponseJson()['uuid'];
 
         $response = $this->patch("api/availability/resources/$id", [
             'is_available' => false
@@ -78,7 +78,7 @@ class TrackTest extends TestCase
         $response->assertOk();
 
         $this->assertDatabaseHas('resource_items', [
-            'id' => $id,
+            'uuid' => $id,
             'is_available' => false
         ]);
     }
@@ -87,7 +87,7 @@ class TrackTest extends TestCase
     {
         $response = $this->createWithdrawnTrack();
 
-        $id = $response->decodeResponseJson()['id'];
+        $id = $response->decodeResponseJson()['uuid'];
 
         $response = $this->patch("api/availability/resources/$id", [
             'is_available' => true
@@ -96,7 +96,7 @@ class TrackTest extends TestCase
         $response->assertOk();
 
         $this->assertDatabaseHas('resource_items', [
-            'id' => $id,
+            'uuid' => $id,
             'is_available' => true
         ]);
     }

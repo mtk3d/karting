@@ -12,7 +12,12 @@ class ResourceTurnedOnListener
     public function handle(ResourceTurnedOn $event): void
     {
         /** @var GoCart $goCart */
-        $goCart = GoCart::find((string)$event->resourceId()->id());
+
+        $goCartId = $event->resourceId()->id();
+        $goCart = GoCart::where(
+            'uuid',
+            $goCartId->toString()
+        )->first();
 
         if ($goCart) {
             $goCart->is_available = true;

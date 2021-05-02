@@ -1,26 +1,25 @@
 <?php
 
-declare(strict_types=1);
 
-namespace App\Track;
+namespace App\Event;
+
 
 use App\Shared\Common\UUID;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Track extends Model
+class Event extends Model
 {
     protected $fillable = [
         'uuid',
-        'name',
-        'description',
-        'slots',
-        'is_available'
+        'start_date',
+        'end_date',
+        'days',
     ];
 
     protected $casts = [
-        'slots' => 'integer',
-        'is_available' => 'boolean'
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
+        'days' => 'collection'
     ];
 
     public function __construct(array $attributes = [])
@@ -30,10 +29,5 @@ class Track extends Model
         }
 
         parent::__construct($attributes);
-    }
-
-    public function reservations(): HasMany
-    {
-        return $this->hasMany(TrackReservation::class);
     }
 }

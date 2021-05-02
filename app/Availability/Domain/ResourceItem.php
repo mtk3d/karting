@@ -5,23 +5,19 @@ declare(strict_types=1);
 namespace App\Availability\Domain;
 
 use App\Shared\Common\Result;
-use App\Shared\Common\UuidsTrait;
 use App\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use Tests\Psalm\LaravelPlugin\Models\Car;
 
 class ResourceItem extends Model
 {
-    use UuidsTrait;
-
     protected $with = ['reservations'];
 
     protected $fillable = [
-        'id',
+        'uuid',
         'slots',
         'is_available',
     ];
@@ -43,7 +39,7 @@ class ResourceItem extends Model
     public static function of(ResourceId $id, Slots $slots, bool $available = true): ResourceItem
     {
         return new ResourceItem([
-            'id' => (string)$id->id(),
+            'uuid' => $id->id()->toString(),
             'slots' => $slots->slots(),
             'is_available' => $available
         ]);
@@ -106,7 +102,7 @@ class ResourceItem extends Model
 
     public function getId(): ResourceId
     {
-        return ResourceId::of($this->attributes['id']);
+        return ResourceId::of($this->attributes['uuid']);
     }
 
     private function isAvailable(): bool
