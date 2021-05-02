@@ -7,6 +7,7 @@ namespace App\Event;
 use MyCLabs\Enum\Enum;
 
 /**
+ * @psalm-immutable
  * @method static Day MONDAY()
  * @method static Day TUESDAY()
  * @method static Day WEDNESDAY()

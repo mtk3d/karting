@@ -65,6 +65,10 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "tests": [
+            "psalm --no-cache",
+            "@php artisan test"
         ]
     }
 }

@@ -28,7 +28,9 @@ class GoCartInventory
     }
 
     /**
-     * @return Collection<int, GoCart>
+     * @return Collection
+     *
+     * @psalm-return Collection<\Illuminate\Database\Eloquent\Model>
      */
     public function getList(): Collection
     {
@@ -36,7 +38,9 @@ class GoCartInventory
     }
 
     /**
-     * @return Collection<int, GoCartReservation>
+     * @return Collection
+     *
+     * @psalm-return Collection<\Illuminate\Database\Eloquent\Model>
      */
     public function reservations(ResourceId $resourceId): Collection
     {

@@ -33,7 +33,9 @@ class TrackInventory
     }
 
     /**
-     * @return Collection<int, Track>
+     * @return Collection
+     *
+     * @psalm-return Collection<\Illuminate\Database\Eloquent\Model>
      */
     public function getList(): Collection
     {
@@ -41,7 +43,9 @@ class TrackInventory
     }
 
     /**
-     * @return Collection<int, TrackReservation>
+     * @return Collection
+     *
+     * @psalm-return Collection<\Illuminate\Database\Eloquent\Model>
      */
     public function reservations(ResourceId $resourceId): Collection
     {

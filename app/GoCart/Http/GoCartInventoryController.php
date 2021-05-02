@@ -27,9 +27,11 @@ class GoCartInventoryController extends Controller
     }
 
     /**
-     * @return Collection<int, GoCartReservation>
+     * @return \Illuminate\Database\Eloquent\Collection
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Collection<int, GoCartReservation>
      */
-    public function reservations(string $id): Collection
+    public function reservations(string $id): \Illuminate\Database\Eloquent\Collection
     {
         return $this->goCartInventory->reservations(ResourceId::of($id));
     }

@@ -28,9 +28,11 @@ class TrackInventoryController extends Controller
     }
 
     /**
-     * @return Collection<int, TrackReservation>
+     * @return \Illuminate\Database\Eloquent\Collection
+     *
+     * @psalm-return \Illuminate\Database\Eloquent\Collection<int, TrackReservation>
      */
-    public function reservations(string $id): Collection
+    public function reservations(string $id): \Illuminate\Database\Eloquent\Collection
     {
         return $this->trackInventory->reservations(ResourceId::of($id));
     }

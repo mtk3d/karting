@@ -28,7 +28,9 @@ class EventsBetween implements Command
     }
 
     /**
-     * @return array<int, CarbonInterface>
+     * @return (CarbonInterface|null)[]
+     *
+     * @psalm-return array{0: CarbonInterface, 1: CarbonInterface|null}
      */
     public function getBetweenDates(): array
     {
