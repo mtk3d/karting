@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\GoCart;
 
-
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;

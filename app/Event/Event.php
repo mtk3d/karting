@@ -3,7 +3,6 @@
 
 namespace App\Event;
 
-
 use App\Shared\Common\UUID;
 use Illuminate\Database\Eloquent\Model;
 

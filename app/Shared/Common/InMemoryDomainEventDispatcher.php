@@ -9,9 +9,7 @@ use Illuminate\Support\Collection;
 
 class InMemoryDomainEventDispatcher implements DomainEventDispatcher
 {
-    /**
-     * @var Collection<string, DomainEvent>
-     */
+    /** @var Collection<string, DomainEvent> */
     private $events;
 
     public function __construct()

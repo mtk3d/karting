@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\Track\Http;
 
-
 use App\Shared\Http\Controller;
 use App\Shared\ResourceId;
 use App\Track\Track;

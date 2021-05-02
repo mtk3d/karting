@@ -3,7 +3,6 @@
 
 namespace App\Event;
 
-
 use App\Shared\Common\Command;
 use DateTimeImmutable;
 use Exception;
@@ -13,9 +12,7 @@ class ScheduleEvent implements Command
 {
     private DateTimeImmutable $startDate;
     private DateTimeImmutable $endDate;
-    /**
-     * @var Collection<int, Day>
-     */
+    /** @var Collection<int, Day> */
     private Collection $days;
 
     /**

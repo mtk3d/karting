@@ -3,7 +3,6 @@
 
 namespace App\Event;
 
-
 use App\Shared\Common\Command;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;

@@ -10,9 +10,7 @@ use Illuminate\Support\Collection;
 
 final class Success extends Result
 {
-    /**
-     * @var Collection<int, DomainEvent>
-     */
+    /** @var Collection<int, DomainEvent> */
     protected $events;
 
     /**

@@ -9,9 +9,7 @@ use Illuminate\Events\Dispatcher;
 
 class IlluminateDomainEventDispatcher implements DomainEventDispatcher
 {
-    /**
-     * @var Dispatcher
-     */
+    /** @var Dispatcher */
     private Dispatcher $dispatcher;
 
     public function __construct(Dispatcher $dispatcher)

@@ -3,7 +3,6 @@
 
 namespace App\Event\Http;
 
-
 use App\Event\Event;
 use App\Event\EventsBetween;
 use App\Event\ScheduleEvent;

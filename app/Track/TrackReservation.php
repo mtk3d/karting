@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\Track;
 
-
 use App\Shared\Common\UUID;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;

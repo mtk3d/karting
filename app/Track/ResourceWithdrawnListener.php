@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\Track;
 
-
 use App\Availability\Domain\ResourceWithdrawn;
 
 class ResourceWithdrawnListener

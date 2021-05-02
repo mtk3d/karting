@@ -3,7 +3,6 @@
 
 namespace Tests\Feature\RaceSchedule;
 
-
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;

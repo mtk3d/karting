@@ -8,9 +8,7 @@ use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class UUID
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $value;
 
     public function __construct(string $value)

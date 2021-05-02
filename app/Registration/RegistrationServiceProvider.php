@@ -11,9 +11,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RegistrationServiceProvider extends ServiceProvider
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,

@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Availability;
 
-
 use App\Availability\Application\Command\ReserveResource;
 use App\Availability\Application\ReserveResourceHandler;
 use App\Availability\Domain\ResourceReserved;
@@ -50,7 +49,8 @@ class ReservationTest extends TestCase
         // then
         self::assertEquals(
             new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reserveCommand->period()),
-            $this->eventDispatcher->first());
+            $this->eventDispatcher->first()
+        );
 
         self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
     }
@@ -140,7 +140,8 @@ class ReservationTest extends TestCase
         // then
         self::assertEquals(
             new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reserveCommand->period()),
-            $this->eventDispatcher->first());
+            $this->eventDispatcher->first()
+        );
 
         self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
     }

@@ -3,7 +3,6 @@
 
 namespace App\Event;
 
-
 use Illuminate\Support\Collection;
 
 class EventBetweenHandler

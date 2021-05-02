@@ -13,9 +13,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     public $bindings = [
         DomainEventDispatcher::class => IlluminateDomainEventDispatcher::class,
     ];

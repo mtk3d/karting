@@ -3,7 +3,6 @@
 
 namespace App\Event;
 
-
 use MyCLabs\Enum\Enum;
 
 /**

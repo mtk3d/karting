@@ -9,9 +9,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 class EventServiceProvider extends ServiceProvider
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $listen = [
         \App\Shared\ResourceCreated::class => [
             \App\Availability\Infrastructure\Listener\ResourceCreatedListener::class

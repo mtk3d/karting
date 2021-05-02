@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\Shared;
 
-
 use App\Shared\Common\DomainEvent;
 use App\Shared\Common\UUID;
 

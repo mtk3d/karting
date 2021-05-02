@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace App\Track\Http;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class TrackRequest extends FormRequest

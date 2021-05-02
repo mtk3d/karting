@@ -21,9 +21,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AvailabilityServiceProvider extends ServiceProvider
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     public $bindings = [
         ResourceRepository::class => EloquentResourceRepository::class,
     ];
