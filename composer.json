@@ -72,6 +72,10 @@
         "code-quality": [
             "psalm --no-cache",
             "php-cs-fixer fix -v --dry-run --show-progress=estimating"
+        ],
+        "check": [
+            "@test",
+            "@code-quality"
         ]
     }
 }
