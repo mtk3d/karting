@@ -2,10 +2,10 @@
 
 namespace Karting\App\Http\Middleware;
 
-use Karting\App\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Karting\App\Provider\RouteServiceProvider;
 
 class RedirectIfAuthenticated
 {
