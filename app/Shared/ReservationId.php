@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Karting\Reservation\Domain;
+namespace Karting\Shared;
 
 use Karting\Shared\Common\UUID;
-use Karting\Shared\ResourceId;
 
 class ReservationId
 {
@@ -36,7 +35,7 @@ class ReservationId
         return $this->id->isEqual($id->id);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('ReservationId{id=%s}', $this->id);
     }

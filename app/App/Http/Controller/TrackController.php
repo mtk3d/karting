@@ -10,7 +10,7 @@ use Karting\App\Http\Controller;
 use Karting\App\Http\Controller\Request\StateRequest;
 use Karting\App\Http\Controller\Request\TrackRequest;
 use Karting\App\ReadModel\Kart\Kart;
-use Karting\App\ReadModel\Reservation\Reservation;
+use Karting\App\ReadModel\ResourceReservation\ResourceReservation;
 use Karting\App\ReadModel\Track\Track;
 use Karting\Availability\Application\Command\SetState;
 use Karting\Shared\Common\CommandBus;
@@ -63,7 +63,7 @@ class TrackController extends Controller
     }
 
     /**
-     * @return Collection<int, Reservation>
+     * @return Collection<int, ResourceReservation>
      */
     public function reservations(string $id): Collection
     {

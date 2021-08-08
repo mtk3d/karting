@@ -5,8 +5,8 @@ declare(strict_types=1);
 
 namespace Karting\Availability\Application\Command;
 
-use Karting\Reservation\Domain\ReservationId;
 use Karting\Shared\Common\Command;
+use Karting\Shared\ReservationId;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 

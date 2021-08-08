@@ -6,6 +6,7 @@ namespace Karting\Availability\Domain;
 
 use Karting\Shared\Common\DomainEvent;
 use Karting\Shared\Common\UUID;
+use Karting\Shared\ReservationId;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 
@@ -14,9 +15,9 @@ class ResourceReserved implements DomainEvent
     private UUID $id;
     private ResourceId $resourceId;
     private CarbonPeriod $period;
-    private UUID $reservationId;
+    private ReservationId $reservationId;
 
-    public function __construct(UUID $id, ResourceId $resourceId, CarbonPeriod $period, UUID $reservationId)
+    public function __construct(UUID $id, ResourceId $resourceId, CarbonPeriod $period, ReservationId $reservationId)
     {
         $this->id = $id;
         $this->resourceId = $resourceId;
@@ -24,7 +25,7 @@ class ResourceReserved implements DomainEvent
         $this->reservationId = $reservationId;
     }
 
-    public static function newOne(ResourceId $resourceId, CarbonPeriod $period, UUID $reservationId): ResourceReserved
+    public static function newOne(ResourceId $resourceId, CarbonPeriod $period, ReservationId $reservationId): ResourceReserved
     {
         return new ResourceReserved(UUID::random(), $resourceId, $period, $reservationId);
     }
@@ -44,7 +45,7 @@ class ResourceReserved implements DomainEvent
         return $this->period;
     }
 
-    public function reservationId(): UUID
+    public function reservationId(): ReservationId
     {
         return $this->reservationId;
     }

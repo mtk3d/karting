@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Karting\Availability\Domain;
 
-use Karting\Reservation\Domain\ReservationId;
 use Karting\Shared\Common\Result;
-use Karting\Shared\Common\UUID;
+use Karting\Shared\ReservationId;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -66,7 +65,7 @@ class ResourceItem extends Model
         $this->relations['reservations']->add($reservation);
 
         $events = new Collection([
-            ResourceReserved::newOne($this->getId(), $period, $reservationId->id())
+            ResourceReserved::newOne($this->getId(), $period, $reservationId)
         ]);
 
 

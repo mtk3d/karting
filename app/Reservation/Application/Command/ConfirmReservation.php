@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Karting\Reservation\Application\Command;
 
-use Karting\Reservation\Domain\ReservationId;
 use Karting\Shared\Common\Command;
+use Karting\Shared\ReservationId;
 
-class AcceptReservation implements Command
+class ConfirmReservation implements Command
 {
     private ReservationId $reservationId;
 

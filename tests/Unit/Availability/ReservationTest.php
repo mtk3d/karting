@@ -10,9 +10,9 @@ use Karting\Availability\Application\ReserveResourceHandler;
 use Karting\Availability\Domain\ResourceReserved;
 use Karting\Availability\Domain\ResourceUnavailableException;
 use Karting\Availability\Infrastructure\Repository\InMemoryResourceRepository;
-use Karting\Reservation\Domain\ReservationId;
 use Karting\Shared\Common\InMemoryDomainEventBus;
 use Karting\Shared\Common\UUID;
+use Karting\Shared\ReservationId;
 use PHPUnit\Framework\TestCase;
 use function Tests\Fixtures\aResourceNoSlotsBetween;
 use function Tests\Fixtures\aResourceReservedBetween;
@@ -40,13 +40,13 @@ class ReservationTest extends TestCase
     public function testReservation(string $alreadyFrom, string $alreadyTo, string $from, string $to): void
     {
         // given
-        $reservationId = UUID::random();
-        $resource = aResourceReservedBetween(null, $alreadyFrom, $alreadyTo, ReservationId::of($reservationId->toString()));
+        $reservationId = ReservationId::newOne();
+        $resource = aResourceReservedBetween(null, $alreadyFrom, $alreadyTo, $reservationId);
         $this->resourceRepository->save($resource);
 
         // when
         $id = $resource->getId()->id()->toString();
-        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->toString());
+        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->id()->toString());
         $this->reservationHandler->handle($reserveCommand);
 
         // then
@@ -132,15 +132,15 @@ class ReservationTest extends TestCase
     public function testReserveWithPlacesResource(): void
     {
         // given
-        $reservationId = UUID::random();
+        $reservationId = ReservationId::newOne();
         $from = '2020-12-06 15:30';
         $to = '2020-12-06 16:30';
-        $resource = aResourceWithSlotBetween(null, $from, $to, ReservationId::of($reservationId->toString()));
+        $resource = aResourceWithSlotBetween(null, $from, $to, $reservationId);
         $this->resourceRepository->save($resource);
 
         // when
         $id = $resource->getId()->id()->toString();
-        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->toString());
+        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->id()->toString());
         $this->reservationHandler->handle($reserveCommand);
 
         // then

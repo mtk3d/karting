@@ -7,9 +7,8 @@ namespace Karting\Reservation\Domain;
 
 use Karting\Availability\Application\Command\ReserveResource;
 use Karting\Availability\Domain\ResourceReserved;
-use Karting\Reservation\Application\Command\AcceptReservation;
+use Karting\Reservation\Application\Command\ConfirmReservation;
 use Karting\Shared\Common\CommandBus;
-use Karting\Shared\ResourceId;
 
 class ReservationManager
 {
@@ -24,24 +23,20 @@ class ReservationManager
 
     public function handleReservationCrated(ReservationCreated $reservationCreated): void
     {
-        $reservation = $this->repository->find($reservationCreated->reservationId());
-
-        $this->bus->dispatch(
-            new ReserveResource($reservation->goCartsIds()->firstNonReserved(), $reservation->period(), $reservationCreated->reservationId())
-        );
+        $res = $this->repository->find($reservationCreated->reservationId());
+        $res->karts()
+            ->map(fn (Kart $kart): ReserveResource => new ReserveResource($kart->resourceId(), $res->period(), $res->id()))
+            ->each([$this->bus, 'dispatch']);
     }
 
     public function handleKartReserved(ResourceReserved $resourceReserved): void
     {
         $resourceId = $resourceReserved->resourceId();
-        $reservation = $this->repository->findByGoCartId($resourceId);
-        $reservation->markGoCartAsReserved($resourceId);
-        $notReservedGoCarts = $reservation->goCartsIds()->ids();
-        if ($notReservedGoCarts->isNotEmpty()) {
-            $this->bus->dispatch(
-                new ReserveResource(ResourceId::of($notReservedGoCarts->first()), $reservation->period(), $reservation->id())
-            );
-        } else {
+        $reservation = $this->repository->find($resourceReserved->reservationId());
+        $reservation->reserveKart($resourceId);
+
+
+        if ($reservation->kartsReserved()) {
             $this->bus->dispatch(
                 new ReserveResource($reservation->trackId(), $reservation->period(), $reservation->id())
             );
@@ -50,9 +45,9 @@ class ReservationManager
 
     public function handleTrackReserved(ResourceReserved $resourceReserved): void
     {
-        $reservation = $this->repository->findByTrackId($resourceReserved->resourceId());
+        $reservation = $this->repository->find($resourceReserved->reservationId());
         $this->bus->dispatch(
-            new AcceptReservation($reservation->id())
+            new ConfirmReservation($reservation->id())
         );
     }
 }

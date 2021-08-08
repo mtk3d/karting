@@ -5,8 +5,8 @@ declare(strict_types=1);
 
 namespace Karting\Availability\Domain;
 
-use Karting\Reservation\Domain\ReservationId;
 use Karting\Shared\Common\UUID;
+use Karting\Shared\ReservationId;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;

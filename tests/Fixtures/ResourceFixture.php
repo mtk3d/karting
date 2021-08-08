@@ -6,7 +6,7 @@ namespace Tests\Fixtures;
 
 use Karting\Availability\Domain\ResourceItem;
 use Karting\Availability\Domain\Slots;
-use Karting\Reservation\Domain\ReservationId;
+use Karting\Shared\ReservationId;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 

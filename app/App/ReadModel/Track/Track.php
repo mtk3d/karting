@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Karting\App\ReadModel\Track;
 
 use Illuminate\Database\Eloquent\Model;
-use Karting\App\ReadModel\Reservation\Reservation;
+use Karting\App\ReadModel\ResourceReservation\ResourceReservation;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Track extends Model
@@ -27,6 +27,6 @@ class Track extends Model
 
     public function reservations(): HasMany
     {
-        return $this->hasMany(Reservation::class, 'resource_item_id', 'uuid');
+        return $this->hasMany(ResourceReservation::class, 'resource_item_id', 'uuid');
     }
 }

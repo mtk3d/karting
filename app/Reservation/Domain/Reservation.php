@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Karting\Reservation\Domain;
 
-use Karting\Shared\Common\UUID;
+use Karting\Shared\Common\Result;
+use Karting\Shared\ReservationId;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
@@ -14,33 +15,46 @@ class Reservation extends Model
 {
     protected $fillable = [
         'uuid',
-        'go_carts_ids',
-        'go_carts_reserved',
-        'track_id',
+        'karts',
+        'track',
         'from',
-        'to'
+        'to',
+        'confirmed'
     ];
 
     protected $attributes = [
-        'accepted' => false,
-        'go_carts_reserved' => []
+        'karts' => [],
+        'confirmed' => false
     ];
 
-    public static function of(ReservationId $reservationId, KartIds $kartIds, ResourceId $trackId, CarbonPeriod $period): Reservation
+    protected $casts = [
+        'confirmed' => 'boolean'
+    ];
+
+    public static function of(ReservationId $reservationId, Collection $karts, Track $track, CarbonPeriod $period): Reservation
     {
         return new Reservation([
             'uuid' => $reservationId->id()->toString(),
-            'go_carts_ids' => $kartIds->idsStrings()->toArray(),
-            'go_carts_reserved' => $kartIds->reservedIdsStrings()->toArray(),
-            'track_id' => $trackId->id()->toString(),
+            'karts' => json_encode($karts->toArray()),
+            'track' => json_encode($track),
             'from' => $period->getStartDate()->toDateTimeString(),
             'to' => $period->getEndDate()->toDateTimeString(),
         ]);
     }
 
-    public function accept(): void
+    public function confirm(): Result
     {
-        $this->attributes['accepted'] = true;
+        if ($this->attributes['confirmed']) {
+            throw new \Exception('ResourceReservation is already confirmed');
+        }
+
+        $this->attributes['confirmed'] = true;
+
+        $events = new Collection([
+            ReservationConfirmed::newOne($this->attributes['uuid'])
+        ]);
+
+        return Result::success($events);
     }
 
     public function id(): ReservationId
@@ -48,25 +62,41 @@ class Reservation extends Model
         return ReservationId::of($this->attributes['uuid']);
     }
 
-    public function goCartsIds(): KartIds
+    public function karts(): Collection
     {
-        return KartIds::fromRaw($this->attributes['go_carts_ids'], $this->attributes['go_carts_reserved']);
+        $karts = new Collection(json_decode($this->attributes['karts'], true));
+        return $karts->map(fn (array $payload): Kart => Kart::fromArray($payload));
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function markGoCartAsReserved(ResourceId $kartId): void
+    public function reserveKart(ResourceId $resourceId)
     {
-        $kartIds = KartIds::fromRaw($this->attributes['go_carts_ids'], $this->attributes['go_carts_reserved']);
-        $kartIds->markReserved($kartId);
+        $karts = $this->karts()
+            ->map(function (Kart $kart) use ($resourceId): Kart {
+                if ($kart->resourceId()->isEqual($resourceId)) {
+                    $kart->reserve();
+                }
 
-        $this->attributes['go_carts_reserved'] = $kartIds->reservedIdsStrings()->toArray();
+                return $kart;
+            });
+
+        $this->attributes['karts'] = json_encode($karts->toArray());
+    }
+
+    public function kartsReserved(): bool
+    {
+        return 0 === $this->karts()->filter(fn (Kart $kart): bool => !$kart->reserved())->count();
     }
 
     public function trackId(): ResourceId
     {
-        return ResourceId::of($this->attributes['track_id']);
+        return $this->track()->resourceId();
+    }
+
+    public function reserveTrack()
+    {
+        $track = $this->track();
+        $track->reserve();
+        $this->attributes['karts'] = json_encode($track);
     }
 
     public function period(): CarbonPeriod
@@ -74,8 +104,8 @@ class Reservation extends Model
         return new CarbonPeriod($this->attributes['from'], $this->attributes['to']);
     }
 
-    public function kartIds(): Collection
+    private function track(): Track
     {
-        return (new Collection($this->attributes['go_carts_ids']))->map([ResourceId::class, 'of']);
+        return Track::fromArray(json_decode($this->attributes['track'], true));
     }
 }

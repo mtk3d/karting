@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Karting\Reservation\Application\Command;
 
-use Karting\Reservation\Domain\ReservationId;
 use Karting\Shared\Common\Command;
+use Karting\Shared\ReservationId;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
@@ -13,18 +13,19 @@ use Illuminate\Support\Collection;
 class CreateReservation implements Command
 {
     private ReservationId $reservationId;
-    private Collection $goCartIds;
+    /** @var Collection<int, ResourceId> */
+    private Collection $kartsIds;
     private ResourceId $trackId;
     private CarbonPeriod $period;
 
     public function __construct(
         ReservationId $reservationId,
-        Collection $goCartIds,
+        Collection $kartsIds,
         ResourceId $trackId,
         CarbonPeriod $period
     ) {
         $this->reservationId = $reservationId;
-        $this->goCartIds = $goCartIds;
+        $this->kartsIds = $kartsIds;
         $this->trackId = $trackId;
         $this->period = $period;
     }
@@ -36,7 +37,7 @@ class CreateReservation implements Command
 
     public function kartIds(): Collection
     {
-        return $this->goCartIds;
+        return $this->kartIds;
     }
 
     public function trackId(): ResourceId

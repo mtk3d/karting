@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReservationsReadModelTable extends Migration
+class CreateResourceReservationsReadModelTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateReservationsReadModelTable extends Migration
      */
     public function up()
     {
-        Schema::create('reservations_read_model', function (Blueprint $table) {
+        Schema::create('resource_reservations_read_model', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->uuid('resource_item_id');
