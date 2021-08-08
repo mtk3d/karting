@@ -71,7 +71,7 @@
         ],
         "code-quality": [
             "psalm --no-cache",
-            "php-cs-fixer fix -v --dry-run --show-progress=estimating"
+            "php-cs-fixer fix -v --dry-run --show-progress=dots"
         ],
         "check": [
             "@test",
