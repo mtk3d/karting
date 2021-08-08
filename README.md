@@ -1,1 +1,2 @@
-# laravel-ddd-mm-go-carts
+# Karting app
+
