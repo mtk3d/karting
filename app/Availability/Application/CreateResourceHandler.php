@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 
-namespace App\Availability\Application;
+namespace Karting\Availability\Application;
 
-use App\Availability\Application\Command\CreateResource;
-use App\Availability\Domain\ResourceItem;
-use App\Availability\Domain\ResourceRepository;
+use Karting\Availability\Application\Command\CreateResource;
+use Karting\Availability\Domain\ResourceItem;
+use Karting\Availability\Domain\ResourceRepository;
 
 class CreateResourceHandler
 {
@@ -23,7 +23,7 @@ class CreateResourceHandler
         $resource = ResourceItem::of(
             $createResource->id(),
             $createResource->slots(),
-            $createResource->isAvailable()
+            $createResource->enabled()
         );
 
         $this->resourceRepository->save($resource);

@@ -16,97 +16,66 @@ class TrackTest extends TestCase
 
     public function testCreateTrack(): void
     {
-        $response = $this->createWithdrawnTrack();
+        $this->createDisabledTrack();
 
-        $id = $response->decodeResponseJson()['uuid'];
-
-        $response = $this->get('api/track/all');
+        $response = $this->get('api/track');
 
         $response->assertJson([
             [
-                'name' => 'example go cart name',
-                'description' => 'some description',
-                'slots' => 5,
-                'is_available' => false
+                'uuid' => 'f9ba5871-2ada-40e9-8305-0de9143249a7',
+                'name' => 'Track 01',
+                'description' => 'Super slow track',
+                'enabled' => false,
+                'slots' => 8
             ]
         ]);
 
         $this->assertDatabaseHas('resource_items', [
-            'uuid' => $id,
-            'is_available' => false
+            'uuid' => 'f9ba5871-2ada-40e9-8305-0de9143249a7',
+            'enabled' => false
         ]);
     }
 
-    public function testReserveTrack(): void
+    public function testDisableTrack(): void
     {
-        $response = $this->createTrack();
+        $this->createTrack();
 
-        $id = $response->decodeResponseJson()['uuid'];
-
-        $date = Carbon::create(2020, 3, 14, 12, 30);
-        $from = $date->toISOString();
-        $to = $date->addHour()->toISOString();
-
-        $response = $this->post("api/availability/resources/$id/reservations", [
-            'from' => $from,
-            'to' => $to,
-        ]);
-
-        $response->assertOk();
-
-        $response = $this->get("api/track/$id/reservations");
-
-        $response->assertJson([
-            [
-                'from' => $from,
-                'to' => $to,
-            ]
-        ]);
-    }
-
-    public function testWithdrawTrack(): void
-    {
-        $response = $this->createTrack();
-
-        $id = $response->decodeResponseJson()['uuid'];
-
-        $response = $this->patch("api/availability/resources/$id", [
-            'is_available' => false
+        $response = $this->patch("api/track/f9ba5871-2ada-40e9-8305-0de9143249a7/state", [
+            'enabled' => false
         ]);
 
         $response->assertOk();
 
         $this->assertDatabaseHas('resource_items', [
-            'uuid' => $id,
-            'is_available' => false
+            'uuid' => 'f9ba5871-2ada-40e9-8305-0de9143249a7',
+            'enabled' => false
         ]);
     }
 
-    public function testTurnOnTrack(): void
+    public function testEnableTrack(): void
     {
-        $response = $this->createWithdrawnTrack();
+        $this->createDisabledTrack();
 
-        $id = $response->decodeResponseJson()['uuid'];
-
-        $response = $this->patch("api/availability/resources/$id", [
-            'is_available' => true
+        $response = $this->patch("api/track/f9ba5871-2ada-40e9-8305-0de9143249a7/state", [
+            'enabled' => true
         ]);
 
         $response->assertOk();
 
         $this->assertDatabaseHas('resource_items', [
-            'uuid' => $id,
-            'is_available' => true
+            'uuid' => 'f9ba5871-2ada-40e9-8305-0de9143249a7',
+            'enabled' => true
         ]);
     }
 
     private function createTrack(): TestResponse
     {
         $response = $this->post('api/track', [
-            'name' => 'example go cart name',
-            'description' => 'some description',
-            'slots' => 5,
-            'is_available' => true,
+            'uuid' => 'f9ba5871-2ada-40e9-8305-0de9143249a7',
+            'name' => 'Track 01',
+            'description' => 'Super slow track',
+            'enabled' => true,
+            'slots' => 8
         ]);
 
         $response->assertCreated();
@@ -114,13 +83,14 @@ class TrackTest extends TestCase
         return $response;
     }
 
-    private function createWithdrawnTrack(): TestResponse
+    private function createDisabledTrack(): TestResponse
     {
         $response = $this->post('api/track', [
-            'name' => 'example go cart name',
-            'description' => 'some description',
-            'slots' => 5,
-            'is_available' => false,
+            'uuid' => 'f9ba5871-2ada-40e9-8305-0de9143249a7',
+            'name' => 'Track 01',
+            'description' => 'Super slow track',
+            'enabled' => false,
+            'slots' => 8
         ]);
 
         $response->assertCreated();

@@ -17,6 +17,7 @@ class CreateReservationsTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->uuid('resource_item_id');
+            $table->uuid('reservation_id');
             $table->dateTime('from');
             $table->dateTime('to');
             $table->timestamps();

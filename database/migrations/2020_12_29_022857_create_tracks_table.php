@@ -19,7 +19,6 @@ class CreateTracksTable extends Migration
             $table->text('name');
             $table->longText('description')->nullable();
             $table->integer('slots');
-            $table->boolean('is_available');
             $table->timestamps();
         });
     }

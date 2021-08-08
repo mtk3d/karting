@@ -3,23 +3,23 @@
 declare(strict_types=1);
 
 
-namespace App\Availability\Application\Command;
+namespace Karting\Availability\Application\Command;
 
-use App\Availability\Domain\Slots;
-use App\Shared\Common\Command;
-use App\Shared\ResourceId;
+use Karting\Availability\Domain\Slots;
+use Karting\Shared\Common\Command;
+use Karting\Shared\ResourceId;
 
 class CreateResource implements Command
 {
     private ResourceId $id;
     private Slots $slots;
-    private bool $isAvailable;
+    private bool $enabled;
 
-    public function __construct(ResourceId $id, Slots $slots, bool $isAvailable)
+    public function __construct(ResourceId $id, Slots $slots)
     {
         $this->id = $id;
         $this->slots = $slots;
-        $this->isAvailable = $isAvailable;
+        $this->enabled = true;
     }
 
     public function id(): ResourceId
@@ -32,8 +32,8 @@ class CreateResource implements Command
         return $this->slots;
     }
 
-    public function isAvailable(): bool
+    public function enabled(): bool
     {
-        return $this->isAvailable;
+        return $this->enabled;
     }
 }

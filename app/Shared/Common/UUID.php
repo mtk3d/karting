@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Common;
+namespace Karting\Shared\Common;
 
 use Ramsey\Uuid\Uuid as RamseyUuid;
 

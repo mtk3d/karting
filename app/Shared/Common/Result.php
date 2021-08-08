@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Common;
+namespace Karting\Shared\Common;
 
-use App\Shared\Common\Result\Failure;
-use App\Shared\Common\Result\Success;
+use Karting\Shared\Common\Result\Failure;
+use Karting\Shared\Common\Result\Success;
 use Illuminate\Support\Collection;
 
 abstract class Result

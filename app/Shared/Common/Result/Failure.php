@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Common\Result;
+namespace Karting\Shared\Common\Result;
 
-use App\Shared\Common\Result;
+use Karting\Shared\Common\Result;
 
 final class Failure extends Result
 {

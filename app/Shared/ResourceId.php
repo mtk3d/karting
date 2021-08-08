@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Shared;
+namespace Karting\Shared;
 
-use App\Shared\Common\UUID;
+use Karting\Shared\Common\UUID;
 
 class ResourceId
 {

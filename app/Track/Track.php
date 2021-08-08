@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Track;
+namespace Karting\Track;
 
-use App\Shared\Common\UUID;
+use Karting\Shared\Common\UUID;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Track extends Model
 {
@@ -14,13 +13,11 @@ class Track extends Model
         'uuid',
         'name',
         'description',
-        'slots',
-        'is_available'
+        'slots'
     ];
 
     protected $casts = [
-        'slots' => 'integer',
-        'is_available' => 'boolean'
+        'slots' => 'integer'
     ];
 
     public function __construct(array $attributes = [])
@@ -30,10 +27,5 @@ class Track extends Model
         }
 
         parent::__construct($attributes);
-    }
-
-    public function reservations(): HasMany
-    {
-        return $this->hasMany(TrackReservation::class);
     }
 }

@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 
-namespace App\Availability\Infrastructure\Listener;
+namespace Karting\Availability\Infrastructure\Listener;
 
-use App\Availability\Application\Command\CreateResource;
-use App\Availability\Domain\Slots;
-use App\Shared\Common\CommandBus;
-use App\Shared\ResourceCreated;
+use Karting\Availability\Application\Command\CreateResource;
+use Karting\Availability\Domain\Slots;
+use Karting\Shared\Common\CommandBus;
+use Karting\Shared\ResourceCreated;
 
 class ResourceCreatedListener
 {
@@ -21,6 +21,6 @@ class ResourceCreatedListener
 
     public function handle(ResourceCreated $event): void
     {
-        $this->bus->dispatch(new CreateResource($event->resourceId(), Slots::of($event->slots()), $event->isAvailable()));
+        $this->bus->dispatch(new CreateResource($event->resourceId(), Slots::of($event->slots())));
     }
 }

@@ -5,12 +5,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Availability;
 
-use App\Availability\Application\Command\ReserveResource;
-use App\Availability\Application\ReserveResourceHandler;
-use App\Availability\Domain\ResourceReserved;
-use App\Availability\Domain\ResourceUnavailableException;
-use App\Availability\Infrastructure\Repository\InMemoryResourceRepository;
-use App\Shared\Common\InMemoryDomainEventDispatcher;
+use Karting\Availability\Application\Command\ReserveResource;
+use Karting\Availability\Application\ReserveResourceHandler;
+use Karting\Availability\Domain\ResourceReserved;
+use Karting\Availability\Domain\ResourceUnavailableException;
+use Karting\Availability\Infrastructure\Repository\InMemoryResourceRepository;
+use Karting\Reservation\Domain\ReservationId;
+use Karting\Shared\Common\InMemoryDomainEventBus;
+use Karting\Shared\Common\UUID;
 use PHPUnit\Framework\TestCase;
 use function Tests\Fixtures\aResourceNoSlotsBetween;
 use function Tests\Fixtures\aResourceReservedBetween;
@@ -20,7 +22,7 @@ use function Tests\Fixtures\aWithdrawnResource;
 class ReservationTest extends TestCase
 {
     private InMemoryResourceRepository $resourceRepository;
-    private InMemoryDomainEventDispatcher $eventDispatcher;
+    private InMemoryDomainEventBus $eventDispatcher;
     private ReserveResourceHandler $reservationHandler;
 
     public function setUp(): void
@@ -28,7 +30,7 @@ class ReservationTest extends TestCase
         parent::setUp();
 
         $this->resourceRepository = new InMemoryResourceRepository();
-        $this->eventDispatcher = new InMemoryDomainEventDispatcher();
+        $this->eventDispatcher = new InMemoryDomainEventBus();
         $this->reservationHandler = new ReserveResourceHandler($this->resourceRepository, $this->eventDispatcher);
     }
 
@@ -38,17 +40,18 @@ class ReservationTest extends TestCase
     public function testReservation(string $alreadyFrom, string $alreadyTo, string $from, string $to): void
     {
         // given
-        $resource = aResourceReservedBetween(null, $alreadyFrom, $alreadyTo);
+        $reservationId = UUID::random();
+        $resource = aResourceReservedBetween(null, $alreadyFrom, $alreadyTo, ReservationId::of($reservationId->toString()));
         $this->resourceRepository->save($resource);
 
         // when
         $id = $resource->getId()->id()->toString();
-        $reserveCommand = ReserveResource::fromRaw($id, $from, $to);
+        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->toString());
         $this->reservationHandler->handle($reserveCommand);
 
         // then
         self::assertEquals(
-            new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reserveCommand->period()),
+            new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reserveCommand->period(), $reservationId),
             $this->eventDispatcher->first()
         );
 
@@ -74,8 +77,9 @@ class ReservationTest extends TestCase
         self::expectExceptionObject(new ResourceUnavailableException('ResourceItem unavailable'));
 
         // when
+        $reservationId = UUID::random()->toString();
         $id = $resource->getId()->id()->toString();
-        $reserveCommand = ReserveResource::fromRaw($id, '2020-12-06 15:30', '2020-12-06 16:30');
+        $reserveCommand = ReserveResource::fromRaw($id, '2020-12-06 15:30', '2020-12-06 16:30', $reservationId);
         $this->reservationHandler->handle($reserveCommand);
     }
 
@@ -85,7 +89,8 @@ class ReservationTest extends TestCase
     public function testReserveAlreadyReservedResource(string $alreadyFrom, string $alreadyTo, string $from, string $to): void
     {
         // given
-        $resource = aResourceReservedBetween(null, $alreadyFrom, $alreadyTo);
+        $reservationId = UUID::random()->toString();
+        $resource = aResourceReservedBetween(null, $alreadyFrom, $alreadyTo, ReservationId::of($reservationId));
         $this->resourceRepository->save($resource);
 
         // should
@@ -93,7 +98,7 @@ class ReservationTest extends TestCase
 
         // when
         $id = $resource->getId()->id()->toString();
-        $reserveCommand = ReserveResource::fromRaw($id, $from, $to);
+        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId);
         $this->reservationHandler->handle($reserveCommand);
     }
 
@@ -109,9 +114,10 @@ class ReservationTest extends TestCase
     public function testReserveNoPlacesResource(): void
     {
         // given
+        $reservationId = UUID::random()->toString();
         $from = '2020-12-06 15:30';
         $to = '2020-12-06 16:30';
-        $resource = aResourceNoSlotsBetween(null, $from, $to);
+        $resource = aResourceNoSlotsBetween(null, $from, $to, ReservationId::of($reservationId));
         $this->resourceRepository->save($resource);
 
         // should
@@ -119,27 +125,27 @@ class ReservationTest extends TestCase
 
         // when
         $id = $resource->getId()->id()->toString();
-        $reserveCommand = ReserveResource::fromRaw($id, $from, $to);
+        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId);
         $this->reservationHandler->handle($reserveCommand);
     }
 
     public function testReserveWithPlacesResource(): void
     {
         // given
+        $reservationId = UUID::random();
         $from = '2020-12-06 15:30';
         $to = '2020-12-06 16:30';
-        $resource = aResourceWithSlotBetween(null, $from, $to);
+        $resource = aResourceWithSlotBetween(null, $from, $to, ReservationId::of($reservationId->toString()));
         $this->resourceRepository->save($resource);
 
         // when
         $id = $resource->getId()->id()->toString();
-        $reserveCommand = ReserveResource::fromRaw($id, $from, $to);
+        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->toString());
         $this->reservationHandler->handle($reserveCommand);
-
 
         // then
         self::assertEquals(
-            new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reserveCommand->period()),
+            new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reserveCommand->period(), $reservationId),
             $this->eventDispatcher->first()
         );
 

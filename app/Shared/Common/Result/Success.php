@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Shared\Common\Result;
+namespace Karting\Shared\Common\Result;
 
-use App\Shared\Common\DomainEvent;
-use App\Shared\Common\Result;
+use Karting\Shared\Common\DomainEvent;
+use Karting\Shared\Common\Result;
 use Illuminate\Support\Collection;
 
 final class Success extends Result

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Availability\Domain;
+namespace Karting\Availability\Domain;
 
 use Exception;
 

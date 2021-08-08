@@ -3,13 +3,12 @@
 declare(strict_types=1);
 
 
-namespace App\Availability\Domain;
+namespace Karting\Availability\Domain;
 
 use InvalidArgumentException;
 
 class Slots
 {
-    /** @var int */
     private int $slots;
 
     public function __construct(int $slots)

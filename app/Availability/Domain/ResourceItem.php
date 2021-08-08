@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Availability\Domain;
+namespace Karting\Availability\Domain;
 
-use App\Shared\Common\Result;
-use App\Shared\ResourceId;
+use Karting\Reservation\Domain\ReservationId;
+use Karting\Shared\Common\Result;
+use Karting\Shared\Common\UUID;
+use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
@@ -19,15 +21,15 @@ class ResourceItem extends Model
     protected $fillable = [
         'uuid',
         'slots',
-        'is_available',
+        'enabled',
     ];
 
     protected $casts = [
-        'is_available' => 'boolean'
+        'enabled' => 'boolean'
     ];
 
     protected $attributes = [
-        'is_available' => true
+        'enabled' => true
     ];
 
     public function __construct(array $attributes = [])
@@ -36,23 +38,23 @@ class ResourceItem extends Model
         $this->relations['reservations'] = new EloquentCollection();
     }
 
-    public static function of(ResourceId $id, Slots $slots, bool $available = true): ResourceItem
+    public static function of(ResourceId $id, Slots $slots, bool $enabled = true): ResourceItem
     {
         return new ResourceItem([
             'uuid' => $id->id()->toString(),
             'slots' => $slots->slots(),
-            'is_available' => $available
+            'enabled' => $enabled
         ]);
     }
 
     public function reservations(): HasMany
     {
-        return $this->hasMany(Reservation::class);
+        return $this->hasMany(Reservation::class, 'resource_item_id', 'uuid');
     }
 
-    public function reserve(CarbonPeriod $period): Result
+    public function reserve(CarbonPeriod $period, ReservationId $reservationId): Result
     {
-        if (!$this->isAvailable()) {
+        if (!$this->enabled()) {
             return Result::failure('ResourceItem unavailable');
         }
 
@@ -60,41 +62,34 @@ class ResourceItem extends Model
             return Result::failure('Cannot reserve in this period');
         }
 
-        $reservation = Reservation::of($period, $this->getId());
+        $reservation = Reservation::of($period, $this->getId(), $reservationId);
         $this->relations['reservations']->add($reservation);
 
         $events = new Collection([
-            ResourceReserved::newOne($this->getId(), $period)
+            ResourceReserved::newOne($this->getId(), $period, $reservationId->id())
+        ]);
+
+
+        return Result::success($events);
+    }
+
+    public function disable(): Result
+    {
+        $this->attributes['enabled'] = false;
+
+        $events = new Collection([
+            StateChanged::newOne($this->getId(), $this->attributes['enabled'])
         ]);
 
         return Result::success($events);
     }
 
-    public function withdraw(): Result
+    public function enable(): Result
     {
-        if (!$this->isAvailable()) {
-            return Result::failure('ResourceItem already withdrawn');
-        }
-
-        $this->attributes['is_available'] = false;
+        $this->attributes['enabled'] = true;
 
         $events = new Collection([
-            ResourceWithdrawn::newOne($this->getId())
-        ]);
-
-        return Result::success($events);
-    }
-
-    public function turnOn(): Result
-    {
-        if ($this->isAvailable()) {
-            return Result::failure('ResourceItem already turned on');
-        }
-
-        $this->attributes['is_available'] = true;
-
-        $events = new Collection([
-            ResourceTurnedOn::newOne($this->getId())
+            StateChanged::newOne($this->getId(), $this->attributes['enabled'])
         ]);
 
         return Result::success($events);
@@ -102,12 +97,12 @@ class ResourceItem extends Model
 
     public function getId(): ResourceId
     {
-        return ResourceId::of($this->attributes['uuid']);
+        return ResourceId::of((string)$this->attributes['uuid']);
     }
 
-    private function isAvailable(): bool
+    private function enabled(): bool
     {
-        return (bool)$this->attributes['is_available'];
+        return (bool)$this->attributes['enabled'];
     }
 
     private function isAvailableIn(CarbonPeriod $period): bool
@@ -115,7 +110,7 @@ class ResourceItem extends Model
         $slots = Slots::of((int)$this->attributes['slots']);
         $taken = $this->relations['reservations']
             ->filter(function (Reservation $reservation) use ($period): bool {
-                return $reservation->getPeriod()->overlaps($period);
+                return $reservation->period()->overlaps($period);
             })->count();
 
         return $slots->hasMoreThan($taken);

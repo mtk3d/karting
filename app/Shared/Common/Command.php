@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace App\Shared\Common;
+namespace Karting\Shared\Common;
 
 interface Command
 {

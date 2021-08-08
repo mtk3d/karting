@@ -4,24 +4,18 @@ declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('availability')->namespace('App\Availability\Infrastructure\Http')->group(function () {
-    Route::post('resources/{id}/reservations', 'ReservationController@reserve');
-    Route::patch('resources/{id}', 'AvailabilityController@changeResource');
-});
+Route::namespace('Karting\App\Http\Controller')->group(function () {
+    Route::prefix('kart')->group(function () {
+        Route::post('/', 'KartController@create');
+        Route::get('/', 'KartController@all');
+        Route::patch('/{id}/state', 'KartController@state')->whereUuid('id');
+        Route::get('/{id}/reservation', 'KartController@reservations')->whereUuid('id');
+    });
 
-Route::prefix('go-cart')->namespace('App\GoCart\Http')->group(function () {
-    Route::get('/all', 'GoCartInventoryController@all');
-    Route::get('/{id}/reservations', 'GoCartInventoryController@reservations');
-    Route::post('/', 'GoCartInventoryController@create');
-});
-
-Route::prefix('track')->namespace('App\Track\Http')->group(function () {
-    Route::get('/all', 'TrackInventoryController@all');
-    Route::get('/{id}/reservations', 'TrackInventoryController@reservations');
-    Route::post('/', 'TrackInventoryController@create');
-});
-
-Route::prefix('event')->namespace('App\Event\Http')->group(function () {
-    Route::get('/', 'EventController@show');
-    Route::post('/', 'EventController@create');
+    Route::prefix('track')->group(function () {
+        Route::post('/', 'TrackController@create');
+        Route::get('/', 'TrackController@all');
+        Route::patch('/{id}/state', 'KartController@state')->whereUuid('id');
+        Route::get('/{id}/reservation', 'TrackController@reservations')->whereUuid('id');
+    });
 });

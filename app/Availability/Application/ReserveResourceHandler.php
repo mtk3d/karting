@@ -3,23 +3,23 @@
 declare(strict_types=1);
 
 
-namespace App\Availability\Application;
+namespace Karting\Availability\Application;
 
-use App\Availability\Application\Command\ReserveResource;
-use App\Availability\Domain\ResourceItem;
-use App\Availability\Domain\ResourceRepository;
-use App\Availability\Domain\ResourceUnavailableException;
-use App\Shared\Common\DomainEventDispatcher;
+use Karting\Availability\Application\Command\ReserveResource;
+use Karting\Availability\Domain\ResourceItem;
+use Karting\Availability\Domain\ResourceRepository;
+use Karting\Availability\Domain\ResourceUnavailableException;
+use Karting\Shared\Common\DomainEventBus;
 
 class ReserveResourceHandler
 {
     private ResourceRepository $resourceRepository;
-    private DomainEventDispatcher $eventDispatcher;
+    private DomainEventBus $bus;
 
-    public function __construct(ResourceRepository $resourceRepository, DomainEventDispatcher $eventDispatcher)
+    public function __construct(ResourceRepository $resourceRepository, DomainEventBus $bus)
     {
         $this->resourceRepository = $resourceRepository;
-        $this->eventDispatcher = $eventDispatcher;
+        $this->bus = $bus;
     }
 
     /**
@@ -29,7 +29,7 @@ class ReserveResourceHandler
     {
         /** @var ResourceItem $resource */
         $resource = $this->resourceRepository->find($reserveResource->id());
-        $result = $resource->reserve($reserveResource->period());
+        $result = $resource->reserve($reserveResource->period(), $reserveResource->reservationId());
 
         if ($result->isFailure()) {
             throw new ResourceUnavailableException($result->reason());
@@ -37,6 +37,6 @@ class ReserveResourceHandler
 
         $this->resourceRepository->save($resource);
 
-        $result->events()->each([$this->eventDispatcher, 'dispatch']);
+        $result->events()->each([$this->bus, 'dispatch']);
     }
 }

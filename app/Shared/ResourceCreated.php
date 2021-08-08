@@ -3,29 +3,27 @@
 declare(strict_types=1);
 
 
-namespace App\Shared;
+namespace Karting\Shared;
 
-use App\Shared\Common\DomainEvent;
-use App\Shared\Common\UUID;
+use Karting\Shared\Common\DomainEvent;
+use Karting\Shared\Common\UUID;
 
 class ResourceCreated implements DomainEvent
 {
     private UUID $eventId;
     private ResourceId $resourceId;
     private int $slots;
-    private bool $isAvailable;
 
-    public function __construct(UUID $eventId, ResourceId $resourceId, int $slots, bool $isAvailable)
+    public function __construct(UUID $eventId, ResourceId $resourceId, int $slots)
     {
         $this->eventId = $eventId;
         $this->resourceId = $resourceId;
         $this->slots = $slots;
-        $this->isAvailable = $isAvailable;
     }
 
-    public static function newOne(ResourceId $resourceId, int $slots, bool $isAvailable): ResourceCreated
+    public static function newOne(ResourceId $resourceId, int $slots): ResourceCreated
     {
-        return new ResourceCreated(UUID::random(), $resourceId, $slots, $isAvailable);
+        return new ResourceCreated(UUID::random(), $resourceId, $slots);
     }
 
     public function eventId(): UUID
@@ -36,11 +34,6 @@ class ResourceCreated implements DomainEvent
     public function resourceId(): ResourceId
     {
         return $this->resourceId;
-    }
-
-    public function isAvailable(): bool
-    {
-        return $this->isAvailable;
     }
 
     public function slots(): int

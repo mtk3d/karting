@@ -2,18 +2,21 @@
 
 namespace Tests\Unit\Availability;
 
-use App\Availability\Application\Command\CreateResource;
-use App\Availability\Application\Command\TurnOnResource;
-use App\Availability\Application\Command\WithdrawResource;
-use App\Availability\Application\CreateResourceHandler;
-use App\Availability\Application\TurnOnResourceHandler;
-use App\Availability\Application\WithdrawResourceHandler;
-use App\Availability\Domain\ResourceTurnedOn;
-use App\Availability\Domain\ResourceUnavailableException;
-use App\Availability\Domain\ResourceWithdrawn;
-use App\Availability\Domain\Slots;
-use App\Availability\Infrastructure\Repository\InMemoryResourceRepository;
-use App\Shared\Common\InMemoryDomainEventDispatcher;
+use Karting\Availability\Application\Command\CreateResource;
+use Karting\Availability\Application\Command\SetState;
+use Karting\Availability\Application\Command\TurnOnResource;
+use Karting\Availability\Application\Command\WithdrawResource;
+use Karting\Availability\Application\CreateResourceHandler;
+use Karting\Availability\Application\SetStateHandler;
+use Karting\Availability\Application\TurnOnResourceHandler;
+use Karting\Availability\Application\WithdrawResourceHandler;
+use Karting\Availability\Domain\ResourceTurnedOn;
+use Karting\Availability\Domain\ResourceUnavailableException;
+use Karting\Availability\Domain\ResourceWithdrawn;
+use Karting\Availability\Domain\Slots;
+use Karting\Availability\Domain\StateChanged;
+use Karting\Availability\Infrastructure\Repository\InMemoryResourceRepository;
+use Karting\Shared\Common\InMemoryDomainEventBus;
 use PHPUnit\Framework\TestCase;
 use function Tests\Fixtures\aResource;
 use function Tests\Fixtures\aWithdrawnResource;
@@ -21,43 +24,41 @@ use function Tests\Fixtures\aWithdrawnResource;
 class AvailabilityTest extends TestCase
 {
     private InMemoryResourceRepository $resourceRepository;
-    private InMemoryDomainEventDispatcher $eventDispatcher;
+    private InMemoryDomainEventBus $eventDispatcher;
     private CreateResourceHandler $createResourceHandler;
-    private TurnOnResourceHandler $turnOnResourceHandler;
-    private WithdrawResourceHandler $withdrawResourceHandler;
+    private SetStateHandler $setStateHandler;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->resourceRepository = new InMemoryResourceRepository();
-        $this->eventDispatcher = new InMemoryDomainEventDispatcher();
+        $this->eventDispatcher = new InMemoryDomainEventBus();
 
         $this->createResourceHandler = new CreateResourceHandler($this->resourceRepository);
-        $this->turnOnResourceHandler = new TurnOnResourceHandler($this->resourceRepository, $this->eventDispatcher);
-        $this->withdrawResourceHandler = new WithdrawResourceHandler($this->resourceRepository, $this->eventDispatcher);
+        $this->setStateHandler = new SetStateHandler($this->resourceRepository, $this->eventDispatcher);
     }
 
     public function testCreateResource(): void
     {
         $resource = aResource();
-        $this->createResourceHandler->handle(new CreateResource($resource->getId(), Slots::of(1), true));
+        $this->createResourceHandler->handle(new CreateResource($resource->getId(), Slots::of(1)));
 
         self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
     }
 
-    public function testWithdrawResource(): void
+    public function testDisableResource(): void
     {
         // given
         $resource = aResource();
         $this->resourceRepository->save($resource);
 
         // when
-        $this->withdrawResourceHandler->handle(new WithdrawResource($resource->getId()));
+        $this->setStateHandler->handle(new SetState($resource->getId(), false));
 
         // then
         self::assertEquals(
-            new ResourceWithdrawn($this->eventDispatcher->first()->eventId(), $resource->getId()),
+            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->getId(), false),
             $this->eventDispatcher->first()
         );
 
@@ -65,48 +66,22 @@ class AvailabilityTest extends TestCase
         self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
     }
 
-    public function testWithdrawWithdrawnResource(): void
-    {
-        // given
-        $resource = aWithdrawnResource();
-        $this->resourceRepository->save($resource);
-
-        // should
-        self::expectExceptionObject(new ResourceUnavailableException('ResourceItem already withdrawn'));
-
-        // when
-        $this->withdrawResourceHandler->handle(new WithdrawResource($resource->getId()));
-    }
-
-    public function testTurnOnWithdrawnResource(): void
+    public function testEnableResource(): void
     {
         // given
         $resource = aWithdrawnResource();
         $this->resourceRepository->save($resource);
 
         // when
-        $this->turnOnResourceHandler->handle(new TurnOnResource($resource->getId()));
+        $this->setStateHandler->handle(new SetState($resource->getId(), true));
 
         // then
         self::assertEquals(
-            new ResourceTurnedOn($this->eventDispatcher->first()->eventId(), $resource->getId()),
+            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->getId(), true),
             $this->eventDispatcher->first()
         );
 
         $resource = aResource($resource->getId());
         self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
-    }
-
-    public function testTurnOnResource(): void
-    {
-        // given
-        $resource = aResource();
-        $this->resourceRepository->save($resource);
-
-        // should
-        self::expectExceptionObject(new ResourceUnavailableException('ResourceItem already turned on'));
-
-        // when
-        $this->turnOnResourceHandler->handle(new TurnOnResource($resource->getId()));
     }
 }
