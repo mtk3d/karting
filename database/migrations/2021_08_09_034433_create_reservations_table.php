@@ -15,11 +15,12 @@ class CreateReservationsTable extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->uuid('resource_item_id');
-            $table->uuid('reservation_id');
+            $table->uuid('uuid');
+            $table->json('karts')->nullable();
+            $table->json('track');
             $table->dateTime('from');
             $table->dateTime('to');
+            $table->boolean('confirmed')->default(false);
             $table->timestamps();
         });
     }

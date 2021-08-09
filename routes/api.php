@@ -18,4 +18,9 @@ Route::namespace('Karting\App\Http\Controller')->group(function () {
         Route::patch('/{id}/state', 'KartController@state')->whereUuid('id');
         Route::get('/{id}/reservation', 'TrackController@reservations')->whereUuid('id');
     });
+
+    Route::prefix('reservation')->group(function () {
+        Route::post('/', 'ReservationController@create');
+        Route::get('/', 'ReservationController@all');
+    });
 });

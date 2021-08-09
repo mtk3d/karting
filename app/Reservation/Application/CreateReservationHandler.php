@@ -28,7 +28,7 @@ class CreateReservationHandler
     {
         $reservation = Reservation::of(
             $createReservation->reservationId(),
-            $createReservation->kartIds()->map(fn (ResourceId $id): Kart => new Kart($id, false)),
+            $createReservation->kartIds()->map(fn (string $id): Kart => new Kart(ResourceId::of($id), false)),
             new Track($createReservation->trackId(), false),
             $createReservation->period()
         );

@@ -61,11 +61,11 @@ class ResourceItem extends Model
             return Result::failure('Cannot reserve in this period');
         }
 
-        $reservation = Reservation::of($period, $this->getId(), $reservationId);
+        $reservation = Reservation::of($period, $this->id(), $reservationId);
         $this->relations['reservations']->add($reservation);
 
         $events = new Collection([
-            ResourceReserved::newOne($this->getId(), $period, $reservationId)
+            ResourceReserved::newOne($this->id(), $period, $reservationId)
         ]);
 
 
@@ -77,7 +77,7 @@ class ResourceItem extends Model
         $this->attributes['enabled'] = false;
 
         $events = new Collection([
-            StateChanged::newOne($this->getId(), $this->attributes['enabled'])
+            StateChanged::newOne($this->id(), $this->attributes['enabled'])
         ]);
 
         return Result::success($events);
@@ -88,13 +88,13 @@ class ResourceItem extends Model
         $this->attributes['enabled'] = true;
 
         $events = new Collection([
-            StateChanged::newOne($this->getId(), $this->attributes['enabled'])
+            StateChanged::newOne($this->id(), $this->attributes['enabled'])
         ]);
 
         return Result::success($events);
     }
 
-    public function getId(): ResourceId
+    public function id(): ResourceId
     {
         return ResourceId::of((string)$this->attributes['uuid']);
     }

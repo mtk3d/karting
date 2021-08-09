@@ -45,17 +45,17 @@ class ReservationTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // when
-        $id = $resource->getId()->id()->toString();
+        $id = $resource->id()->id()->toString();
         $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->id()->toString());
         $this->reservationHandler->handle($reserveCommand);
 
         // then
         self::assertEquals(
-            new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reserveCommand->period(), $reservationId),
+            new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->id(), $reserveCommand->period(), $reservationId),
             $this->eventDispatcher->first()
         );
 
-        self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
+        self::assertEquals($resource, $this->resourceRepository->find($resource->id()));
     }
 
     public function succeedReservedDates(): array
@@ -78,7 +78,7 @@ class ReservationTest extends TestCase
 
         // when
         $reservationId = UUID::random()->toString();
-        $id = $resource->getId()->id()->toString();
+        $id = $resource->id()->id()->toString();
         $reserveCommand = ReserveResource::fromRaw($id, '2020-12-06 15:30', '2020-12-06 16:30', $reservationId);
         $this->reservationHandler->handle($reserveCommand);
     }
@@ -97,7 +97,7 @@ class ReservationTest extends TestCase
         self::expectExceptionObject(new ResourceUnavailableException('Cannot reserve in this period'));
 
         // when
-        $id = $resource->getId()->id()->toString();
+        $id = $resource->id()->id()->toString();
         $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId);
         $this->reservationHandler->handle($reserveCommand);
     }
@@ -124,7 +124,7 @@ class ReservationTest extends TestCase
         self::expectExceptionObject(new ResourceUnavailableException('Cannot reserve in this period'));
 
         // when
-        $id = $resource->getId()->id()->toString();
+        $id = $resource->id()->id()->toString();
         $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId);
         $this->reservationHandler->handle($reserveCommand);
     }
@@ -139,16 +139,16 @@ class ReservationTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // when
-        $id = $resource->getId()->id()->toString();
+        $id = $resource->id()->id()->toString();
         $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->id()->toString());
         $this->reservationHandler->handle($reserveCommand);
 
         // then
         self::assertEquals(
-            new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->getId(), $reserveCommand->period(), $reservationId),
+            new ResourceReserved($this->eventDispatcher->first()->eventId(), $resource->id(), $reserveCommand->period(), $reservationId),
             $this->eventDispatcher->first()
         );
 
-        self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
+        self::assertEquals($resource, $this->resourceRepository->find($resource->id()));
     }
 }

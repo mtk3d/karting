@@ -13,6 +13,10 @@ use Karting\Availability\Application\ReserveResourceHandler;
 use Karting\Availability\Application\SetStateHandler;
 use Karting\Kart\Application\Command\CreateKart;
 use Karting\Kart\Application\CreateKartHandler;
+use Karting\Reservation\Application\Command\ConfirmReservation;
+use Karting\Reservation\Application\Command\CreateReservation;
+use Karting\Reservation\Application\ConfirmReservationHandler;
+use Karting\Reservation\Application\CreateReservationHandler;
 use Karting\Shared\Common\CommandBus;
 use Karting\Track\Application\Command\CreateTrack;
 use Karting\Track\Application\CreateTrackHandler;
@@ -29,6 +33,8 @@ class CommandServiceProvider extends ServiceProvider
             CreateTrack::class => CreateTrackHandler::class,
             CreateKart::class => CreateKartHandler::class,
             SetState::class => SetStateHandler::class,
+            CreateReservation::class => CreateReservationHandler::class,
+            ConfirmReservation::class => ConfirmReservationHandler::class,
         ]);
     }
 }

@@ -6,7 +6,7 @@ namespace Karting\App\Http\Controller\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReserveRequest extends FormRequest
+class ReservationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,8 +26,11 @@ class ReserveRequest extends FormRequest
     public function rules()
     {
         return [
+            'uuid' => 'uuid',
+            'karts_ids.*' => 'uuid',
+            'track_id' => 'required|uuid',
             'from' => 'required|date',
-            'to' => 'required|date',
+            'to' => 'required|date'
         ];
     }
 }

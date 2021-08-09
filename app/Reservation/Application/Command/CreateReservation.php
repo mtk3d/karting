@@ -30,6 +30,16 @@ class CreateReservation implements Command
         $this->period = $period;
     }
 
+    public static function fromArray(array $payload): CreateReservation
+    {
+        return new CreateReservation(
+            ReservationId::of($payload['uuid']),
+            new Collection($payload['karts_ids']),
+            ResourceId::of($payload['track_id']),
+            new CarbonPeriod($payload['from'], $payload['to'])
+        );
+    }
+
     public function reservationId(): ReservationId
     {
         return $this->reservationId;
@@ -37,7 +47,7 @@ class CreateReservation implements Command
 
     public function kartIds(): Collection
     {
-        return $this->kartIds;
+        return $this->kartsIds;
     }
 
     public function trackId(): ResourceId

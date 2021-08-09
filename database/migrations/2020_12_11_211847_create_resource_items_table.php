@@ -29,6 +29,6 @@ class CreateResourceItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resources');
+        Schema::dropIfExists('resource_items');
     }
 }

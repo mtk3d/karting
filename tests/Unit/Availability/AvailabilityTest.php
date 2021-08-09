@@ -42,9 +42,9 @@ class AvailabilityTest extends TestCase
     public function testCreateResource(): void
     {
         $resource = aResource();
-        $this->createResourceHandler->handle(new CreateResource($resource->getId(), Slots::of(1)));
+        $this->createResourceHandler->handle(new CreateResource($resource->id(), Slots::of(1)));
 
-        self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
+        self::assertEquals($resource, $this->resourceRepository->find($resource->id()));
     }
 
     public function testDisableResource(): void
@@ -54,16 +54,16 @@ class AvailabilityTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // when
-        $this->setStateHandler->handle(new SetState($resource->getId(), false));
+        $this->setStateHandler->handle(new SetState($resource->id(), false));
 
         // then
         self::assertEquals(
-            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->getId(), false),
+            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->id(), false),
             $this->eventDispatcher->first()
         );
 
-        $resource = aWithdrawnResource($resource->getId());
-        self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
+        $resource = aWithdrawnResource($resource->id());
+        self::assertEquals($resource, $this->resourceRepository->find($resource->id()));
     }
 
     public function testEnableResource(): void
@@ -73,15 +73,15 @@ class AvailabilityTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // when
-        $this->setStateHandler->handle(new SetState($resource->getId(), true));
+        $this->setStateHandler->handle(new SetState($resource->id(), true));
 
         // then
         self::assertEquals(
-            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->getId(), true),
+            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->id(), true),
             $this->eventDispatcher->first()
         );
 
-        $resource = aResource($resource->getId());
-        self::assertEquals($resource, $this->resourceRepository->find($resource->getId()));
+        $resource = aResource($resource->id());
+        self::assertEquals($resource, $this->resourceRepository->find($resource->id()));
     }
 }

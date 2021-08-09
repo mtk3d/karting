@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateResourceReservationsReadModelTable extends Migration
+class CreateReservationsReadModelTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateResourceReservationsReadModelTable extends Migration
      */
     public function up()
     {
-        Schema::create('resource_reservations_read_model', function (Blueprint $table) {
+        Schema::create('reservations_read_model', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->uuid('resource_item_id');
+            $table->uuid('uuid');
+            $table->uuid('track_id');
             $table->dateTime('from');
             $table->dateTime('to');
+            $table->boolean('confirmed')->default(false);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateResourceReservationsReadModelTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('resource_reservations_read_model');
+        Schema::dropIfExists('reservations_read_model');
     }
 }

@@ -14,7 +14,7 @@ class ResourceReservedListener
         $to = $event->period()->getEndDate()->toDateTimeString();
 
         ResourceReservation::create([
-            'uuid' => $event->reservationId()->id()->toString(),
+            'uuid' => $event->eventId()->toString(),
             'from' => $from,
             'to' => $to,
             'resource_item_id' => $event->resourceId()->id()->toString()

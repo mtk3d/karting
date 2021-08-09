@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reservation extends Model
 {
+    protected $table = 'resource_reservations';
+
     protected $fillable = [
         'uuid',
         'from',

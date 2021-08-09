@@ -19,7 +19,7 @@ class ReservationCreatedListener
             'confirmed' => false
         ]);
 
-        $karts = Kart::whereIn('uuid', $reservationCreated->karts());
+        $karts = Kart::whereIn('uuid', $reservationCreated->karts())->get();
 
         $reservation->karts()->attach($karts);
     }

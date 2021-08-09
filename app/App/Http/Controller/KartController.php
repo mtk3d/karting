@@ -19,7 +19,6 @@ use Karting\Shared\ResourceId;
 
 class KartController extends Controller
 {
-    /** @var CommandBus */
     private CommandBus $bus;
 
     public function __construct(CommandBus $bus)

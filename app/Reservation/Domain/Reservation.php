@@ -51,7 +51,7 @@ class Reservation extends Model
         $this->attributes['confirmed'] = true;
 
         $events = new Collection([
-            ReservationConfirmed::newOne($this->attributes['uuid'])
+            ReservationConfirmed::newOne(ReservationId::of($this->attributes['uuid']))
         ]);
 
         return Result::success($events);
@@ -96,7 +96,17 @@ class Reservation extends Model
     {
         $track = $this->track();
         $track->reserve();
-        $this->attributes['karts'] = json_encode($track);
+        $this->attributes['track'] = json_encode($track);
+    }
+
+    public function trackReserved(): bool
+    {
+        return $this->track()->reserved();
+    }
+
+    public function confirmed(): bool
+    {
+        return (bool)$this->attributes['confirmed'];
     }
 
     public function period(): CarbonPeriod

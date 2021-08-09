@@ -12,6 +12,8 @@ use Karting\App\ReadModel\Track\Track;
 
 class Reservation extends Model
 {
+    protected $table = 'reservations_read_model';
+
     protected $fillable = [
         'uuid',
         'track_id',
@@ -24,6 +26,11 @@ class Reservation extends Model
         'confirmed' => 'boolean'
     ];
 
+    protected $with = [
+        'track',
+        'karts'
+    ];
+
     public function track(): HasOne
     {
         return $this->hasOne(Track::class, 'uuid', 'track_id');
@@ -31,6 +38,13 @@ class Reservation extends Model
 
     public function karts(): BelongsToMany
     {
-        return $this->belongsToMany(Kart::class);
+        return $this->belongsToMany(
+            Kart::class,
+            'reservation_kart_read_model',
+            'reservation_id',
+            'kart_id',
+            'uuid',
+            'uuid'
+        );
     }
 }

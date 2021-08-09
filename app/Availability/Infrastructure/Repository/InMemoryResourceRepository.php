@@ -26,6 +26,6 @@ class InMemoryResourceRepository implements ResourceRepository
 
     public function save(ResourceItem $resource): void
     {
-        $this->reservations->put((string)$resource->getId(), $resource);
+        $this->reservations->put((string)$resource->id(), $resource);
     }
 }

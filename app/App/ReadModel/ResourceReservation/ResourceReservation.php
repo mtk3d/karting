@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ResourceReservation extends Model
 {
-    protected $table = 'reservations_read_model';
+    protected $table = 'resource_reservations_read_model';
 
     protected $fillable = [
         'uuid',
         'from',
         'to',
         'resource_item_id',
+        'reservation_id'
     ];
 }
