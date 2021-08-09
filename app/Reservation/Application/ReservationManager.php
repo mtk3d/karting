@@ -26,9 +26,9 @@ class ReservationManager
 
     public function handleReservationCrated(ReservationCreated $reservationCreated): void
     {
-        $res = $this->repository->find($reservationCreated->reservationId());
-        $res->karts()
-            ->map(fn (Kart $kart): ReserveResource => new ReserveResource($kart->resourceId(), $res->period(), $res->id()))
+        $reservation = $this->repository->find($reservationCreated->reservationId());
+        $reservation->karts()
+            ->map(fn (Kart $kart): ReserveResource => new ReserveResource($kart->resourceId(), $reservation->period(), $reservation->id()))
             ->push(new ReserveResource($reservationCreated->track(), $reservationCreated->period(), $reservationCreated->reservationId()))
             ->each([$this->bus, 'dispatch']);
     }

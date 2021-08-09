@@ -56,7 +56,7 @@ class ReservationTest extends TestCase
         $dispatchedCommands = $this->bus->dispatchedCommands();
 
         // This part has a problem because of PHP bug
-//        self::assertContainsEquals(new ReserveResource($kartId, $period), $dispatchedCommands);
+        // self::assertContainsEquals(new ReserveResource($kartId, $period), $dispatchedCommands);
         self::assertTrue($dispatchedCommands
                 ->filter(fn ($item): bool => $item instanceof ConfirmReservation ? false : $firstKart->resourceId()->isEqual($item->id()))
                 ->count() === 1);
