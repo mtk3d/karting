@@ -6,7 +6,7 @@ declare(strict_types=1);
 namespace Karting\App\Provider;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Karting\App\EventLogListener;
+use Karting\App\Listener\EventLogListener;
 
 class EventServiceProvider extends ServiceProvider
 {
