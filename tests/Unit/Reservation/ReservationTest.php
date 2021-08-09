@@ -49,9 +49,9 @@ class ReservationTest extends TestCase
         $this->reservationRepository->save($reservation);
 
         $this->reservationManager->handleReservationCrated(ReservationCreated::newOne($reservationId, $karts->map(fn (Kart $k) => $k->resourceId()), $track->resourceId(), $period));
-        $this->reservationManager->handleKartReserved(ResourceReserved::newOne($firstKart->resourceId(), $period, $reservationId));
-        $this->reservationManager->handleKartReserved(ResourceReserved::newOne($secondKart->resourceId(), $period, $reservationId));
-        $this->reservationManager->handleTrackReserved(ResourceReserved::newOne($track->resourceId(), $period, $reservationId));
+        $this->reservationManager->handleResourceReserved(ResourceReserved::newOne($firstKart->resourceId(), $period, $reservationId));
+        $this->reservationManager->handleResourceReserved(ResourceReserved::newOne($secondKart->resourceId(), $period, $reservationId));
+        $this->reservationManager->handleResourceReserved(ResourceReserved::newOne($track->resourceId(), $period, $reservationId));
 
         $dispatchedCommands = $this->bus->dispatchedCommands();
 
