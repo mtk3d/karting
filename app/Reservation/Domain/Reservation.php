@@ -68,40 +68,11 @@ class Reservation extends Model
         return $karts->map(fn (array $payload): Kart => Kart::fromArray($payload));
     }
 
-    public function reserveKart(ResourceId $resourceId)
-    {
-        $karts = $this->karts()
-            ->map(function (Kart $kart) use ($resourceId): Kart {
-                if ($kart->resourceId()->isEqual($resourceId)) {
-                    $kart->reserve();
-                }
-
-                return $kart;
-            });
-
-        $this->attributes['karts'] = json_encode($karts->toArray());
-    }
-
-    public function kartsReserved(): bool
-    {
-        return 0 === $this->karts()->filter(fn (Kart $kart): bool => !$kart->reserved())->count();
-    }
-
-    public function trackId(): ResourceId
-    {
-        return $this->track()->resourceId();
-    }
-
     public function reserveTrack()
     {
         $track = $this->track();
         $track->reserve();
         $this->attributes['track'] = json_encode($track);
-    }
-
-    public function trackReserved(): bool
-    {
-        return $this->track()->reserved();
     }
 
     public function confirmed(): bool
@@ -117,5 +88,37 @@ class Reservation extends Model
     private function track(): Track
     {
         return Track::fromArray(json_decode($this->attributes['track'], true));
+    }
+
+    public function updateProgress(ResourceId $resourceId): void
+    {
+        $karts = $this->karts();
+        if ($karts->contains(new Kart($resourceId, false))) {
+            $karts = $karts->map(function (Kart $kart) use ($resourceId): Kart {
+                if ($kart->resourceId()->isEqual($resourceId)) {
+                    $kart->reserve();
+                }
+
+                return $kart;
+            });
+
+            $this->attributes['karts'] = json_encode($karts->toArray());
+        }
+
+        $track = $this->track();
+        if ($track->resourceId()->isEqual($resourceId)) {
+            $track->reserve();
+            $this->attributes['track'] = json_encode($track);
+        }
+    }
+
+    public function finished(): bool
+    {
+        return $this->track()->reserved() && $this->kartsReserved();
+    }
+
+    private function kartsReserved(): bool
+    {
+        return 0 === $this->karts()->filter(fn (Kart $kart): bool => !$kart->reserved())->count();
     }
 }

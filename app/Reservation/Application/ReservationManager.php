@@ -29,32 +29,19 @@ class ReservationManager
         $res = $this->repository->find($reservationCreated->reservationId());
         $res->karts()
             ->map(fn (Kart $kart): ReserveResource => new ReserveResource($kart->resourceId(), $res->period(), $res->id()))
+            ->push(new ReserveResource($reservationCreated->track(), $reservationCreated->period(), $reservationCreated->reservationId()))
             ->each([$this->bus, 'dispatch']);
-
-        $this->bus->dispatch(
-            new ReserveResource($reservationCreated->track(), $reservationCreated->period(), $reservationCreated->reservationId())
-        );
     }
 
     public function handleResourceReserved(ResourceReserved $resourceReserved): void
     {
-        $resourceId = $resourceReserved->resourceId();
         $reservation = $this->repository->find($resourceReserved->reservationId());
 
-        if (!$reservation->kartsReserved() && $reservation->karts()->contains(new Kart($resourceId, false))) {
-            $reservation->reserveKart($resourceId);
-            $this->repository->save($reservation);
-        }
+        $reservation->updateProgress($resourceReserved->resourceId());
+        $this->repository->save($reservation);
 
-        if ($reservation->trackId()->isEqual($resourceReserved->resourceId()) && !$reservation->trackReserved()) {
-            $reservation->reserveTrack();
-            $this->repository->save($reservation);
-        }
-
-        if ($reservation->kartsReserved() && $reservation->trackReserved() && !$reservation->confirmed()) {
-            $this->bus->dispatch(
-                new ConfirmReservation($reservation->id())
-            );
+        if ($reservation->finished() && !$reservation->confirmed()) {
+            $this->bus->dispatch(new ConfirmReservation($reservation->id()));
         }
     }
 
