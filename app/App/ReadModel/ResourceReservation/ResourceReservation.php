@@ -17,4 +17,8 @@ class ResourceReservation extends Model
         'resource_item_id',
         'reservation_id'
     ];
+
+    protected $hidden = [
+        'id',
+    ];
 }

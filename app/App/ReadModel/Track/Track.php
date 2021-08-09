@@ -25,6 +25,10 @@ class Track extends Model
         'enabled' => 'boolean'
     ];
 
+    protected $hidden = [
+        'id',
+    ];
+
     public function reservations(): HasMany
     {
         return $this->hasMany(ResourceReservation::class, 'resource_item_id', 'uuid');

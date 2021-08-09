@@ -31,6 +31,10 @@ class Reservation extends Model
         'karts'
     ];
 
+    protected $hidden = [
+        'id',
+    ];
+
     public function track(): HasOne
     {
         return $this->hasOne(Track::class, 'uuid', 'track_id');

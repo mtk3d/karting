@@ -23,6 +23,11 @@ class Kart extends Model
         'enabled' => 'boolean'
     ];
 
+    protected $hidden = [
+        'id',
+        'pivot'
+    ];
+
     public function reservations(): HasMany
     {
         return $this->hasMany(ResourceReservation::class, 'resource_item_id', 'uuid');
