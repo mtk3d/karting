@@ -8,22 +8,22 @@ use Karting\Shared\Common\DomainEvent;
 use Karting\Shared\Common\UUID;
 use Karting\Shared\ResourceId;
 
-class StateChanged implements DomainEvent
+class SlotsUpdated implements DomainEvent
 {
     private UUID $id;
     private ResourceId $resourceId;
-    private bool $enabled;
+    private int $slots;
 
-    public function __construct(UUID $id, ResourceId $resourceId, bool $enabled)
+    public function __construct(UUID $id, ResourceId $resourceId, int $slots)
     {
         $this->id = $id;
         $this->resourceId = $resourceId;
-        $this->enabled = $enabled;
+        $this->slots = $slots;
     }
 
-    public static function newOne(ResourceId $resourceId, bool $enabled): self
+    public static function newOne(ResourceId $resourceId, int $slots): self
     {
-        return new self(UUID::random(), $resourceId, $enabled);
+        return new self(UUID::random(), $resourceId, $slots);
     }
 
     public function eventId(): UUID
@@ -36,8 +36,8 @@ class StateChanged implements DomainEvent
         return $this->resourceId;
     }
 
-    public function enabled(): bool
+    public function slots(): int
     {
-        return $this->enabled;
+        return $this->slots;
     }
 }

@@ -77,7 +77,7 @@ class ResourceItem extends Model
         $this->attributes['enabled'] = false;
 
         $events = new Collection([
-            StateChanged::newOne($this->id(), (int)$this->attributes['slots'], $this->attributes['enabled'])
+            StateChanged::newOne($this->id(), $this->attributes['enabled'])
         ]);
 
         return Result::success($events);
@@ -88,7 +88,7 @@ class ResourceItem extends Model
         $this->attributes['enabled'] = true;
 
         $events = new Collection([
-            StateChanged::newOne($this->id(), (int)$this->attributes['slots'], $this->attributes['enabled'])
+            StateChanged::newOne($this->id(), $this->attributes['enabled'])
         ]);
 
         return Result::success($events);
@@ -113,5 +113,16 @@ class ResourceItem extends Model
             })->count();
 
         return $slots->hasMoreThan($taken);
+    }
+
+    public function setSlots(int $slots): Result
+    {
+        $this->attributes['slots'] = $slots;
+
+        $events = new Collection([
+            SlotsUpdated::newOne($this->id(), (int)$this->attributes['slots'])
+        ]);
+
+        return Result::success($events);
     }
 }

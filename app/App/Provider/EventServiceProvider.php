@@ -30,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
             \Karting\App\ReadModel\Kart\StateChangedListener::class,
             \Karting\App\ReadModel\Track\StateChangedListener::class,
         ],
+        \Karting\Availability\Domain\SlotsUpdated::class => [
+            \Karting\App\ReadModel\Track\SlotsUpdatedListener::class,
+        ],
         \Karting\Reservation\Domain\ReservationCreated::class => [
             \Karting\App\ReadModel\Reservation\ReservationCreatedListener::class,
             \Karting\Pricing\Infrastructure\Listener\ReservationCreatedListener::class,

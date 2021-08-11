@@ -51,7 +51,7 @@ class AvailabilityTest extends TestCase
 
         // then
         self::assertEquals(
-            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->id(), 1, false),
+            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->id(), false),
             $this->eventDispatcher->first()
         );
 
@@ -70,7 +70,7 @@ class AvailabilityTest extends TestCase
 
         // then
         self::assertEquals(
-            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->id(), 1, true),
+            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->id(), true),
             $this->eventDispatcher->first()
         );
 

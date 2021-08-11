@@ -8,6 +8,7 @@ namespace Karting\Availability\Application;
 use Karting\Availability\Application\Command\CreateResource;
 use Karting\Availability\Domain\ResourceItem;
 use Karting\Availability\Domain\ResourceRepository;
+use Karting\Availability\Domain\SlotsUpdated;
 use Karting\Availability\Domain\StateChanged;
 use Karting\Shared\Common\DomainEventBus;
 
@@ -32,6 +33,8 @@ class CreateResourceHandler
 
         $this->resourceRepository->save($resource);
 
-        $this->bus->dispatch(StateChanged::newOne($createResource->id(), $createResource->slots()->slots(), $createResource->enabled()));
+        $id = $createResource->id();
+        $this->bus->dispatch(StateChanged::newOne($id, $createResource->enabled()));
+        $this->bus->dispatch(SlotsUpdated::newOne($id, $createResource->slots()->slots()));
     }
 }
