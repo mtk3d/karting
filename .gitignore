@@ -16,3 +16,4 @@ yarn-error.log
 infection.log
 /supervisord.log
 /supervisord.pid
+/storage/framework/
