@@ -9,13 +9,8 @@ use Karting\Shared\ResourceId;
 
 class ResourceItem implements JsonSerializable
 {
-    private ResourceId $resourceId;
-    private bool $reserved;
-
-    public function __construct(ResourceId $resourceId, bool $reserved)
+    public function __construct(private ResourceId $resourceId, private bool $reserved)
     {
-        $this->resourceId = $resourceId;
-        $this->reserved = $reserved;
     }
 
     public function resourceId(): ResourceId

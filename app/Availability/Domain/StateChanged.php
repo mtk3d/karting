@@ -10,15 +10,8 @@ use Karting\Shared\ResourceId;
 
 class StateChanged implements DomainEvent
 {
-    private UUID $id;
-    private ResourceId $resourceId;
-    private bool $enabled;
-
-    public function __construct(UUID $id, ResourceId $resourceId, bool $enabled)
+    public function __construct(private UUID $id, private ResourceId $resourceId, private bool $enabled)
     {
-        $this->id = $id;
-        $this->resourceId = $resourceId;
-        $this->enabled = $enabled;
     }
 
     public static function newOne(ResourceId $resourceId, bool $enabled): self

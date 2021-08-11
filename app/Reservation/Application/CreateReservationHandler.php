@@ -15,16 +15,11 @@ use Karting\Shared\ResourceId;
 
 class CreateReservationHandler
 {
-    private ReservationRepository $repository;
-    private DomainEventBus $bus;
-
-    public function __construct(ReservationRepository $repository, DomainEventBus $bus)
+    public function __construct(private ReservationRepository $repository, private DomainEventBus $bus)
     {
-        $this->repository = $repository;
-        $this->bus = $bus;
     }
 
-    public function handle(CreateReservation $createReservation)
+    public function handle(CreateReservation $createReservation): void
     {
         $reservation = Reservation::of(
             $createReservation->reservationId(),

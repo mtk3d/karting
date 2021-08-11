@@ -10,14 +10,10 @@ use Illuminate\Support\Collection;
 
 final class Success extends Result
 {
-    /** @var Collection<int, DomainEvent> */
-    protected $events;
-
     /**
      * @param Collection<int, DomainEvent> $events
      */
-    public function __construct(Collection $events)
+    public function __construct(protected Collection $events)
     {
-        $this->events = $events;
     }
 }

@@ -9,13 +9,10 @@ use Karting\Shared\ResourceId;
 
 class SetState implements Command
 {
-    private ResourceId $id;
-    private bool $enabled;
-
-    public function __construct(ResourceId $id, bool $enabled)
-    {
-        $this->id = $id;
-        $this->enabled = $enabled;
+    public function __construct(
+        private ResourceId $id,
+        private bool $enabled
+    ) {
     }
 
     public function id(): ResourceId

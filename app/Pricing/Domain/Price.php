@@ -8,11 +8,8 @@ use JsonSerializable;
 
 class Price implements JsonSerializable
 {
-    private float $value;
-
-    public function __construct(float $value)
+    public function __construct(private float $value)
     {
-        $this->value = $value;
     }
 
     public static function fromArray(array $payload): Price

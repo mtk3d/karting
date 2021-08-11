@@ -13,11 +13,8 @@ use Karting\Shared\Common\CommandBus;
 
 class ReservationController
 {
-    private CommandBus $bus;
-
-    public function __construct(CommandBus $bus)
+    public function __construct(private CommandBus $bus)
     {
-        $this->bus = $bus;
     }
 
     public function create(ReservationRequest $request): Response

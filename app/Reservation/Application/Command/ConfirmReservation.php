@@ -9,11 +9,8 @@ use Karting\Shared\ReservationId;
 
 class ConfirmReservation implements Command
 {
-    private ReservationId $reservationId;
-
-    public function __construct(ReservationId $reservationId)
+    public function __construct(private ReservationId $reservationId)
     {
-        $this->reservationId = $reservationId;
     }
 
     public function reservationId(): ReservationId

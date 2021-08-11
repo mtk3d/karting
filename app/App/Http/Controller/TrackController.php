@@ -23,11 +23,8 @@ use Karting\Track\Application\Command\CreateTrack;
 
 class TrackController extends Controller
 {
-    private CommandBus $bus;
-
-    public function __construct(CommandBus $bus)
+    public function __construct(private CommandBus $bus)
     {
-        $this->bus = $bus;
     }
 
     public function create(TrackRequest $request): Response

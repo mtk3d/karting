@@ -14,13 +14,8 @@ use Karting\Track\TrackCreated;
 
 class CreateTrackHandler
 {
-    private TrackCatalog $catalog;
-    private DomainEventBus $bus;
-
-    public function __construct(TrackCatalog $catalog, DomainEventBus $bus)
+    public function __construct(private TrackCatalog $catalog, private DomainEventBus $bus)
     {
-        $this->catalog = $catalog;
-        $this->bus = $bus;
     }
 
     public function handle(CreateTrack $createTrack): void

@@ -13,20 +13,8 @@ use Karting\Shared\ResourceId;
 
 class ReservationCreated implements DomainEvent
 {
-    private UUID $id;
-    private ReservationId $reservationId;
-    /** @var Collection<int, ResourceId> */
-    private Collection $karts;
-    private ResourceId $track;
-    private CarbonPeriod $period;
-
-    public function __construct(UUID $id, ReservationId $reservationId, Collection $karts, ResourceId $track, CarbonPeriod $period)
+    public function __construct(private UUID $id, private ReservationId $reservationId, private Collection $karts, private ResourceId $track, private CarbonPeriod $period)
     {
-        $this->id = $id;
-        $this->reservationId = $reservationId;
-        $this->karts = $karts;
-        $this->track = $track;
-        $this->period = $period;
     }
 
     public static function newOne(ReservationId $reservationId, Collection $karts, ResourceId $track, CarbonPeriod $period): self

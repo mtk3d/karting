@@ -10,13 +10,8 @@ use Karting\Shared\ReservationId;
 
 class ReservationConfirmed implements DomainEvent
 {
-    private UUID $id;
-    private ReservationId $reservationId;
-
-    public function __construct(UUID $id, ReservationId $reservationId)
+    public function __construct(private UUID $id, private ReservationId $reservationId)
     {
-        $this->id = $id;
-        $this->reservationId = $reservationId;
     }
 
     public static function newOne(ReservationId $reservationId): self

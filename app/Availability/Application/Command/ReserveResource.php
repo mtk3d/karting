@@ -12,15 +12,11 @@ use Carbon\CarbonPeriod;
 
 class ReserveResource implements Command
 {
-    private ResourceId $id;
-    private CarbonPeriod $period;
-    private ReservationId $reservationId;
-
-    public function __construct(ResourceId $id, CarbonPeriod $period, ReservationId $reservationId)
-    {
-        $this->id = $id;
-        $this->period = $period;
-        $this->reservationId = $reservationId;
+    public function __construct(
+        private ResourceId $id,
+        private CarbonPeriod $period,
+        private ReservationId $reservationId
+    ) {
     }
 
     public static function fromRaw(string $id, string $from, string $to, string $reservationId): ReserveResource

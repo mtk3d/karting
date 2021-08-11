@@ -9,15 +9,8 @@ use Karting\Shared\Common\UUID;
 
 class PriceSet implements DomainEvent
 {
-    private UUID $id;
-    private UUID $itemId;
-    private float $price;
-
-    public function __construct(UUID $id, UUID $itemId, float $price)
+    public function __construct(private UUID $id, private UUID $itemId, private float $price)
     {
-        $this->id = $id;
-        $this->itemId = $itemId;
-        $this->price = $price;
     }
 
     public static function newOne(UUID $id, float $price): self

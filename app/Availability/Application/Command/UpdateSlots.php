@@ -9,13 +9,10 @@ use Karting\Shared\ResourceId;
 
 class UpdateSlots implements Command
 {
-    private ResourceId $id;
-    private int $slots;
-
-    public function __construct(ResourceId $id, int $slots)
-    {
-        $this->id = $id;
-        $this->slots = $slots;
+    public function __construct(
+        private ResourceId $id,
+        private int $slots
+    ) {
     }
 
     public function id(): ResourceId

@@ -8,7 +8,7 @@
     ],
     "license": "MIT",
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "carbon-cli/carbon-cli": "^1.2",
         "fideloper/proxy": "^4.4",
         "friendsofphp/php-cs-fixer": "^2.18",
@@ -71,12 +71,15 @@
             "@php artisan test"
         ],
         "code-quality": [
-            "psalm --no-cache",
+            "psalm",
             "php-cs-fixer fix -v --dry-run --show-progress=dots"
         ],
         "check": [
             "@test",
             "@code-quality"
+        ],
+        "cs-fix": [
+            "php-cs-fixer fix -v --show-progress=dots"
         ]
     }
 }

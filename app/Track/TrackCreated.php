@@ -9,17 +9,8 @@ use Karting\Shared\Common\UUID;
 
 class TrackCreated implements DomainEvent
 {
-    private UUID $eventId;
-    private UUID $id;
-    private string $name;
-    private string $description;
-
-    public function __construct(UUID $eventId, UUID $id, string $name, string $description)
+    public function __construct(private UUID $eventId, private UUID $id, private string $name, private string $description)
     {
-        $this->eventId = $eventId;
-        $this->id = $id;
-        $this->name = $name;
-        $this->description = $description;
     }
 
     public static function newOne(UUID $resourceId, string $name, string $description): TrackCreated

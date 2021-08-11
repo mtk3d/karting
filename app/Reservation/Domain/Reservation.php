@@ -68,7 +68,7 @@ class Reservation extends Model
         return $karts->map(fn (array $payload): Kart => Kart::fromArray($payload));
     }
 
-    public function reserveTrack()
+    public function reserveTrack(): void
     {
         $track = $this->track();
         $track->reserve();

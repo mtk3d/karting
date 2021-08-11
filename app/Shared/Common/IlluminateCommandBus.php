@@ -9,11 +9,8 @@ use Illuminate\Bus\Dispatcher;
 
 class IlluminateCommandBus implements CommandBus
 {
-    private Dispatcher $bus;
-
-    public function __construct(Dispatcher $bus)
+    public function __construct(private Dispatcher $bus)
     {
-        $this->bus = $bus;
     }
 
     public function dispatch(Command $command)

@@ -14,13 +14,8 @@ use Karting\Shared\Common\UUID;
 
 class ReservationCreatedListener
 {
-    private EloquentPricedItemRepository $repository;
-    private DomainEventBus $bus;
-
-    public function __construct(EloquentPricedItemRepository $repository, DomainEventBus $bus)
+    public function __construct(private EloquentPricedItemRepository $repository, private DomainEventBus $bus)
     {
-        $this->repository = $repository;
-        $this->bus = $bus;
     }
 
     public function handle(ReservationCreated $reservationCreated): void

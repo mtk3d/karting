@@ -10,15 +10,8 @@ use Karting\Shared\Common\UUID;
 
 class ResourceCreated implements DomainEvent
 {
-    private UUID $eventId;
-    private ResourceId $resourceId;
-    private int $slots;
-
-    public function __construct(UUID $eventId, ResourceId $resourceId, int $slots)
+    public function __construct(private UUID $eventId, private ResourceId $resourceId, private int $slots)
     {
-        $this->eventId = $eventId;
-        $this->resourceId = $resourceId;
-        $this->slots = $slots;
     }
 
     public static function newOne(ResourceId $resourceId, int $slots): ResourceCreated

@@ -8,11 +8,8 @@ use Karting\Shared\Common\UUID;
 
 class ReservationId
 {
-    private UUID $id;
-
-    public function __construct(UUID $id)
+    public function __construct(private UUID $id)
     {
-        $this->id = $id;
     }
 
     public static function of(string $id): ReservationId

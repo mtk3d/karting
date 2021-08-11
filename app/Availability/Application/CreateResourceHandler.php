@@ -14,13 +14,10 @@ use Karting\Shared\Common\DomainEventBus;
 
 class CreateResourceHandler
 {
-    private ResourceRepository $resourceRepository;
-    private DomainEventBus $bus;
-
-    public function __construct(ResourceRepository $resourceRepository, DomainEventBus $bus)
-    {
-        $this->resourceRepository = $resourceRepository;
-        $this->bus = $bus;
+    public function __construct(
+        private ResourceRepository $resourceRepository,
+        private DomainEventBus $bus
+    ) {
     }
 
     public function handle(CreateResource $createResource): void

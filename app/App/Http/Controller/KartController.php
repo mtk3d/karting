@@ -22,11 +22,8 @@ use Karting\Shared\ResourceId;
 
 class KartController extends Controller
 {
-    private CommandBus $bus;
-
-    public function __construct(CommandBus $bus)
+    public function __construct(private CommandBus $bus)
     {
-        $this->bus = $bus;
     }
 
     public function create(KartRequest $request): Response

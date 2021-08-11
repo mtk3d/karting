@@ -11,13 +11,8 @@ use Karting\Shared\Common\DomainEventBus;
 
 class SetStateHandler
 {
-    private ResourceRepository $resourceRepository;
-    private DomainEventBus $bus;
-
-    public function __construct(ResourceRepository $resourceRepository, DomainEventBus $bus)
+    public function __construct(private ResourceRepository $resourceRepository, private DomainEventBus $bus)
     {
-        $this->resourceRepository = $resourceRepository;
-        $this->bus = $bus;
     }
 
     public function handle(SetState $setState): void

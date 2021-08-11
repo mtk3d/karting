@@ -15,13 +15,8 @@ use Karting\Shared\Common\CommandBus;
 
 class ReservationManager
 {
-    private ReservationRepository $repository;
-    private CommandBus $bus;
-
-    public function __construct(ReservationRepository $repository, CommandBus $bus)
+    public function __construct(private ReservationRepository $repository, private CommandBus $bus)
     {
-        $this->repository = $repository;
-        $this->bus = $bus;
     }
 
     public function handleReservationCrated(ReservationCreated $reservationCreated): void
@@ -45,7 +40,7 @@ class ReservationManager
         }
     }
 
-    public function subscribe($events)
+    public function subscribe($events): void
     {
         $events->listen(
             ReservationCreated::class,

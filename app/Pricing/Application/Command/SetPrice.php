@@ -9,13 +9,8 @@ use Karting\Shared\Common\UUID;
 
 class SetPrice implements Command
 {
-    private UUID $id;
-    private float $price;
-
-    public function __construct(UUID $id, float $price)
+    public function __construct(private UUID $id, private float $price)
     {
-        $this->id = $id;
-        $this->price = $price;
     }
 
     public function id(): UUID

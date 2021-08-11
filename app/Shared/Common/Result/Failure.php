@@ -8,10 +8,7 @@ use Karting\Shared\Common\Result;
 
 final class Failure extends Result
 {
-    protected string $reason;
-
-    public function __construct(string $reason)
+    public function __construct(protected string $reason)
     {
-        $this->reason = $reason;
     }
 }

@@ -11,15 +11,11 @@ use Karting\Shared\ResourceId;
 
 class CreateResource implements Command
 {
-    private ResourceId $id;
-    private Slots $slots;
-    private bool $enabled;
-
-    public function __construct(ResourceId $id, Slots $slots, bool $enabled)
-    {
-        $this->id = $id;
-        $this->slots = $slots;
-        $this->enabled = $enabled;
+    public function __construct(
+        private ResourceId $id,
+        private Slots $slots,
+        private bool $enabled
+    ) {
     }
 
     public function id(): ResourceId
