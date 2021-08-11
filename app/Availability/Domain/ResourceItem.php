@@ -54,7 +54,7 @@ class ResourceItem extends Model
     public function reserve(CarbonPeriod $period, ReservationId $reservationId): Result
     {
         if (!$this->enabled()) {
-            return Result::failure('ResourceItem unavailable');
+            return Result::failure('PricedItem unavailable');
         }
 
         if (!$this->isAvailableIn($period)) {

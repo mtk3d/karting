@@ -16,7 +16,8 @@ class Kart extends Model
         'uuid',
         'name',
         'description',
-        'enabled'
+        'enabled',
+        'price'
     ];
 
     protected $casts = [
@@ -25,7 +26,9 @@ class Kart extends Model
 
     protected $hidden = [
         'id',
-        'pivot'
+        'pivot',
+        'created_at',
+        'updated_at',
     ];
 
     public function reservations(): HasMany

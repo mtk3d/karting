@@ -74,7 +74,7 @@ class ReservationTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // should
-        self::expectExceptionObject(new ResourceUnavailableException('ResourceItem unavailable'));
+        self::expectExceptionObject(new ResourceUnavailableException('PricedItem unavailable'));
 
         // when
         $reservationId = UUID::random()->toString();

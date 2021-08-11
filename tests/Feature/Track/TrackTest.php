@@ -26,7 +26,8 @@ class TrackTest extends TestCase
                 'name' => 'Track 01',
                 'description' => 'Super slow track',
                 'enabled' => false,
-                'slots' => 8
+                'slots' => 8,
+                'price' => 10
             ]
         ]);
 
@@ -75,7 +76,8 @@ class TrackTest extends TestCase
             'name' => 'Track 01',
             'description' => 'Super slow track',
             'enabled' => true,
-            'slots' => 8
+            'slots' => 8,
+            'price' => 10
         ]);
 
         $response->assertCreated();
@@ -90,7 +92,8 @@ class TrackTest extends TestCase
             'name' => 'Track 01',
             'description' => 'Super slow track',
             'enabled' => false,
-            'slots' => 8
+            'slots' => 8,
+            'price' => 10
         ]);
 
         $response->assertCreated();

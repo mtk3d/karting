@@ -19,7 +19,8 @@ class Reservation extends Model
         'track_id',
         'from',
         'to',
-        'confirmed'
+        'confirmed',
+        'price'
     ];
 
     protected $casts = [
@@ -33,6 +34,9 @@ class Reservation extends Model
 
     protected $hidden = [
         'id',
+        'track_id',
+        'created_at',
+        'updated_at',
     ];
 
     public function track(): HasOne

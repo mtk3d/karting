@@ -20,6 +20,7 @@ class CreateReservationsReadModelTable extends Migration
             $table->dateTime('from');
             $table->dateTime('to');
             $table->boolean('confirmed')->default(false);
+            $table->float('price')->default(0);
             $table->timestamps();
         });
     }

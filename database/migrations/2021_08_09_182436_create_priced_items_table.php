@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKartsReadModelTable extends Migration
+class CreatePricedItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateKartsReadModelTable extends Migration
      */
     public function up()
     {
-        Schema::create('karts_read_model', function (Blueprint $table) {
+        Schema::create('priced_items', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique();
-            $table->text('name');
-            $table->longText('description')->nullable();
-            $table->boolean('enabled')->default(true);
-            $table->float('price')->default(0);
+            $table->uuid('uuid');
+            $table->json('price');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateKartsReadModelTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('karts_read_model');
+        Schema::dropIfExists('priced_items');
     }
 }

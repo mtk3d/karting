@@ -17,7 +17,8 @@ class Track extends Model
         'name',
         'description',
         'slots',
-        'enabled'
+        'enabled',
+        'price'
     ];
 
     protected $casts = [
@@ -27,6 +28,8 @@ class Track extends Model
 
     protected $hidden = [
         'id',
+        'created_at',
+        'updated_at',
     ];
 
     public function reservations(): HasMany

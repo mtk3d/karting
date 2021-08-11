@@ -20,6 +20,7 @@ class CreateTracksReadModelTable extends Migration
             $table->longText('description')->nullable();
             $table->integer('slots');
             $table->boolean('enabled')->default(true);
+            $table->float('price')->default(0);
             $table->timestamps();
         });
     }

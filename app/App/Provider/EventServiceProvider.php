@@ -12,6 +12,9 @@ class EventServiceProvider extends ServiceProvider
 {
     /** @var array */
     protected $listen = [
+        'Karting\*' => [
+            EventLogListener::class
+        ],
         \Karting\Shared\ResourceCreated::class => [
             \Karting\Availability\Infrastructure\Listener\ResourceCreatedListener::class,
         ],
@@ -30,13 +33,18 @@ class EventServiceProvider extends ServiceProvider
         ],
         \Karting\Reservation\Domain\ReservationCreated::class => [
             \Karting\App\ReadModel\Reservation\ReservationCreatedListener::class,
+            \Karting\Pricing\Infrastructure\Listener\ReservationCreatedListener::class,
         ],
         \Karting\Reservation\Domain\ReservationConfirmed::class => [
             \Karting\App\ReadModel\Reservation\ReservationConfirmedListener::class,
         ],
-        'Karting\*' => [
-            EventLogListener::class
-        ]
+        \Karting\Pricing\Domain\PriceSet::class => [
+            \Karting\App\ReadModel\Kart\PriceSetListener::class,
+            \Karting\App\ReadModel\Track\PriceSetListener::class,
+        ],
+        \Karting\Pricing\Domain\PriceCalculated::class => [
+            \Karting\App\ReadModel\Reservation\PriceCalculatedListener::class,
+        ],
     ];
 
     protected $subscribe = [

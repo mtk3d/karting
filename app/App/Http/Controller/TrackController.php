@@ -13,6 +13,7 @@ use Karting\App\ReadModel\Kart\Kart;
 use Karting\App\ReadModel\ResourceReservation\ResourceReservation;
 use Karting\App\ReadModel\Track\Track;
 use Karting\Availability\Application\Command\SetState;
+use Karting\Pricing\Application\Command\SetPrice;
 use Karting\Shared\Common\CommandBus;
 use Karting\Shared\Common\UUID;
 use Karting\Shared\ResourceId;
@@ -39,6 +40,11 @@ class TrackController extends Controller
         $this->bus->dispatch(new SetState(
             ResourceId::of($request->get('uuid')),
             $request->get('enabled')
+        ));
+
+        $this->bus->dispatch(new SetPrice(
+            new UUID($request->get('uuid')),
+            $request->get('price')
         ));
 
         return new Response('', Response::HTTP_CREATED);

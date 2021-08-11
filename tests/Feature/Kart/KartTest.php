@@ -26,6 +26,7 @@ class KartTest extends TestCase
                 'name' => 'Kart 01',
                 'description' => 'Super fast motor kart',
                 'enabled' => false,
+                'price' => 10
             ]
         ]);
 
@@ -74,6 +75,7 @@ class KartTest extends TestCase
             'name' => 'Kart 01',
             'description' => 'Super fast motor kart',
             'enabled' => true,
+            'price' => 10
         ]);
 
         $response->assertCreated();
@@ -88,6 +90,7 @@ class KartTest extends TestCase
             'name' => 'Kart 01',
             'description' => 'Super fast motor kart',
             'enabled' => false,
+            'price' => 10
         ]);
 
         $response->assertCreated();
