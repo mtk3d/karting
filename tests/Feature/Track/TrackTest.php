@@ -27,7 +27,7 @@ class TrackTest extends TestCase
                 'description' => 'Super slow track',
                 'enabled' => false,
                 'slots' => 8,
-                'price' => 10
+                'price' => '10.0'
             ]
         ]);
 

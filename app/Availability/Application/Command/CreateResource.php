@@ -15,11 +15,11 @@ class CreateResource implements Command
     private Slots $slots;
     private bool $enabled;
 
-    public function __construct(ResourceId $id, Slots $slots)
+    public function __construct(ResourceId $id, Slots $slots, bool $enabled)
     {
         $this->id = $id;
         $this->slots = $slots;
-        $this->enabled = true;
+        $this->enabled = $enabled;
     }
 
     public function id(): ResourceId

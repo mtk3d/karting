@@ -11,7 +11,9 @@ use Karting\App\Http\Controller\Request\KartRequest;
 use Karting\App\Http\Controller\Request\StateRequest;
 use Karting\App\ReadModel\Kart\Kart;
 use Karting\App\ReadModel\ResourceReservation\ResourceReservation;
+use Karting\Availability\Application\Command\CreateResource;
 use Karting\Availability\Application\Command\SetState;
+use Karting\Availability\Domain\Slots;
 use Karting\Kart\Application\Command\CreateKart;
 use Karting\Pricing\Application\Command\SetPrice;
 use Karting\Shared\Common\CommandBus;
@@ -35,8 +37,9 @@ class KartController extends Controller
             $request->get('description')
         ));
 
-        $this->bus->dispatch(new SetState(
+        $this->bus->dispatch(new CreateResource(
             ResourceId::of($request->get('uuid')),
+            new Slots(1),
             $request->get('enabled')
         ));
 

@@ -4,15 +4,8 @@ namespace Tests\Unit\Availability;
 
 use Karting\Availability\Application\Command\CreateResource;
 use Karting\Availability\Application\Command\SetState;
-use Karting\Availability\Application\Command\TurnOnResource;
-use Karting\Availability\Application\Command\WithdrawResource;
 use Karting\Availability\Application\CreateResourceHandler;
 use Karting\Availability\Application\SetStateHandler;
-use Karting\Availability\Application\TurnOnResourceHandler;
-use Karting\Availability\Application\WithdrawResourceHandler;
-use Karting\Availability\Domain\ResourceTurnedOn;
-use Karting\Availability\Domain\ResourceUnavailableException;
-use Karting\Availability\Domain\ResourceWithdrawn;
 use Karting\Availability\Domain\Slots;
 use Karting\Availability\Domain\StateChanged;
 use Karting\Availability\Infrastructure\Repository\InMemoryResourceRepository;
@@ -35,14 +28,14 @@ class AvailabilityTest extends TestCase
         $this->resourceRepository = new InMemoryResourceRepository();
         $this->eventDispatcher = new InMemoryDomainEventBus();
 
-        $this->createResourceHandler = new CreateResourceHandler($this->resourceRepository);
+        $this->createResourceHandler = new CreateResourceHandler($this->resourceRepository, $this->eventDispatcher);
         $this->setStateHandler = new SetStateHandler($this->resourceRepository, $this->eventDispatcher);
     }
 
     public function testCreateResource(): void
     {
         $resource = aResource();
-        $this->createResourceHandler->handle(new CreateResource($resource->id(), Slots::of(1)));
+        $this->createResourceHandler->handle(new CreateResource($resource->id(), Slots::of(1), true));
 
         self::assertEquals($resource, $this->resourceRepository->find($resource->id()));
     }
@@ -58,7 +51,7 @@ class AvailabilityTest extends TestCase
 
         // then
         self::assertEquals(
-            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->id(), false),
+            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->id(), 1, false),
             $this->eventDispatcher->first()
         );
 
@@ -77,7 +70,7 @@ class AvailabilityTest extends TestCase
 
         // then
         self::assertEquals(
-            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->id(), true),
+            new StateChanged($this->eventDispatcher->first()->eventId(), $resource->id(), 1, true),
             $this->eventDispatcher->first()
         );
 

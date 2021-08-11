@@ -12,12 +12,7 @@ class Track extends Model
     protected $fillable = [
         'uuid',
         'name',
-        'description',
-        'slots'
-    ];
-
-    protected $casts = [
-        'slots' => 'integer'
+        'description'
     ];
 
     public function __construct(array $attributes = [])

@@ -16,7 +16,6 @@ class EventServiceProvider extends ServiceProvider
             EventLogListener::class
         ],
         \Karting\Shared\ResourceCreated::class => [
-            \Karting\Availability\Infrastructure\Listener\ResourceCreatedListener::class,
         ],
         \Karting\Availability\Domain\ResourceReserved::class => [
             \Karting\App\ReadModel\ResourceReservation\ResourceReservedListener::class,

@@ -13,6 +13,7 @@ class StateChangedListener
         $uuid = $stateChanged->resourceId()->id()->toString();
         $track = Track::where('uuid', $uuid)->first();
         if ($track) {
+            $track->slots = $stateChanged->slots();
             $track->enabled = $stateChanged->enabled();
             $track->save();
         }

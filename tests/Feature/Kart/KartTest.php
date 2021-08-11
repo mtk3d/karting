@@ -26,7 +26,7 @@ class KartTest extends TestCase
                 'name' => 'Kart 01',
                 'description' => 'Super fast motor kart',
                 'enabled' => false,
-                'price' => 10
+                'price' => '10.0'
             ]
         ]);
 

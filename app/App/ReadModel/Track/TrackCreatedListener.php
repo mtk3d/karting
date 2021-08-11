@@ -13,8 +13,7 @@ class TrackCreatedListener
         Track::create([
             'uuid' => $trackCreated->id()->toString(),
             'name' => $trackCreated->name(),
-            'description' => $trackCreated->description(),
-            'slots' => $trackCreated->slots()
+            'description' => $trackCreated->description()
         ]);
     }
 }

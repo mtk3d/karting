@@ -12,18 +12,20 @@ class StateChanged implements DomainEvent
 {
     private UUID $id;
     private ResourceId $resourceId;
+    private int $slots;
     private bool $enabled;
 
-    public function __construct(UUID $id, ResourceId $resourceId, bool $enabled)
+    public function __construct(UUID $id, ResourceId $resourceId, int $slots, bool $enabled)
     {
         $this->id = $id;
         $this->resourceId = $resourceId;
+        $this->slots = $slots;
         $this->enabled = $enabled;
     }
 
-    public static function newOne(ResourceId $resourceId, bool $enabled): self
+    public static function newOne(ResourceId $resourceId, int $slots, bool $enabled): self
     {
-        return new self(UUID::random(), $resourceId, $enabled);
+        return new self(UUID::random(), $resourceId, $slots, $enabled);
     }
 
     public function eventId(): UUID
@@ -34,6 +36,11 @@ class StateChanged implements DomainEvent
     public function resourceId(): ResourceId
     {
         return $this->resourceId;
+    }
+
+    public function slots(): int
+    {
+        return $this->slots;
     }
 
     public function enabled(): bool

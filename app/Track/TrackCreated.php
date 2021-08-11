@@ -13,20 +13,18 @@ class TrackCreated implements DomainEvent
     private UUID $id;
     private string $name;
     private string $description;
-    private int $slots;
 
-    public function __construct(UUID $eventId, UUID $id, string $name, string $description, int $slots)
+    public function __construct(UUID $eventId, UUID $id, string $name, string $description)
     {
         $this->eventId = $eventId;
         $this->id = $id;
         $this->name = $name;
         $this->description = $description;
-        $this->slots = $slots;
     }
 
-    public static function newOne(UUID $resourceId, string $name, string $description, int $slots): TrackCreated
+    public static function newOne(UUID $resourceId, string $name, string $description): TrackCreated
     {
-        return new TrackCreated(UUID::random(), $resourceId, $name, $description, $slots);
+        return new TrackCreated(UUID::random(), $resourceId, $name, $description);
     }
 
     public function eventId(): UUID
@@ -47,10 +45,5 @@ class TrackCreated implements DomainEvent
     public function description(): string
     {
         return $this->description;
-    }
-
-    public function slots(): int
-    {
-        return $this->slots;
     }
 }

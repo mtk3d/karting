@@ -77,7 +77,7 @@ class ResourceItem extends Model
         $this->attributes['enabled'] = false;
 
         $events = new Collection([
-            StateChanged::newOne($this->id(), $this->attributes['enabled'])
+            StateChanged::newOne($this->id(), (int)$this->attributes['slots'], $this->attributes['enabled'])
         ]);
 
         return Result::success($events);
@@ -88,7 +88,7 @@ class ResourceItem extends Model
         $this->attributes['enabled'] = true;
 
         $events = new Collection([
-            StateChanged::newOne($this->id(), $this->attributes['enabled'])
+            StateChanged::newOne($this->id(), (int)$this->attributes['slots'], $this->attributes['enabled'])
         ]);
 
         return Result::success($events);

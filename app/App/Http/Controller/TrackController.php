@@ -12,7 +12,9 @@ use Karting\App\Http\Controller\Request\TrackRequest;
 use Karting\App\ReadModel\Kart\Kart;
 use Karting\App\ReadModel\ResourceReservation\ResourceReservation;
 use Karting\App\ReadModel\Track\Track;
+use Karting\Availability\Application\Command\CreateResource;
 use Karting\Availability\Application\Command\SetState;
+use Karting\Availability\Domain\Slots;
 use Karting\Pricing\Application\Command\SetPrice;
 use Karting\Shared\Common\CommandBus;
 use Karting\Shared\Common\UUID;
@@ -37,8 +39,9 @@ class TrackController extends Controller
             $request->get('slots')
         ));
 
-        $this->bus->dispatch(new SetState(
+        $this->bus->dispatch(new CreateResource(
             ResourceId::of($request->get('uuid')),
+            new Slots($request->get('slots')),
             $request->get('enabled')
         ));
 

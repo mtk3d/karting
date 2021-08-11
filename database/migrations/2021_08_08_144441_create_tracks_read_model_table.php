@@ -18,7 +18,7 @@ class CreateTracksReadModelTable extends Migration
             $table->uuid('uuid')->unique();
             $table->text('name');
             $table->longText('description')->nullable();
-            $table->integer('slots');
+            $table->integer('slots')->nullable();
             $table->boolean('enabled')->default(true);
             $table->float('price')->default(0);
             $table->timestamps();

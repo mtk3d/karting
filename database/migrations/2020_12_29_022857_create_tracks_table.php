@@ -18,7 +18,6 @@ class CreateTracksTable extends Migration
             $table->uuid('uuid')->unique();
             $table->text('name');
             $table->longText('description')->nullable();
-            $table->integer('slots');
             $table->timestamps();
         });
     }
