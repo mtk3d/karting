@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace Karting\Pricing\Domain;
 
-
 use Illuminate\Support\Collection;
 
 interface PricedItemRepository
