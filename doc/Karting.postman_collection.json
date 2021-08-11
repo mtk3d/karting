@@ -1,0 +1,452 @@
+{
+	"info": {
+		"_postman_id": "85e221e8-ed1f-4c1c-a640-402db2d07cb9",
+		"name": "Karting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://127.0.0.1:9090/api/track",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"uuid\": \"81cf2b8f-a004-4995-a990-84c87470a140\",\n    \"name\": \"Track 02\",\n    \"description\": \"Super slow track\",\n    \"enabled\": true,\n    \"slots\": 8,\n    \"price\": 34.00\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/api/track",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"track"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:9090/api/track/81cf2b8f-a004-4995-a990-84c87470a139/reservation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": \"2021-08-08 11:00:00\",\n    \"to\": \"2021-08-08 12:00:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/api/track/81cf2b8f-a004-4995-a990-84c87470a139/reservation",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"track",
+						"81cf2b8f-a004-4995-a990-84c87470a139",
+						"reservation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:9090/api/kart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"uuid\": \"81cf2b8f-a004-4995-a990-84c87470a141\",\n    \"name\": \"Kart 01\",\n    \"description\": \"Super slow kart\",\n    \"enabled\": true,\n    \"price\": 25.0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/api/kart",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"kart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:9090/api/kart/81cf2b8f-a004-4995-a990-84c87470a139/state",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"enabled\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/api/kart/81cf2b8f-a004-4995-a990-84c87470a139/state",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"kart",
+						"81cf2b8f-a004-4995-a990-84c87470a139",
+						"state"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:9090/api/reservation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"uuid\": \"81cf2b8d-a004-4995-a990-84c87480a250\",\n    \"karts_ids\": [\n        \"81cf2b8f-a004-4995-a990-84c87470a141\",\n        \"81cf2b8f-a004-4995-a990-84c87470a142\"\n    ],\n    \"track_id\": \"81cf2b8f-a004-4995-a990-84c87470a140\",\n    \"from\": \"2021-08-08 11:00:00\",\n    \"to\": \"2021-08-08 12:00:00\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/api/reservation",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"reservation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:9090/api/reservation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9090/api/reservation",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"reservation"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9090/api/reservation",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9090/api/reservation",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9090",
+							"path": [
+								"api",
+								"reservation"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.20.1"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.0.9"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 11 Aug 2021 23:32:29 GMT"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "60"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "56"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"uuid\": \"81cf2b8d-a004-4995-a990-84c87480a250\",\n        \"from\": \"2021-08-08 11:00:00\",\n        \"to\": \"2021-08-08 12:00:00\",\n        \"confirmed\": true,\n        \"price\": 84,\n        \"track\": {\n            \"uuid\": \"81cf2b8f-a004-4995-a990-84c87470a140\",\n            \"name\": \"Track 02\",\n            \"description\": \"Super slow track\",\n            \"slots\": 8,\n            \"enabled\": true,\n            \"price\": 34\n        },\n        \"karts\": [\n            {\n                \"uuid\": \"81cf2b8f-a004-4995-a990-84c87470a141\",\n                \"name\": \"Kart 01\",\n                \"description\": \"Super slow kart\",\n                \"enabled\": true,\n                \"price\": 25\n            },\n            {\n                \"uuid\": \"81cf2b8f-a004-4995-a990-84c87470a142\",\n                \"name\": \"Kart 01\",\n                \"description\": \"Super slow kart\",\n                \"enabled\": true,\n                \"price\": 25\n            }\n        ]\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://127.0.0.1:9090/api/track",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9090/api/track",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"track"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9090/api/track",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9090/api/track",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9090",
+							"path": [
+								"api",
+								"track"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.20.1"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.0.9"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 11 Aug 2021 23:36:27 GMT"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "60"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "58"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"uuid\": \"81cf2b8f-a004-4995-a990-84c87470a140\",\n        \"name\": \"Track 02\",\n        \"description\": \"Super slow track\",\n        \"slots\": 8,\n        \"enabled\": true,\n        \"price\": 34\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://127.0.0.1:9090/api/kart",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9090/api/kart",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"kart"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://127.0.0.1:9090/api/kart",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:9090/api/kart",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "9090",
+							"path": [
+								"api",
+								"kart"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.20.1"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.0.9"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 11 Aug 2021 23:36:01 GMT"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "60"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "59"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"uuid\": \"81cf2b8f-a004-4995-a990-84c87470a142\",\n        \"name\": \"Kart 01\",\n        \"description\": \"Super slow kart\",\n        \"enabled\": true,\n        \"price\": 25\n    },\n    {\n        \"uuid\": \"81cf2b8f-a004-4995-a990-84c87470a141\",\n        \"name\": \"Kart 01\",\n        \"description\": \"Super slow kart\",\n        \"enabled\": true,\n        \"price\": 25\n    }\n]"
+				}
+			]
+		}
+	]
+}
