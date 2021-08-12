@@ -1,4 +1,4 @@
-# :racing_car: Karting app
+# Karting app :racing_car:
 [![Tests](https://github.com/mtk3d/karting-laravel-ddd-cqrs/actions/workflows/tests.yml/badge.svg)](https://github.com/mtk3d/karting-laravel-ddd-cqrs/actions/workflows/tests.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/8dd235e0927737ae434b/maintainability)](https://codeclimate.com/github/mtk3d/karting-laravel-ddd-cqrs/maintainability)
 
