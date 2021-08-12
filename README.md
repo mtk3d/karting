@@ -1,4 +1,4 @@
-# Karting app
+# :racing_car: Karting app
 [![Tests](https://github.com/mtk3d/karting-laravel-ddd-cqrs/actions/workflows/tests.yml/badge.svg)](https://github.com/mtk3d/karting-laravel-ddd-cqrs/actions/workflows/tests.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/8dd235e0927737ae434b/maintainability)](https://codeclimate.com/github/mtk3d/karting-laravel-ddd-cqrs/maintainability)
 
@@ -13,10 +13,10 @@ Thanks to Andrzej Krzywda for Instagram's private conversations about handling D
 I also learn a lot from Domain Driven Rails book by Arkency.
 I think Rails and Laravel are similar frameworks, but there is a bit more articles / etc. about good practices in Rails.
 
-# Domain
+## :blue_book: Domain
 I had tried to make Event Storming for this application. Everything is described [here](doc/event-storming.md).
 
-# Run the application
+## :rocket: Run the application
 1. Copy config file
 ```bash
 cp .env.example .env
@@ -29,5 +29,5 @@ docker-compose up -d
 ```bash
 docker-compose run --rm app php artisan migrate
 ```
-# API
+## :speech_balloon: API
 API is documented as Postman collection file [here](doc/Karting.postman_collection.json).
