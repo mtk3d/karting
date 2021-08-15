@@ -40,7 +40,7 @@ class ResourceItem extends Model
     public static function of(ResourceId $id, Slots $slots, bool $enabled = true): ResourceItem
     {
         return new ResourceItem([
-            'uuid' => $id->id(),
+            'uuid' => $id->id()->toString(),
             'slots' => $slots->quantity(),
             'enabled' => $enabled
         ]);
