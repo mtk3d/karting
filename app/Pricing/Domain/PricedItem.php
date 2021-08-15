@@ -24,11 +24,11 @@ class PricedItem extends Model
 
     public function id(): UUID
     {
-        return new UUID($this->attributes['uuid']);
+        return new UUID($this->uuid);
     }
 
     public function price(): Price
     {
-        return Price::fromArray(json_decode($this->attributes['price'], true));
+        return Price::fromArray(json_decode($this->price, true));
     }
 }

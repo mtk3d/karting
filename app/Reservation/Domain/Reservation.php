@@ -44,14 +44,14 @@ class Reservation extends Model
 
     public function confirm(): Result
     {
-        if ($this->attributes['confirmed']) {
+        if ($this->confirmed) {
             throw new \Exception('ResourceReservation is already confirmed');
         }
 
-        $this->attributes['confirmed'] = true;
+        $this->confirmed = true;
 
         $events = new Collection([
-            ReservationConfirmed::newOne(ReservationId::of($this->attributes['uuid']))
+            ReservationConfirmed::newOne(ReservationId::of($this->uuid))
         ]);
 
         return Result::success($events);
@@ -59,12 +59,12 @@ class Reservation extends Model
 
     public function id(): ReservationId
     {
-        return ReservationId::of($this->attributes['uuid']);
+        return ReservationId::of($this->uuid);
     }
 
     public function karts(): Collection
     {
-        $karts = new Collection(json_decode($this->attributes['karts'], true));
+        $karts = new Collection(json_decode($this->karts, true));
         return $karts->map(fn (array $payload): Kart => Kart::fromArray($payload));
     }
 
@@ -72,22 +72,22 @@ class Reservation extends Model
     {
         $track = $this->track();
         $track->reserve();
-        $this->attributes['track'] = json_encode($track);
+        $this->track = json_encode($track);
     }
 
     public function confirmed(): bool
     {
-        return (bool)$this->attributes['confirmed'];
+        return (bool)$this->confirmed;
     }
 
     public function period(): CarbonPeriod
     {
-        return new CarbonPeriod($this->attributes['from'], $this->attributes['to']);
+        return new CarbonPeriod($this->from, $this->to);
     }
 
     private function track(): Track
     {
-        return Track::fromArray(json_decode($this->attributes['track'], true));
+        return Track::fromArray(json_decode($this->track, true));
     }
 
     public function updateProgress(ResourceId $resourceId): void
@@ -102,13 +102,13 @@ class Reservation extends Model
                 return $kart;
             });
 
-            $this->attributes['karts'] = json_encode($karts->toArray());
+            $this->karts = json_encode($karts->toArray());
         }
 
         $track = $this->track();
         if ($track->resourceId()->isEqual($resourceId)) {
             $track->reserve();
-            $this->attributes['track'] = json_encode($track);
+            $this->track = json_encode($track);
         }
     }
 

@@ -24,11 +24,11 @@ class ResourceItem extends Model
     ];
 
     protected $casts = [
-        'enabled' => 'boolean'
+        'enabled' => 'boolean',
     ];
 
     protected $attributes = [
-        'enabled' => true
+        'enabled' => true,
     ];
 
     public function __construct(array $attributes = [])
@@ -40,8 +40,8 @@ class ResourceItem extends Model
     public static function of(ResourceId $id, Slots $slots, bool $enabled = true): ResourceItem
     {
         return new ResourceItem([
-            'uuid' => $id->id()->toString(),
-            'slots' => $slots->slots(),
+            'uuid' => $id->id(),
+            'slots' => $slots->quantity(),
             'enabled' => $enabled
         ]);
     }
@@ -62,7 +62,7 @@ class ResourceItem extends Model
         }
 
         $reservation = Reservation::of($period, $this->id(), $reservationId);
-        $this->relations['reservations']->add($reservation);
+        $this->reservations->add($reservation);
 
         $events = new Collection([
             ResourceReserved::newOne($this->id(), $period, $reservationId)
@@ -74,10 +74,10 @@ class ResourceItem extends Model
 
     public function disable(): Result
     {
-        $this->attributes['enabled'] = false;
+        $this->enabled = false;
 
         $events = new Collection([
-            StateChanged::newOne($this->id(), $this->attributes['enabled'])
+            StateChanged::newOne($this->id(), $this->enabled)
         ]);
 
         return Result::success($events);
@@ -85,10 +85,10 @@ class ResourceItem extends Model
 
     public function enable(): Result
     {
-        $this->attributes['enabled'] = true;
+        $this->enabled = true;
 
         $events = new Collection([
-            StateChanged::newOne($this->id(), $this->attributes['enabled'])
+            StateChanged::newOne($this->id(), $this->enabled)
         ]);
 
         return Result::success($events);
@@ -96,18 +96,18 @@ class ResourceItem extends Model
 
     public function id(): ResourceId
     {
-        return ResourceId::of((string)$this->attributes['uuid']);
+        return ResourceId::of($this->uuid);
     }
 
     private function enabled(): bool
     {
-        return (bool)$this->attributes['enabled'];
+        return $this->enabled;
     }
 
     private function isAvailableIn(CarbonPeriod $period): bool
     {
-        $slots = Slots::of((int)$this->attributes['slots']);
-        $taken = $this->relations['reservations']
+        $slots = Slots::of($this->slots);
+        $taken = $this->reservations
             ->filter(function (Reservation $reservation) use ($period): bool {
                 return $reservation->period()->overlaps($period);
             })->count();
@@ -117,10 +117,10 @@ class ResourceItem extends Model
 
     public function setSlots(int $slots): Result
     {
-        $this->attributes['slots'] = $slots;
+        $this->slots = $slots;
 
         $events = new Collection([
-            SlotsUpdated::newOne($this->id(), (int)$this->attributes['slots'])
+            SlotsUpdated::newOne($this->id(), (int)$this->slots)
         ]);
 
         return Result::success($events);

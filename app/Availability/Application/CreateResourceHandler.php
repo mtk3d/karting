@@ -32,6 +32,6 @@ class CreateResourceHandler
 
         $id = $createResource->id();
         $this->bus->dispatch(StateChanged::newOne($id, $createResource->enabled()));
-        $this->bus->dispatch(SlotsUpdated::newOne($id, $createResource->slots()->slots()));
+        $this->bus->dispatch(SlotsUpdated::newOne($id, $createResource->slots()->quantity()));
     }
 }

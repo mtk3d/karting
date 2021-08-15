@@ -30,7 +30,7 @@ class Slots
         return $this->slots > $takenSlots;
     }
 
-    public function slots(): int
+    public function quantity(): int
     {
         return $this->slots;
     }

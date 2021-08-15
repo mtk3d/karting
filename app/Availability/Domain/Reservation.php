@@ -36,11 +36,11 @@ class Reservation extends Model
 
     public function id(): UUID
     {
-        return new UUID($this->attributes['uuid']);
+        return new UUID($this->uuid);
     }
 
     public function period(): CarbonPeriod
     {
-        return new CarbonPeriod($this->attributes['from'], $this->attributes['to']);
+        return new CarbonPeriod($this->from, $this->to);
     }
 }
