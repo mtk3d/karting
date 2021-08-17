@@ -75,8 +75,8 @@
             "php-cs-fixer fix -v --dry-run --show-progress=dots"
         ],
         "check": [
-            "@test",
-            "@code-quality"
+            "@code-quality",
+            "@test"
         ],
         "cs-fix": [
             "php-cs-fixer fix -v --show-progress=dots"
