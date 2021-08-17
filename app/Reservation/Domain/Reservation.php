@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Karting\Reservation\Domain;
 
+use Karting\Reservation\Infrastructure\Repository\Eloquent\KartsCast;
+use Karting\Reservation\Infrastructure\Repository\Eloquent\TrackCast;
+use Karting\Shared\CarbonPeriodCast;
 use Karting\Shared\Common\Result;
 use Karting\Shared\ReservationId;
+use Karting\Shared\ReservationIdCast;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +21,7 @@ class Reservation extends Model
         'uuid',
         'karts',
         'track',
-        'from',
-        'to',
+        'period',
         'confirmed'
     ];
 
@@ -28,17 +31,20 @@ class Reservation extends Model
     ];
 
     protected $casts = [
-        'confirmed' => 'boolean'
+        'uuid' => ReservationIdCast::class,
+        'karts' => KartsCast::class,
+        'track' => TrackCast::class,
+        'period' => CarbonPeriodCast::class,
+        'confirmed' => 'boolean',
     ];
 
     public static function of(ReservationId $reservationId, Collection $karts, Track $track, CarbonPeriod $period): Reservation
     {
         return new Reservation([
-            'uuid' => $reservationId->id()->toString(),
-            'karts' => json_encode($karts->toArray()),
-            'track' => json_encode($track),
-            'from' => $period->getStartDate()->toDateTimeString(),
-            'to' => $period->getEndDate()->toDateTimeString(),
+            'uuid' => $reservationId,
+            'karts' => $karts,
+            'track' => $track,
+            'period' => $period,
         ]);
     }
 
@@ -51,7 +57,7 @@ class Reservation extends Model
         $this->confirmed = true;
 
         $events = new Collection([
-            ReservationConfirmed::newOne(ReservationId::of($this->uuid))
+            ReservationConfirmed::newOne($this->uuid)
         ]);
 
         return Result::success($events);
@@ -59,66 +65,55 @@ class Reservation extends Model
 
     public function id(): ReservationId
     {
-        return ReservationId::of($this->uuid);
+        return $this->uuid;
     }
 
     public function karts(): Collection
     {
-        $karts = new Collection(json_decode($this->karts, true));
-        return $karts->map(fn (array $payload): Kart => Kart::fromArray($payload));
+        return $this->karts;
     }
 
     public function reserveTrack(): void
     {
-        $track = $this->track();
-        $track->reserve();
-        $this->track = json_encode($track);
+        $this->track->reserve();
     }
 
     public function confirmed(): bool
     {
-        return (bool)$this->confirmed;
+        return $this->confirmed;
     }
 
     public function period(): CarbonPeriod
     {
-        return new CarbonPeriod($this->from, $this->to);
-    }
-
-    private function track(): Track
-    {
-        return Track::fromArray(json_decode($this->track, true));
+        return $this->period;
     }
 
     public function updateProgress(ResourceId $resourceId): void
     {
-        $karts = $this->karts();
-        if ($karts->contains(new Kart($resourceId, false))) {
-            $karts = $karts->map(function (Kart $kart) use ($resourceId): Kart {
+        if ($this->karts->contains(new Kart($resourceId, false))) {
+            $this->karts = $this->karts->map(function (Kart $kart) use ($resourceId): Kart {
                 if ($kart->resourceId()->isEqual($resourceId)) {
                     $kart->reserve();
                 }
 
                 return $kart;
             });
-
-            $this->karts = json_encode($karts->toArray());
         }
 
-        $track = $this->track();
-        if ($track->resourceId()->isEqual($resourceId)) {
-            $track->reserve();
-            $this->track = json_encode($track);
+        if ($this->track->resourceId()->isEqual($resourceId)) {
+            $this->track->reserve();
         }
     }
 
     public function finished(): bool
     {
-        return $this->track()->reserved() && $this->kartsReserved();
+        return $this->track->reserved() && $this->kartsReserved();
     }
 
     private function kartsReserved(): bool
     {
-        return 0 === $this->karts()->filter(fn (Kart $kart): bool => !$kart->reserved())->count();
+        return $this->karts
+            ->filter(fn (Kart $kart): bool => !$kart->reserved())
+            ->isEmpty();
     }
 }

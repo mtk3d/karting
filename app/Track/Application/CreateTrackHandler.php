@@ -14,8 +14,10 @@ use Karting\Track\TrackCreated;
 
 class CreateTrackHandler
 {
-    public function __construct(private TrackCatalog $catalog, private DomainEventBus $bus)
-    {
+    public function __construct(
+        private TrackCatalog $catalog,
+        private DomainEventBus $bus
+    ) {
     }
 
     public function handle(CreateTrack $createTrack): void
@@ -29,8 +31,16 @@ class CreateTrackHandler
 
         $this->catalog->add($track);
 
-        $resourceCreated = ResourceCreated::newOne(ResourceId::of($createTrack->id()->toString()), $createTrack->slots());
-        $trackCreated = TrackCreated::newOne($createTrack->id(), $createTrack->name(), $createTrack->description(), $createTrack->slots());
+        $resourceCreated = ResourceCreated::newOne(
+            new ResourceId($createTrack->id()),
+            $createTrack->slots()
+        );
+
+        $trackCreated = TrackCreated::newOne(
+            $createTrack->id(),
+            $createTrack->name(),
+            $createTrack->description()
+        );
 
         $this->bus->dispatch($trackCreated);
         $this->bus->dispatch($resourceCreated);

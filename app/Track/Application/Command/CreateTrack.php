@@ -9,8 +9,12 @@ use Karting\Shared\Common\UUID;
 
 class CreateTrack implements Command
 {
-    public function __construct(private UUID $id, private string $name, private string $description, private int $slots)
-    {
+    public function __construct(
+        private UUID $id,
+        private string $name,
+        private string $description,
+        private int $slots
+    ) {
     }
 
     public function id(): UUID

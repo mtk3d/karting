@@ -9,8 +9,11 @@ use Karting\Shared\Common\UUID;
 
 class PriceCalculated implements DomainEvent
 {
-    public function __construct(private UUID $id, private UUID $itemId, private float $price)
-    {
+    public function __construct(
+        private UUID $id,
+        private UUID $itemId,
+        private float $price
+    ) {
     }
 
     public static function newOne(UUID $id, float $price): self

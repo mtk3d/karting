@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Karting\Availability\Domain;
 
+use Karting\Availability\Infrastructure\Repository\Eloquent\SlotsCast;
 use Karting\Shared\Common\Result;
 use Karting\Shared\ReservationId;
 use Karting\Shared\ResourceId;
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use Karting\Shared\ResourceIdCast;
 
 class ResourceItem extends Model
 {
@@ -24,6 +26,8 @@ class ResourceItem extends Model
     ];
 
     protected $casts = [
+        'uuid' => ResourceIdCast::class,
+        'slots' => SlotsCast::class,
         'enabled' => 'boolean',
     ];
 
@@ -40,8 +44,8 @@ class ResourceItem extends Model
     public static function of(ResourceId $id, Slots $slots, bool $enabled = true): ResourceItem
     {
         return new ResourceItem([
-            'uuid' => $id->id()->toString(),
-            'slots' => $slots->quantity(),
+            'uuid' => $id,
+            'slots' => $slots,
             'enabled' => $enabled
         ]);
     }
@@ -96,7 +100,7 @@ class ResourceItem extends Model
 
     public function id(): ResourceId
     {
-        return ResourceId::of($this->uuid);
+        return $this->uuid;
     }
 
     private function enabled(): bool
@@ -106,23 +110,11 @@ class ResourceItem extends Model
 
     private function isAvailableIn(CarbonPeriod $period): bool
     {
-        $slots = Slots::of($this->slots);
         $taken = $this->reservations
             ->filter(function (Reservation $reservation) use ($period): bool {
                 return $reservation->period()->overlaps($period);
             })->count();
 
-        return $slots->hasMoreThan($taken);
-    }
-
-    public function setSlots(int $slots): Result
-    {
-        $this->slots = $slots;
-
-        $events = new Collection([
-            SlotsUpdated::newOne($this->id(), (int)$this->slots)
-        ]);
-
-        return Result::success($events);
+        return $this->slots->hasMoreThan($taken);
     }
 }

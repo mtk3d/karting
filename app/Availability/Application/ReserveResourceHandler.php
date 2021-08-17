@@ -13,8 +13,10 @@ use Karting\Shared\Common\DomainEventBus;
 
 class ReserveResourceHandler
 {
-    public function __construct(private ResourceRepository $resourceRepository, private DomainEventBus $bus)
-    {
+    public function __construct(
+        private ResourceRepository $resourceRepository,
+        private DomainEventBus $bus
+    ) {
     }
 
     /**

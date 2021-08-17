@@ -13,12 +13,21 @@ use Karting\Shared\ResourceId;
 
 class ReservationCreated implements DomainEvent
 {
-    public function __construct(private UUID $id, private ReservationId $reservationId, private Collection $karts, private ResourceId $track, private CarbonPeriod $period)
-    {
+    public function __construct(
+        private UUID $id,
+        private ReservationId $reservationId,
+        private Collection $karts,
+        private ResourceId $track,
+        private CarbonPeriod $period
+    ) {
     }
 
-    public static function newOne(ReservationId $reservationId, Collection $karts, ResourceId $track, CarbonPeriod $period): self
-    {
+    public static function newOne(
+        ReservationId $reservationId,
+        Collection $karts,
+        ResourceId $track,
+        CarbonPeriod $period
+    ): ReservationCreated {
         return new self(UUID::random(), $reservationId, $karts, $track, $period);
     }
 

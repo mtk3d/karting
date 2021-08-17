@@ -5,11 +5,15 @@ declare(strict_types=1);
 
 namespace Karting\Availability\Domain;
 
+use Karting\Shared\CarbonPeriodCast;
 use Karting\Shared\Common\UUID;
+use Karting\Shared\Common\UUIDCast;
 use Karting\Shared\ReservationId;
+use Karting\Shared\ReservationIdCast;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
+use Karting\Shared\ResourceIdCast;
 
 class Reservation extends Model
 {
@@ -17,30 +21,35 @@ class Reservation extends Model
 
     protected $fillable = [
         'uuid',
-        'from',
-        'to',
+        'period',
         'resource_item_id',
         'reservation_id',
+    ];
+
+    protected $casts = [
+        'uuid' => UUIDCast::class,
+        'period' => CarbonPeriodCast::class,
+        'resource_item_id' => ResourceIdCast::class,
+        'reservation_id' => ReservationIdCast::class,
     ];
 
     public static function of(CarbonPeriod $period, ResourceId $resourceId, ReservationId $reservationId): Reservation
     {
         return new Reservation([
-            'uuid' => UUID::random()->toString(),
-            'from' => $period->getStartDate()->toDateTimeString(),
-            'to' => $period->getEndDate()->toDateTimeString(),
-            'resource_item_id' => $resourceId->id()->toString(),
-            'reservation_id' => $reservationId->id()->toString()
+            'uuid' => UUID::random(),
+            'period' => $period,
+            'resource_item_id' => $resourceId,
+            'reservation_id' => $reservationId,
         ]);
     }
 
     public function id(): UUID
     {
-        return new UUID($this->uuid);
+        return $this->uuid;
     }
 
     public function period(): CarbonPeriod
     {
-        return new CarbonPeriod($this->from, $this->to);
+        return $this->period;
     }
 }

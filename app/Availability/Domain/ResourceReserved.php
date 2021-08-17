@@ -12,8 +12,12 @@ use Carbon\CarbonPeriod;
 
 class ResourceReserved implements DomainEvent
 {
-    public function __construct(private UUID $id, private ResourceId $resourceId, private CarbonPeriod $period, private ReservationId $reservationId)
-    {
+    public function __construct(
+        private UUID $id,
+        private ResourceId $resourceId,
+        private CarbonPeriod $period,
+        private ReservationId $reservationId
+    ) {
     }
 
     public static function newOne(ResourceId $resourceId, CarbonPeriod $period, ReservationId $reservationId): ResourceReserved

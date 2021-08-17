@@ -7,10 +7,12 @@ namespace Karting\Reservation\Domain;
 use JsonSerializable;
 use Karting\Shared\ResourceId;
 
-class ResourceItem implements JsonSerializable
+abstract class ResourceItem implements JsonSerializable
 {
-    public function __construct(private ResourceId $resourceId, private bool $reserved)
-    {
+    public function __construct(
+        private ResourceId $resourceId,
+        private bool $reserved
+    ) {
     }
 
     public function resourceId(): ResourceId

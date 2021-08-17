@@ -14,8 +14,10 @@ use Karting\Shared\ResourceId;
 
 class CreateKartHandler
 {
-    public function __construct(private KartCatalog $catalog, private DomainEventBus $bus)
-    {
+    public function __construct(
+        private KartCatalog $catalog,
+        private DomainEventBus $bus
+    ) {
     }
 
     public function handle(CreateKart $createKart): void
@@ -28,8 +30,16 @@ class CreateKartHandler
 
         $this->catalog->add($kart);
 
-        $resourceCreated = ResourceCreated::newOne(ResourceId::of($createKart->id()->toString()), 1);
-        $kartCreated = KartCreated::newOne($createKart->id(), $createKart->name(), $createKart->description());
+        $resourceCreated = ResourceCreated::newOne(
+            new ResourceId($createKart->id()),
+            1
+        );
+
+        $kartCreated = KartCreated::newOne(
+            $createKart->id(),
+            $createKart->name(),
+            $createKart->description()
+        );
 
         $this->bus->dispatch($kartCreated);
         $this->bus->dispatch($resourceCreated);

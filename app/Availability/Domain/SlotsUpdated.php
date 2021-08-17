@@ -10,8 +10,11 @@ use Karting\Shared\ResourceId;
 
 class SlotsUpdated implements DomainEvent
 {
-    public function __construct(private UUID $id, private ResourceId $resourceId, private int $slots)
-    {
+    public function __construct(
+        private UUID $id,
+        private ResourceId $resourceId,
+        private int $slots
+    ) {
     }
 
     public static function newOne(ResourceId $resourceId, int $slots): self

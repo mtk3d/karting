@@ -10,8 +10,10 @@ use Karting\Shared\Common\DomainEventBus;
 
 class UpdateSlotsHandler
 {
-    public function __construct(private ResourceRepository $repository, private DomainEventBus $bus)
-    {
+    public function __construct(
+        private ResourceRepository $repository,
+        private DomainEventBus $bus
+    ) {
     }
 
     public function handle(UpdateSlots $updateSlots): void

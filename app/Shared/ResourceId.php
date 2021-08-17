@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Karting\Shared;
 
+use Illuminate\Contracts\Database\Eloquent\Castable;
 use Karting\Shared\Common\UUID;
 
 class ResourceId

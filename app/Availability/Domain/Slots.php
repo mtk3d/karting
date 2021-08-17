@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Karting\Availability\Domain;
 
+use Illuminate\Contracts\Database\Eloquent\Castable;
 use InvalidArgumentException;
 
 class Slots
