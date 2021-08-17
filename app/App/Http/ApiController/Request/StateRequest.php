@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Karting\App\Http\Controller\Request;
+namespace Karting\App\Http\ApiController\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 

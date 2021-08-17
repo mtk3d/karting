@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
-namespace Karting\App\Http\Controller\Request;
+namespace Karting\App\Http\ApiController\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TrackRequest extends FormRequest
+class KartRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +27,7 @@ class TrackRequest extends FormRequest
             'uuid' => 'uuid',
             'name' => 'required|max:100|min:3',
             'description' => 'present',
-            'slots' => 'required|integer|min:0',
-            'enabled' => 'required|boolean',
+            'enabled' => 'boolean',
             'price' => 'required|numeric|min:0',
         ];
     }

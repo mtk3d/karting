@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 class RouteServiceProvider extends ServiceProvider
 {
     const HOME = '/';
-    protected $namespace = 'Karting\\App\\Http\\Controller';
 
     /**
      * @return void
@@ -26,11 +25,11 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             Route::prefix('api')
                 ->middleware('api')
-                ->namespace($this->namespace)
+                ->namespace('Karting\\App\\Http\\ApiController')
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
-                ->namespace($this->namespace)
+                ->namespace('Karting\\App\\Http\\Controller')
                 ->group(base_path('routes/web.php'));
         });
     }
