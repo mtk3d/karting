@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": ">=8.0",
+        "ext-json": "*",
         "carbon-cli/carbon-cli": "^1.2",
         "fideloper/proxy": "^4.4",
         "friendsofphp/php-cs-fixer": "^2.18",
@@ -17,8 +18,7 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "myclabs/php-enum": "^1.7",
-        "ramsey/uuid": "^4.1",
-        "ext-json": "*"
+        "ramsey/uuid": "^4.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
