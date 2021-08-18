@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Karting\Reservation\Application;
 
 use Karting\Availability\Application\Command\ReserveResource;
+use Karting\Availability\Application\Command\ReserveResources;
 use Karting\Availability\Domain\ResourceReserved;
 use Karting\Reservation\Application\Command\ConfirmReservation;
 use Karting\Reservation\Domain\Kart;
@@ -21,11 +22,14 @@ class ReservationManager
 
     public function handleReservationCrated(ReservationCreated $reservationCreated): void
     {
-        $reservation = $this->repository->find($reservationCreated->reservationId());
-        $reservation->karts()
-            ->map(fn (Kart $kart): ReserveResource => new ReserveResource($kart->resourceId(), $reservation->period(), $reservation->id()))
-            ->push(new ReserveResource($reservationCreated->track(), $reservationCreated->period(), $reservationCreated->reservationId()))
-            ->each([$this->bus, 'dispatch']);
+        $resources = $reservationCreated->karts()->push($reservationCreated->track());
+        $command = new ReserveResources(
+            $resources,
+            $reservationCreated->period(),
+            $reservationCreated->reservationId()
+        );
+
+        $this->bus->dispatch($command);
     }
 
     public function handleResourceReserved(ResourceReserved $resourceReserved): void

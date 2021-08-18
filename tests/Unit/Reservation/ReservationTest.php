@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Reservation;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Karting\Availability\Application\Command\ReserveResources;
 use Karting\Availability\Domain\ResourceReserved;
 use Karting\Reservation\Application\Command\ConfirmReservation;
 use Karting\Reservation\Application\ReservationManager;
@@ -55,17 +56,12 @@ class ReservationTest extends TestCase
 
         $dispatchedCommands = $this->bus->dispatchedCommands();
 
-        // This part has a problem because of PHP bug
-        // self::assertContainsEquals(new ReserveResource($kartId, $period), $dispatchedCommands);
-        self::assertTrue($dispatchedCommands
-                ->filter(fn ($item): bool => $item instanceof ConfirmReservation ? false : $firstKart->resourceId()->isEqual($item->id()))
-                ->count() === 1);
-        self::assertTrue($dispatchedCommands
-                ->filter(fn ($item): bool => $item instanceof ConfirmReservation ? false : $secondKart->resourceId()->isEqual($item->id()))
-                ->count() === 1);
-        self::assertTrue($dispatchedCommands
-                ->filter(fn ($item): bool => $item instanceof ConfirmReservation ? false : $track->resourceId()->isEqual($item->id()))
-                ->count() === 1);
+        /** @var ReserveResources $reservationCommand */
+        $reservationCommand = $dispatchedCommands->whereInstanceOf(ReserveResources::class)->first();
+
+        self::assertTrue($reservationCommand->ids()->contains($firstKart->resourceId()));
+        self::assertTrue($reservationCommand->ids()->contains($secondKart->resourceId()));
+        self::assertTrue($reservationCommand->ids()->contains($track->resourceId()));
 
         self::assertContainsEquals(new ConfirmReservation($reservationId), $dispatchedCommands);
     }
