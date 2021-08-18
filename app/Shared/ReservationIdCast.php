@@ -16,7 +16,7 @@ class ReservationIdCast implements CastsAttributes
     public function set($model, string $key, $value, array $attributes)
     {
         return [
-            'uuid' => $value->id()->toString()
+            'uuid' => $value->toString()
         ];
     }
 }

@@ -33,7 +33,7 @@ abstract class ResourceItem implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'resource_id' => $this->resourceId->id()->toString(),
+            'resource_id' => $this->resourceId->toString(),
             'reserved' => $this->reserved
         ];
     }

@@ -7,34 +7,20 @@ namespace Karting\Shared;
 use Illuminate\Contracts\Database\Eloquent\Castable;
 use Karting\Shared\Common\UUID;
 
-class ResourceId
+class ResourceId extends AbstractId
 {
-    public function __construct(private UUID $id)
-    {
-    }
-
     public static function of(string $id): ResourceId
     {
         return new ResourceId(new UUID($id));
     }
 
-    public function id(): UUID
+    public static function newOne(): ResourceId
     {
-        return $this->id;
+        return new ResourceId(UUID::random());
     }
 
-    public static function newOne(): self
+    public function isEqual(ResourceId $id): bool
     {
-        return new self(UUID::random());
-    }
-
-    public function isEqual(self $id): bool
-    {
-        return $this->id->isEqual($id->id);
-    }
-
-    public function __toString()
-    {
-        return sprintf('ResourceId{id=%s}', $this->id);
+        return $this->id->isEqual($id->id());
     }
 }

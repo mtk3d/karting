@@ -6,34 +6,20 @@ namespace Karting\Shared;
 
 use Karting\Shared\Common\UUID;
 
-class ReservationId
+class ReservationId extends AbstractId
 {
-    public function __construct(private UUID $id)
-    {
-    }
-
     public static function of(string $id): ReservationId
     {
         return new ReservationId(new UUID($id));
     }
 
-    public function id(): UUID
+    public static function newOne(): ReservationId
     {
-        return $this->id;
+        return new ReservationId(UUID::random());
     }
 
-    public static function newOne(): self
+    public function isEqual(ReservationId $id): bool
     {
-        return new self(UUID::random());
-    }
-
-    public function isEqual(self $id): bool
-    {
-        return $this->id->isEqual($id->id);
-    }
-
-    public function __toString(): string
-    {
-        return sprintf('ReservationId{id=%s}', $this->id);
+        return $this->id->isEqual($id->id());
     }
 }

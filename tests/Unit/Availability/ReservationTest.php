@@ -51,7 +51,7 @@ class ReservationTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // when
-        $id = $resource->id()->id()->toString();
+        $id = $resource->id()->toString();
         $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->id()->toString());
         $this->reservationHandler->handle($reserveCommand);
 
@@ -84,7 +84,7 @@ class ReservationTest extends TestCase
 
         // when
         $reservationId = UUID::random()->toString();
-        $id = $resource->id()->id()->toString();
+        $id = $resource->id()->toString();
         $reserveCommand = ReserveResource::fromRaw($id, '2020-12-06 15:30', '2020-12-06 16:30', $reservationId);
         $this->reservationHandler->handle($reserveCommand);
     }
@@ -103,7 +103,7 @@ class ReservationTest extends TestCase
         self::expectExceptionObject(new ResourceUnavailableException('Cannot reserve in this period'));
 
         // when
-        $id = $resource->id()->id()->toString();
+        $id = $resource->id()->toString();
         $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId);
         $this->reservationHandler->handle($reserveCommand);
     }
@@ -130,7 +130,7 @@ class ReservationTest extends TestCase
         self::expectExceptionObject(new ResourceUnavailableException('Cannot reserve in this period'));
 
         // when
-        $id = $resource->id()->id()->toString();
+        $id = $resource->id()->toString();
         $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId);
         $this->reservationHandler->handle($reserveCommand);
     }
@@ -145,7 +145,7 @@ class ReservationTest extends TestCase
         $this->resourceRepository->save($resource);
 
         // when
-        $id = $resource->id()->id()->toString();
+        $id = $resource->id()->toString();
         $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->id()->toString());
         $this->reservationHandler->handle($reserveCommand);
 
@@ -168,8 +168,8 @@ class ReservationTest extends TestCase
         $this->resourceRepository->save($secondResource);
 
         // when
-        $firstId = $firstResource->id()->id()->toString();
-        $secondId = $secondResource->id()->id()->toString();
+        $firstId = $firstResource->id()->toString();
+        $secondId = $secondResource->id()->toString();
         $resources = [$firstId, $secondId];
         $reserveCommand = ReserveResources::fromRaw($resources, '2020-12-06 15:00', '2020-12-06 16:00', $reservationId->id()->toString());
         $this->multiReservationHandler->handle($reserveCommand);
