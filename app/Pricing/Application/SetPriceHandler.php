@@ -19,8 +19,8 @@ class SetPriceHandler
 
     public function handle(SetPrice $setPrice): void
     {
-        $resourceItem = PricedItem::of($setPrice->id(), new Price($setPrice->price()));
+        $resourceItem = PricedItem::of($setPrice->id(), $setPrice->price());
         $this->repository->save($resourceItem);
-        $this->bus->dispatch(PriceSet::newOne($setPrice->id(), $setPrice->price()));
+        $this->bus->dispatch(PriceSet::newOne($setPrice->id(), $setPrice->price()->money()));
     }
 }

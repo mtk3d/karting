@@ -19,7 +19,7 @@ class CreateKartsReadModelTable extends Migration
             $table->text('name');
             $table->longText('description')->nullable();
             $table->boolean('enabled')->default(true);
-            $table->float('price')->default(0);
+            $table->string('price')->default('$0.00');
             $table->timestamps();
         });
     }

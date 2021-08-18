@@ -6,19 +6,20 @@ namespace Karting\Pricing\Domain;
 
 use Karting\Shared\Common\DomainEvent;
 use Karting\Shared\Common\UUID;
+use Money\Money;
 
 class PriceCalculated implements DomainEvent
 {
     public function __construct(
         private UUID $id,
         private UUID $itemId,
-        private float $price
+        private Money $money
     ) {
     }
 
-    public static function newOne(UUID $id, float $price): self
+    public static function newOne(UUID $id, Money $money): self
     {
-        return new self(UUID::random(), $id, $price);
+        return new self(UUID::random(), $id, $money);
     }
 
     public function eventId(): UUID
@@ -31,8 +32,8 @@ class PriceCalculated implements DomainEvent
         return $this->itemId;
     }
 
-    public function price(): float
+    public function money(): Money
     {
-        return $this->price;
+        return $this->money;
     }
 }

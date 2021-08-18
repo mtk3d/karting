@@ -31,7 +31,7 @@ class TrackRequest extends FormRequest
             'description' => 'present',
             'slots' => 'required|integer|min:0',
             'enabled' => 'required|boolean',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|integer|min:0',
         ];
     }
 }

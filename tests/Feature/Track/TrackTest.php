@@ -27,7 +27,7 @@ class TrackTest extends TestCase
                 'description' => 'Super slow track',
                 'enabled' => false,
                 'slots' => 8,
-                'price' => '10.0'
+                'price' => '$10.00'
             ]
         ]);
 
@@ -77,7 +77,7 @@ class TrackTest extends TestCase
             'description' => 'Super slow track',
             'enabled' => true,
             'slots' => 8,
-            'price' => 10
+            'price' => 1000
         ]);
 
         $response->assertCreated();
@@ -93,7 +93,7 @@ class TrackTest extends TestCase
             'description' => 'Super slow track',
             'enabled' => false,
             'slots' => 8,
-            'price' => 10
+            'price' => 1000
         ]);
 
         $response->assertCreated();

@@ -12,6 +12,7 @@ use Karting\Pricing\Domain\PriceSet;
 use Karting\Pricing\Infrastructure\Repository\InMemoryPricedItemRepository;
 use Karting\Shared\Common\InMemoryDomainEventBus;
 use Karting\Shared\Common\UUID;
+use Money\Money;
 use PHPUnit\Framework\TestCase;
 
 class PricedItemTest extends TestCase
@@ -30,11 +31,11 @@ class PricedItemTest extends TestCase
     public function testSetPrice(): void
     {
         $id = UUID::random();
-        $price = 10;
+        $price = Price::of(10);
         $event = new SetPrice($id, $price);
         $this->setPriceHandler->handle($event);
 
-        self::assertEquals(new PriceSet($this->bus->first()->eventId(), $id, 10), $this->bus->first());
-        self::assertEquals(PricedItem::of($id, new Price($price)), $this->repository->find($id));
+        self::assertEquals(new PriceSet($this->bus->first()->eventId(), $id, $price->money()), $this->bus->first());
+        self::assertEquals(PricedItem::of($id, $price), $this->repository->find($id));
     }
 }

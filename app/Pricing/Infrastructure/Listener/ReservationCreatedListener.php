@@ -26,9 +26,10 @@ class ReservationCreatedListener
             ->push($reservationCreated->track()->id());
 
         $items = $this->repository->findIn($resources);
-        $price = $items->reduce(fn (float $carry, PricedItem $item) => $carry + $item->price()->value(), 0);
-        $pricedItem = PricedItem::of($reservationCreated->reservationId()->id(), new Price($price));
+        /** @var Price $price */
+        $price = $items->reduce(fn (Price $sum, PricedItem $item) => $sum->add($item->price()), Price::of(0));
+        $pricedItem = PricedItem::of($reservationCreated->reservationId()->id(), $price);
         $this->repository->save($pricedItem);
-        $this->bus->dispatch(PriceCalculated::newOne($reservationCreated->reservationId()->id(), $price));
+        $this->bus->dispatch(PriceCalculated::newOne($reservationCreated->reservationId()->id(), $price->money()));
     }
 }

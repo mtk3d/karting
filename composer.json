@@ -17,8 +17,10 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
+        "moneyphp/money": "^4.0",
         "myclabs/php-enum": "^1.7",
-        "ramsey/uuid": "^4.1"
+        "ramsey/uuid": "^4.1",
+        "ext-intl": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

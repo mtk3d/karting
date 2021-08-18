@@ -17,6 +17,6 @@ class PriceCast implements CastsAttributes
 
     public function set($model, string $key, $value, array $attributes)
     {
-        return ['price' => json_encode($value)];
+        return ['price' => json_encode($value->toArray())];
     }
 }

@@ -28,7 +28,7 @@ class KartRequest extends FormRequest
             'name' => 'required|max:100|min:3',
             'description' => 'present',
             'enabled' => 'boolean',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|integer|min:0',
         ];
     }
 }

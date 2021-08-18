@@ -11,7 +11,7 @@ class SlotsCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes)
     {
-        return Slots::of($attributes['slots']);
+        return Slots::of((int)$attributes['slots']);
     }
 
     public function set($model, string $key, $value, array $attributes)

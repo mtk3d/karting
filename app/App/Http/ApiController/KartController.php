@@ -19,6 +19,8 @@ use Karting\Pricing\Application\Command\SetPrice;
 use Karting\Shared\Common\CommandBus;
 use Karting\Shared\Common\UUID;
 use Karting\Shared\ResourceId;
+use Money\Currency;
+use Money\Money;
 
 class KartController extends Controller
 {
@@ -40,9 +42,9 @@ class KartController extends Controller
             $request->get('enabled')
         ));
 
-        $this->bus->dispatch(new SetPrice(
+        $this->bus->dispatch(SetPrice::of(
             new UUID($request->get('uuid')),
-            $request->get('price')
+            new Money($request->get('price'), new Currency('USD'))
         ));
 
         return new Response('', Response::HTTP_CREATED);

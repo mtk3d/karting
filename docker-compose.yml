@@ -5,7 +5,9 @@ networks:
 
 services:
   app:
-    image: mtk3d/php:8.0-fpm-nginx
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
     ports:
       - 9090:80
     volumes:
