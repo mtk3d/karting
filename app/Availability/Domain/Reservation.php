@@ -9,11 +9,11 @@ use Karting\Shared\CarbonPeriodCast;
 use Karting\Shared\Common\UUID;
 use Karting\Shared\Common\UUIDCast;
 use Karting\Shared\ReservationId;
-use Karting\Shared\ReservationIdCast;
+use Karting\Shared\ReservationIdRelationCast;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
-use Karting\Shared\ResourceIdCast;
+use Karting\Shared\ResourceIdRelationCast;
 
 class Reservation extends Model
 {
@@ -29,8 +29,8 @@ class Reservation extends Model
     protected $casts = [
         'uuid' => UUIDCast::class,
         'period' => CarbonPeriodCast::class,
-        'resource_item_id' => ResourceIdCast::class,
-        'reservation_id' => ReservationIdCast::class,
+        'resource_item_id' => ResourceIdRelationCast::class,
+        'reservation_id' => ReservationIdRelationCast::class,
     ];
 
     public static function of(CarbonPeriod $period, ResourceId $resourceId, ReservationId $reservationId): Reservation
