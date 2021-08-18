@@ -21,8 +21,8 @@ class KartsCast implements CastsAttributes
      */
     public function get($model, $key, $value, $attributes)
     {
-        $kartsData = new Collection($attributes['karts']);
-        return $kartsData->map(fn (string $kartData): Kart => Kart::fromArray(json_decode($kartData, true)));
+        $kartsData = new Collection(json_decode($attributes['karts'], true));
+        return $kartsData->map(fn (array $kartData): Kart => Kart::fromArray($kartData));
     }
 
     /**

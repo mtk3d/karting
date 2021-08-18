@@ -11,6 +11,7 @@ use Karting\Pricing\Infrastructure\Repository\EloquentPricedItemRepository;
 use Karting\Reservation\Domain\ReservationCreated;
 use Karting\Shared\Common\DomainEventBus;
 use Karting\Shared\Common\UUID;
+use Karting\Shared\ResourceId;
 
 class ReservationCreatedListener
 {
@@ -21,7 +22,7 @@ class ReservationCreatedListener
     public function handle(ReservationCreated $reservationCreated): void
     {
         $resources = $reservationCreated->karts()
-            ->map(fn (string $kartId): UUID => new UUID($kartId))
+            ->map(fn (ResourceId $kartId): UUID => $kartId->id())
             ->push($reservationCreated->track()->id());
 
         $items = $this->repository->findIn($resources);

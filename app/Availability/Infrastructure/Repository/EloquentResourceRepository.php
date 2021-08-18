@@ -24,7 +24,7 @@ class EloquentResourceRepository implements ResourceRepository
     public function findAll(Collection $ids): Collection
     {
         $rawIds = $ids->map(fn (ResourceId $id): string => $id->id()->toString());
-        return ResourceItem::whereIn('uuid', $rawIds)->all();
+        return ResourceItem::whereIn('uuid', $rawIds)->get();
     }
 
     public function saveAll(Collection $resources): void
