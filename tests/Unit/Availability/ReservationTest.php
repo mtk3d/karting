@@ -5,8 +5,11 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Availability;
 
+use Illuminate\Support\Collection;
 use Karting\Availability\Application\Command\ReserveResource;
+use Karting\Availability\Application\Command\ReserveResources;
 use Karting\Availability\Application\ReserveResourceHandler;
+use Karting\Availability\Application\ReserveResourcesHandler;
 use Karting\Availability\Domain\ResourceReserved;
 use Karting\Availability\Domain\ResourceUnavailableException;
 use Karting\Availability\Infrastructure\Repository\InMemoryResourceRepository;
@@ -14,6 +17,7 @@ use Karting\Shared\Common\InMemoryDomainEventBus;
 use Karting\Shared\Common\UUID;
 use Karting\Shared\ReservationId;
 use PHPUnit\Framework\TestCase;
+use function Tests\Fixtures\aResource;
 use function Tests\Fixtures\aResourceNoSlotsBetween;
 use function Tests\Fixtures\aResourceReservedBetween;
 use function Tests\Fixtures\aResourceWithSlotBetween;
@@ -24,6 +28,7 @@ class ReservationTest extends TestCase
     private InMemoryResourceRepository $resourceRepository;
     private InMemoryDomainEventBus $eventDispatcher;
     private ReserveResourceHandler $reservationHandler;
+    private ReserveResourcesHandler $multiReservationHandler;
 
     public function setUp(): void
     {
@@ -32,6 +37,7 @@ class ReservationTest extends TestCase
         $this->resourceRepository = new InMemoryResourceRepository();
         $this->eventDispatcher = new InMemoryDomainEventBus();
         $this->reservationHandler = new ReserveResourceHandler($this->resourceRepository, $this->eventDispatcher);
+        $this->multiReservationHandler = new ReserveResourcesHandler($this->resourceRepository, $this->eventDispatcher);
     }
 
     /**
@@ -150,5 +156,36 @@ class ReservationTest extends TestCase
         );
 
         self::assertEquals($resource, $this->resourceRepository->find($resource->id()));
+    }
+
+    public function testMultipleResources(): void
+    {
+        // given
+        $reservationId = ReservationId::newOne();
+        $firstResource = aResource();
+        $secondResource = aResource();
+        $this->resourceRepository->save($firstResource);
+        $this->resourceRepository->save($secondResource);
+
+        // when
+        $firstId = $firstResource->id()->id()->toString();
+        $secondId = $secondResource->id()->id()->toString();
+        $resources = [$firstId, $secondId];
+        $reserveCommand = ReserveResources::fromRaw($resources, '2020-12-06 15:00', '2020-12-06 16:00', $reservationId->id()->toString());
+        $this->multiReservationHandler->handle($reserveCommand);
+
+        // then
+        $eventsIterator = $this->eventDispatcher->events()->getIterator();
+        self::assertEquals(
+            new ResourceReserved($eventsIterator->current()->eventId(), $firstResource->id(), $reserveCommand->period(), $reservationId),
+            $eventsIterator->current()
+        );
+
+        $eventsIterator->next();
+
+        self::assertEquals(
+            new ResourceReserved($eventsIterator->current()->eventId(), $secondResource->id(), $reserveCommand->period(), $reservationId),
+            $eventsIterator->current()
+        );
     }
 }

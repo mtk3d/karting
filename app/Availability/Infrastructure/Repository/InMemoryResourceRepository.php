@@ -12,20 +12,32 @@ use Illuminate\Support\Collection;
 
 class InMemoryResourceRepository implements ResourceRepository
 {
-    private Collection $reservations;
+    private Collection $resources;
 
     public function __construct()
     {
-        $this->reservations = new Collection();
+        $this->resources = new Collection();
     }
 
     public function find(ResourceId $id): ResourceItem
     {
-        return $this->reservations->get((string)$id);
+        return $this->resources->get($id->id()->toString());
     }
 
     public function save(ResourceItem $resource): void
     {
-        $this->reservations->put((string)$resource->id(), $resource);
+        $this->resources->put($resource->id()->id()->toString(), $resource);
+    }
+
+    public function findAll(Collection $ids): Collection
+    {
+        $rawIds = $ids->map(fn (ResourceId $id): string => $id->id()->toString());
+        return $this->resources
+            ->filter(fn (ResourceItem $item, string $id): bool => $rawIds->contains($id));
+    }
+
+    public function saveAll(Collection $resources): void
+    {
+        $this->resources->push($resources);
     }
 }

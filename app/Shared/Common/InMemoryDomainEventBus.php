@@ -26,4 +26,9 @@ class InMemoryDomainEventBus implements DomainEventBus
     {
         return $this->events->first();
     }
+
+    public function events(): Collection
+    {
+        return $this->events;
+    }
 }
