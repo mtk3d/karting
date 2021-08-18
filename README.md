@@ -12,7 +12,7 @@ I'm trying to handle those problems:
 Thanks to Andrzej Krzywda for Instagram's private conversations about handling DDD problems in Active Record.
 The [RES example repository](https://github.com/RailsEventStore/cqrs-es-sample-with-res) is also really helpful for me in this project development.  
 I also learn a lot from Domain Driven Rails book by Arkency.
-I think Rails and Laravel are similar frameworks, but there is a bit more articles / etc. about good practices in Rails.
+I think Rails and Laravel are similar frameworks, but there is a bit more great articles / etc. about good practices in Rails.
 
 ## :blue_book: Domain
 I had tried to make Event Storming for this application. Everything is described [here](doc/event-storming.md).
