@@ -168,6 +168,31 @@ class ReservationTest extends TestCase
         self::assertEquals($resource, $this->resourceRepository->find($resource->id()));
     }
 
+    public function testReserveNotEqualOverlapsSlotResource(): void
+    {
+        // given
+        $reservationId = ReservationId::newOne();
+        $from = '2020-12-06 15:30';
+        $to = '2020-12-06 16:30';
+        $resource = aResourceWithSlotBetween(null, $from, $to, $reservationId);
+        $this->resourceRepository->save($resource);
+
+        // when
+        $reserveFrom = '2020-12-06 16:00';
+        $reserveTo = '2020-12-06 17:00';
+        $id = $resource->id()->toString();
+        $reserveCommand = ReserveResource::fromRaw($id, $reserveFrom, $reserveTo, $reservationId->id()->toString());
+        $this->reservationHandler->handle($reserveCommand);
+
+        // then
+        self::assertEquals(
+            new ReservationFailed($this->eventDispatcher->first()->eventId(), $resource->id(), $reserveCommand->period(), $reservationId),
+            $this->eventDispatcher->first()
+        );
+
+        self::assertEquals($resource, $this->resourceRepository->find($resource->id()));
+    }
+
     public function testMultipleResources(): void
     {
         // given

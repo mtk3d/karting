@@ -15,6 +15,10 @@ use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
 use Karting\Shared\ResourceIdRelationCast;
 
+/**
+ * @property UUID $uuid
+ * @property CarbonPeriod $period
+ */
 class Reservation extends Model
 {
     protected $table = 'resource_reservations';
@@ -48,8 +52,13 @@ class Reservation extends Model
         return $this->uuid;
     }
 
-    public function period(): CarbonPeriod
+    public function overlaps(CarbonPeriod $period): bool
     {
-        return $this->period;
+        return $this->period->overlaps($period);
+    }
+
+    public function periodEqual(CarbonPeriod $period): bool
+    {
+        return $this->period->equalTo($period);
     }
 }

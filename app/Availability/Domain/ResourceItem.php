@@ -15,6 +15,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Karting\Shared\ResourceIdCast;
 
+/**
+ * @property ResourceId $uuid
+ * @property Collection<int, Reservation> $reservations
+ * @property bool $enabled
+ * @property Slots $slots
+ */
 class ResourceItem extends Model
 {
     protected $with = ['reservations'];
@@ -112,9 +118,13 @@ class ResourceItem extends Model
     {
         $taken = $this->reservations
             ->filter(function (Reservation $reservation) use ($period): bool {
-                return $reservation->period()->overlaps($period);
-            })->count();
+                return $reservation->overlaps($period);
+            });
 
-        return $this->slots->hasMoreThan($taken);
+        if ($taken->isNotEmpty() && !$taken->first()->periodEqual($period)) {
+            return false;
+        }
+
+        return $this->slots->hasMoreThan($taken->count());
     }
 }
