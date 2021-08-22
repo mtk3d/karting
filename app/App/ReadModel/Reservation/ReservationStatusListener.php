@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Karting\App\ReadModel\Reservation;
 
-
 use Karting\Reservation\Domain\ReservationStatusChanged;
 
 class ReservationStatusListener
