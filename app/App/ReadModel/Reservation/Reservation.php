@@ -19,12 +19,8 @@ class Reservation extends Model
         'track_id',
         'from',
         'to',
-        'confirmed',
+        'status',
         'price'
-    ];
-
-    protected $casts = [
-        'confirmed' => 'boolean'
     ];
 
     protected $with = [

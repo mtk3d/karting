@@ -20,8 +20,7 @@ class CreateReservationsTable extends Migration
             $table->json('track');
             $table->dateTime('from');
             $table->dateTime('to');
-            $table->boolean('confirmed')->default(false);
-            $table->boolean('canceled')->default(false);
+            $table->string('status');
             $table->timestamps();
         });
     }

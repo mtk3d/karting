@@ -37,8 +37,8 @@ class EventServiceProvider extends ServiceProvider
             \Karting\App\ReadModel\Reservation\ReservationCreatedListener::class,
             \Karting\Pricing\Infrastructure\Listener\ReservationCreatedListener::class,
         ],
-        \Karting\Reservation\Domain\ReservationConfirmed::class => [
-            \Karting\App\ReadModel\Reservation\ReservationConfirmedListener::class,
+        \Karting\Reservation\Domain\ReservationStatusChanged::class => [
+            \Karting\App\ReadModel\Reservation\ReservationStatusListener::class,
         ],
         \Karting\Pricing\Domain\PriceSet::class => [
             \Karting\App\ReadModel\Kart\PriceSetListener::class,

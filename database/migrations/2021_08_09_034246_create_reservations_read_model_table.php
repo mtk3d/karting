@@ -19,7 +19,7 @@ class CreateReservationsReadModelTable extends Migration
             $table->uuid('track_id');
             $table->dateTime('from');
             $table->dateTime('to');
-            $table->boolean('confirmed')->default(false);
+            $table->string('status');
             $table->string('price')->default('$0.00');
             $table->timestamps();
         });

@@ -12,6 +12,7 @@ use Karting\Reservation\Application\ReservationManager;
 use Karting\Reservation\Domain\Kart;
 use Karting\Reservation\Domain\Reservation;
 use Karting\Reservation\Domain\ReservationCreated;
+use Karting\Reservation\Domain\Status;
 use Karting\Reservation\Domain\Track;
 use Karting\Reservation\Infrastructure\Repository\InMemoryReservationRepository;
 use Karting\Shared\Common\CommandBus;
@@ -49,7 +50,7 @@ class ReservationTest extends TestCase
         $reservation = Reservation::of($reservationId, $karts, $track, $period);
         $this->reservationRepository->save($reservation);
 
-        $this->reservationManager->handleReservationCrated(ReservationCreated::newOne($reservationId, $karts->map(fn (Kart $k) => $k->resourceId()), $track->resourceId(), $period));
+        $this->reservationManager->handleReservationCrated(ReservationCreated::newOne($reservationId, $karts->map(fn (Kart $k) => $k->resourceId()), $track->resourceId(), $period, Status::IN_PROGRESS()));
         $this->reservationManager->handleResourceReserved(ResourceReserved::newOne($firstKart->resourceId(), $period, $reservationId));
         $this->reservationManager->handleResourceReserved(ResourceReserved::newOne($secondKart->resourceId(), $period, $reservationId));
         $this->reservationManager->handleResourceReserved(ResourceReserved::newOne($track->resourceId(), $period, $reservationId));

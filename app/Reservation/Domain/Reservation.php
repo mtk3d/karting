@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Karting\Reservation\Domain;
 
+use Exception;
 use Karting\Reservation\Infrastructure\Repository\Eloquent\KartsCast;
+use Karting\Reservation\Infrastructure\Repository\Eloquent\StatusCast;
 use Karting\Reservation\Infrastructure\Repository\Eloquent\TrackCast;
 use Karting\Shared\CarbonPeriodCast;
 use Karting\Shared\Common\Result;
@@ -15,6 +17,13 @@ use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
+/**
+ * @property ReservationId $uuid
+ * @property Collection<int, Kart> $karts
+ * @property Track $track
+ * @property CarbonPeriod $period
+ * @property Status $status
+ */
 class Reservation extends Model
 {
     protected $fillable = [
@@ -22,13 +31,7 @@ class Reservation extends Model
         'karts',
         'track',
         'period',
-        'confirmed',
-        'canceled'
-    ];
-
-    protected $attributes = [
-        'karts' => [],
-        'confirmed' => false
+        'status'
     ];
 
     protected $casts = [
@@ -36,8 +39,13 @@ class Reservation extends Model
         'karts' => KartsCast::class,
         'track' => TrackCast::class,
         'period' => CarbonPeriodCast::class,
-        'confirmed' => 'boolean',
+        'status' => StatusCast::class,
     ];
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+    }
 
     public static function of(ReservationId $reservationId, Collection $karts, Track $track, CarbonPeriod $period): Reservation
     {
@@ -46,22 +54,35 @@ class Reservation extends Model
             'karts' => $karts,
             'track' => $track,
             'period' => $period,
+            'status' => Status::IN_PROGRESS()
         ]);
     }
 
+    /**
+     * @throws Exception
+     */
     public function confirm(): Result
     {
-        if ($this->confirmed) {
-            throw new \Exception('ResourceReservation is already confirmed');
+        if ($this->status->equals(Status::CANCELED())) {
+            throw new Exception('ResourceReservation is canceled');
         }
 
-        $this->confirmed = true;
+        if ($this->status->equals(Status::CONFIRMED())) {
+            throw new Exception('ResourceReservation is already confirmed');
+        }
+
+        $this->status = Status::CONFIRMED();
 
         $events = new Collection([
-            ReservationConfirmed::newOne($this->uuid)
+            ReservationStatusChanged::newOne($this->uuid, $this->status)
         ]);
 
         return Result::success($events);
+    }
+
+    public function cancel()
+    {
+        $this->status = Status::CANCELED();
     }
 
     public function id(): ReservationId
@@ -81,7 +102,7 @@ class Reservation extends Model
 
     public function confirmed(): bool
     {
-        return $this->confirmed;
+        return $this->status->equals(Status::CONFIRMED());
     }
 
     public function period(): CarbonPeriod
@@ -118,8 +139,8 @@ class Reservation extends Model
             ->isEmpty();
     }
 
-    public function cancel()
+    public function status(): Status
     {
-        $this->canceled = true;
+        return $this->status;
     }
 }

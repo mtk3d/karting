@@ -5,7 +5,7 @@
 @section('content')
     <div class="p-6">
         <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
-            📄 Reservations 
+            📄 Reservations
         </h2>
     </div>
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 px-6">
@@ -15,16 +15,16 @@
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            📅 Date 
+                            📅 Date
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            ✅ Confirmed 
+                            ✅ Confirmed
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            🛣️ Track 
+                            🛣️ Track
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            💰 Price 
+                            💰 Price
                         </th>
                         <th scope="col" class="relative px-6 py-3">
                             <span class="sr-only">Pay</span>
@@ -38,11 +38,7 @@
                                 {{ $reservation->from }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if ($reservation->confirmed)
-                                    Confirmed
-                                @else
-                                    Waiting
-                                @endif
+                                {{ $reservation->status }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 {{ $reservation->track->name }}

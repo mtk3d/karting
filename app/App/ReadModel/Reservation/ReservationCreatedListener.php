@@ -16,7 +16,7 @@ class ReservationCreatedListener
             'track_id' => $reservationCreated->track()->id(),
             'from' => $reservationCreated->period()->getStartDate()->toDateTimeString(),
             'to' => $reservationCreated->period()->getEndDate()->toDateTimeString(),
-            'confirmed' => false
+            'status' => $reservationCreated->status()
         ]);
 
         $karts = Kart::whereIn('uuid', $reservationCreated->karts())->get();

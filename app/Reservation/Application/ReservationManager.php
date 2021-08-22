@@ -5,12 +5,11 @@ declare(strict_types=1);
 
 namespace Karting\Reservation\Application;
 
-use Karting\Availability\Application\Command\ReserveResource;
 use Karting\Availability\Application\Command\ReserveResources;
 use Karting\Availability\Domain\ReservationFailed;
 use Karting\Availability\Domain\ResourceReserved;
+use Karting\Reservation\Application\Command\CancelReservation;
 use Karting\Reservation\Application\Command\ConfirmReservation;
-use Karting\Reservation\Domain\Kart;
 use Karting\Reservation\Domain\ReservationCreated;
 use Karting\Reservation\Domain\ReservationRepository;
 use Karting\Shared\Common\CommandBus;

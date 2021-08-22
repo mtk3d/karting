@@ -34,7 +34,8 @@ class CreateReservationHandler
             $createReservation->reservationId(),
             $createReservation->kartIds(),
             $createReservation->trackId(),
-            $createReservation->period()
+            $createReservation->period(),
+            $reservation->status()
         );
 
         $this->bus->dispatch($reservationCreated);

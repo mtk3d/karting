@@ -6,7 +6,7 @@ namespace Karting\Reservation\Application;
 
 use Karting\Reservation\Application\Command\CancelReservation;
 use Karting\Reservation\Application\Command\ConfirmReservation;
-use Karting\Reservation\Domain\ReservationConfirmed;
+use Karting\Reservation\Domain\ReservationStatusChanged;
 use Karting\Reservation\Domain\ReservationRepository;
 use Karting\Shared\Common\DomainEventBus;
 
@@ -23,6 +23,6 @@ class CancelReservationHandler
 
         $this->repository->save($reservation);
 
-        $this->bus->dispatch(ReservationConfirmed::newOne($reservation->id()));
+        $this->bus->dispatch(ReservationStatusChanged::newOne($reservation->id()));
     }
 }

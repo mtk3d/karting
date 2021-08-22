@@ -18,7 +18,8 @@ class ReservationCreated implements DomainEvent
         private ReservationId $reservationId,
         private Collection $karts,
         private ResourceId $track,
-        private CarbonPeriod $period
+        private CarbonPeriod $period,
+        private string $status
     ) {
     }
 
@@ -26,9 +27,10 @@ class ReservationCreated implements DomainEvent
         ReservationId $reservationId,
         Collection $karts,
         ResourceId $track,
-        CarbonPeriod $period
+        CarbonPeriod $period,
+        Status $status
     ): ReservationCreated {
-        return new self(UUID::random(), $reservationId, $karts, $track, $period);
+        return new self(UUID::random(), $reservationId, $karts, $track, $period, $status->getValue());
     }
 
     public function eventId(): UUID
@@ -57,5 +59,10 @@ class ReservationCreated implements DomainEvent
     public function period(): CarbonPeriod
     {
         return $this->period;
+    }
+
+    public function status(): string
+    {
+        return $this->status;
     }
 }

@@ -32,14 +32,14 @@ class ReservationTest extends TestCase
 
         $this->assertDatabaseHas('reservations', [
             'uuid' => '81cf2b8d-a004-4995-a990-84c87480a257',
-            'confirmed' => true,
+            'status' => 'confirmed',
             'from' => '2021-08-21 11:00:00',
             'to' => '2021-08-21 12:00:00'
         ]);
 
         $this->assertDatabaseHas('reservations_read_model', [
             'uuid' => '81cf2b8d-a004-4995-a990-84c87480a257',
-            'confirmed' => true,
+            'status' => 'confirmed',
             'from' => '2021-08-21 11:00:00',
             'to' => '2021-08-21 12:00:00',
             'price' => '$25.00'
