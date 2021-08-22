@@ -7,6 +7,7 @@ namespace Karting\Reservation\Domain;
 use MyCLabs\Enum\Enum;
 
 /**
+ * @psalm-immutable
  * @method static Status IN_PROGRESS()
  * @method static Status CONFIRMED()
  * @method static Status CANCELED()
