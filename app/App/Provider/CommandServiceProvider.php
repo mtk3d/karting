@@ -17,6 +17,8 @@ use Karting\Kart\Application\Command\CreateKart;
 use Karting\Kart\Application\CreateKartHandler;
 use Karting\Pricing\Application\Command\SetPrice;
 use Karting\Pricing\Application\SetPriceHandler;
+use Karting\Reservation\Application\CancelReservationHandler;
+use Karting\Reservation\Application\Command\CancelReservation;
 use Karting\Reservation\Application\Command\ConfirmReservation;
 use Karting\Reservation\Application\Command\CreateReservation;
 use Karting\Reservation\Application\ConfirmReservationHandler;
@@ -41,6 +43,7 @@ class CommandServiceProvider extends ServiceProvider
             CreateReservation::class => CreateReservationHandler::class,
             ConfirmReservation::class => ConfirmReservationHandler::class,
             SetPrice::class => SetPriceHandler::class,
+            CancelReservation::class => CancelReservationHandler::class,
         ]);
     }
 }

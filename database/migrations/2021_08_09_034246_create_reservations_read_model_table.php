@@ -15,7 +15,7 @@ class CreateReservationsReadModelTable extends Migration
     {
         Schema::create('reservations_read_model', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
+            $table->uuid('uuid')->unique();
             $table->uuid('track_id');
             $table->dateTime('from');
             $table->dateTime('to');

@@ -48,7 +48,7 @@ class ReservationManager
     {
         $reservation = $this->repository->find($reservationFailed->reservationId());
 
-        if ($reservation->finished() && !$reservation->confirmed()) {
+        if (!$reservation->confirmed()) {
             $this->bus->dispatch(new CancelReservation($reservation->id()));
         }
     }
@@ -63,6 +63,11 @@ class ReservationManager
         $events->listen(
             ResourceReserved::class,
             [ReservationManager::class, 'handleResourceReserved']
+        );
+
+        $events->listen(
+            ReservationFailed::class,
+            [ReservationManager::class, 'handleReservationFailed']
         );
     }
 }

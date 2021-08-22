@@ -64,20 +64,19 @@ class ResourceItem extends Model
     public function reserve(CarbonPeriod $period, ReservationId $reservationId): Result
     {
         if (!$this->enabled()) {
-            return Result::failure('PricedItem unavailable');
+            return Result::failure('ResourceItem is unavailable');
         }
 
         if (!$this->isAvailableIn($period)) {
             return Result::failure('Cannot reserve in this period');
         }
 
-        $reservation = Reservation::of($period, $this->id(), $reservationId);
+        $reservation = Reservation::of($period, $this->uuid, $reservationId);
         $this->reservations->add($reservation);
 
         $events = new Collection([
-            ResourceReserved::newOne($this->id(), $period, $reservationId)
+            ResourceReserved::newOne($this->uuid, $period, $reservationId)
         ]);
-
 
         return Result::success($events);
     }
@@ -87,7 +86,7 @@ class ResourceItem extends Model
         $this->enabled = false;
 
         $events = new Collection([
-            StateChanged::newOne($this->id(), $this->enabled)
+            StateChanged::newOne($this->uuid, $this->enabled)
         ]);
 
         return Result::success($events);
@@ -98,7 +97,7 @@ class ResourceItem extends Model
         $this->enabled = true;
 
         $events = new Collection([
-            StateChanged::newOne($this->id(), $this->enabled)
+            StateChanged::newOne($this->uuid, $this->enabled)
         ]);
 
         return Result::success($events);

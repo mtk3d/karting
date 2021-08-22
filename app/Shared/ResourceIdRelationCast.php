@@ -10,13 +10,13 @@ class ResourceIdRelationCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes)
     {
-        return ResourceId::of($attributes['uuid']);
+        return ResourceId::of($attributes['resource_item_id']);
     }
 
     public function set($model, string $key, $value, array $attributes)
     {
         return [
-            'uuid' => $value->id()->toString()
+            'resource_item_id' => $value->id()->toString()
         ];
     }
 }

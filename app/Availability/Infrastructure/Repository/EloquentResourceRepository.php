@@ -30,7 +30,7 @@ class EloquentResourceRepository implements ResourceRepository
     public function saveAll(Collection $resources): void
     {
         $resources->each(function (ResourceItem $item): void {
-            $item->save();
+            $item->push();
         });
     }
 }

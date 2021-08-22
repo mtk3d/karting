@@ -15,7 +15,7 @@ class CreatePricedItemsTable extends Migration
     {
         Schema::create('priced_items', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid');
+            $table->uuid('uuid')->unique();
             $table->json('price');
             $table->timestamps();
         });

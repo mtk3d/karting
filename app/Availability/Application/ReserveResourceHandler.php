@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace Karting\Availability\Application;
 
+use Illuminate\Support\Facades\Log;
 use Karting\Availability\Application\Command\ReserveResource;
 use Karting\Availability\Domain\ReservationFailed;
 use Karting\Availability\Domain\ResourceItem;
