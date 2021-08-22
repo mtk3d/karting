@@ -22,7 +22,8 @@ class Reservation extends Model
         'karts',
         'track',
         'period',
-        'confirmed'
+        'confirmed',
+        'canceled'
     ];
 
     protected $attributes = [
@@ -115,5 +116,10 @@ class Reservation extends Model
         return $this->karts
             ->filter(fn (Kart $kart): bool => !$kart->reserved())
             ->isEmpty();
+    }
+
+    public function cancel()
+    {
+        $this->canceled = true;
     }
 }

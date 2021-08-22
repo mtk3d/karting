@@ -10,6 +10,7 @@ use Karting\Availability\Application\Command\ReserveResource;
 use Karting\Availability\Application\Command\ReserveResources;
 use Karting\Availability\Application\ReserveResourceHandler;
 use Karting\Availability\Application\ReserveResourcesHandler;
+use Karting\Availability\Domain\ReservationFailed;
 use Karting\Availability\Domain\ResourceReserved;
 use Karting\Availability\Domain\ResourceUnavailableException;
 use Karting\Availability\Infrastructure\Repository\InMemoryResourceRepository;
@@ -79,14 +80,17 @@ class ReservationTest extends TestCase
         $resource = aWithdrawnResource();
         $this->resourceRepository->save($resource);
 
-        // should
-        self::expectExceptionObject(new ResourceUnavailableException('PricedItem unavailable'));
-
         // when
-        $reservationId = UUID::random()->toString();
+        $reservationId = ReservationId::newOne();
         $id = $resource->id()->toString();
-        $reserveCommand = ReserveResource::fromRaw($id, '2020-12-06 15:30', '2020-12-06 16:30', $reservationId);
+        $reserveCommand = ReserveResource::fromRaw($id, '2020-12-06 15:30', '2020-12-06 16:30', $reservationId->toString());
         $this->reservationHandler->handle($reserveCommand);
+
+        // then
+        self::assertEquals(
+            new ReservationFailed($this->eventDispatcher->first()->eventId(), $resource->id(), $reserveCommand->period(), $reservationId),
+            $this->eventDispatcher->first()
+        );
     }
 
     /**
@@ -95,17 +99,20 @@ class ReservationTest extends TestCase
     public function testReserveAlreadyReservedResource(string $alreadyFrom, string $alreadyTo, string $from, string $to): void
     {
         // given
-        $reservationId = UUID::random()->toString();
-        $resource = aResourceReservedBetween(null, $alreadyFrom, $alreadyTo, ReservationId::of($reservationId));
+        $reservationId = ReservationId::newOne();
+        $resource = aResourceReservedBetween(null, $alreadyFrom, $alreadyTo, $reservationId);
         $this->resourceRepository->save($resource);
-
-        // should
-        self::expectExceptionObject(new ResourceUnavailableException('Cannot reserve in this period'));
 
         // when
         $id = $resource->id()->toString();
-        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId);
+        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->toString());
         $this->reservationHandler->handle($reserveCommand);
+
+        // then
+        self::assertEquals(
+            new ReservationFailed($this->eventDispatcher->first()->eventId(), $resource->id(), $reserveCommand->period(), $reservationId),
+            $this->eventDispatcher->first()
+        );
     }
 
     public function failedReservedDates(): array
@@ -120,19 +127,22 @@ class ReservationTest extends TestCase
     public function testReserveNoPlacesResource(): void
     {
         // given
-        $reservationId = UUID::random()->toString();
+        $reservationId = ReservationId::newOne();
         $from = '2020-12-06 15:30';
         $to = '2020-12-06 16:30';
-        $resource = aResourceNoSlotsBetween(null, $from, $to, ReservationId::of($reservationId));
+        $resource = aResourceNoSlotsBetween(null, $from, $to, $reservationId);
         $this->resourceRepository->save($resource);
-
-        // should
-        self::expectExceptionObject(new ResourceUnavailableException('Cannot reserve in this period'));
 
         // when
         $id = $resource->id()->toString();
-        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId);
+        $reserveCommand = ReserveResource::fromRaw($id, $from, $to, $reservationId->toString());
         $this->reservationHandler->handle($reserveCommand);
+
+        // then
+        self::assertEquals(
+            new ReservationFailed($this->eventDispatcher->first()->eventId(), $resource->id(), $reserveCommand->period(), $reservationId),
+            $this->eventDispatcher->first()
+        );
     }
 
     public function testReserveWithPlacesResource(): void

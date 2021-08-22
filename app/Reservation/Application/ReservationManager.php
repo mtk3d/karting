@@ -7,6 +7,7 @@ namespace Karting\Reservation\Application;
 
 use Karting\Availability\Application\Command\ReserveResource;
 use Karting\Availability\Application\Command\ReserveResources;
+use Karting\Availability\Domain\ReservationFailed;
 use Karting\Availability\Domain\ResourceReserved;
 use Karting\Reservation\Application\Command\ConfirmReservation;
 use Karting\Reservation\Domain\Kart;
@@ -41,6 +42,15 @@ class ReservationManager
 
         if ($reservation->finished() && !$reservation->confirmed()) {
             $this->bus->dispatch(new ConfirmReservation($reservation->id()));
+        }
+    }
+
+    public function handleReservationFailed(ReservationFailed $reservationFailed): void
+    {
+        $reservation = $this->repository->find($reservationFailed->reservationId());
+
+        if ($reservation->finished() && !$reservation->confirmed()) {
+            $this->bus->dispatch(new CancelReservation($reservation->id()));
         }
     }
 

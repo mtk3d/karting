@@ -21,6 +21,7 @@ class CreateReservationsTable extends Migration
             $table->dateTime('from');
             $table->dateTime('to');
             $table->boolean('confirmed')->default(false);
+            $table->boolean('canceled')->default(false);
             $table->timestamps();
         });
     }
