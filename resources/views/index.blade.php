@@ -38,7 +38,7 @@
                                 {{ $reservation->from }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                {{ $reservation->status }}
+                                {{ __("reservation.$reservation->status") }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 {{ $reservation->track->name }}
