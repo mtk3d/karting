@@ -26,9 +26,16 @@ abstract class Result
         return new Success($events);
     }
 
-    public static function failure(string $reason): Failure
+    /**
+     * @param Collection<int, DomainEvent>|null $events
+     * @return Failure
+     */
+    public static function failure(string $reason, Collection $events = null): Failure
     {
-        return new Failure($reason);
+        if ($events === null) {
+            $events = collect();
+        }
+        return new Failure($reason, $events);
     }
 
     public function isFailure(): bool
@@ -55,10 +62,6 @@ abstract class Result
      */
     public function events(): Collection
     {
-        if ($this->isSuccessful()) {
-            return $this->events;
-        }
-
-        return collect();
+        return $this->events;
     }
 }
