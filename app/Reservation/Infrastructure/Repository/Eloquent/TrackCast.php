@@ -26,7 +26,7 @@ class TrackCast implements CastsAttributes
     /**
      * @param  Model $model
      * @param  string $key
-     * @param  Track $value
+     * @param  mixed $value
      * @param  array $attributes
      * @return array
      */

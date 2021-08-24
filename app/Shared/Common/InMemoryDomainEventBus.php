@@ -10,11 +10,11 @@ use Illuminate\Support\Collection;
 class InMemoryDomainEventBus implements DomainEventBus
 {
     /** @var Collection<string, DomainEvent> */
-    private $events;
+    private Collection $events;
 
     public function __construct()
     {
-        $this->events = new Collection();
+        $this->events = collect();
     }
 
     public function dispatch(DomainEvent $event): void

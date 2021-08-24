@@ -53,7 +53,7 @@ class TrackController extends Controller
     }
 
     /**
-     * @return Collection<int, Kart>
+     * @return Collection<Track>
      */
     public function all(): Collection
     {
@@ -71,10 +71,10 @@ class TrackController extends Controller
     }
 
     /**
-     * @return Collection<int, ResourceReservation>
+     * @return Collection<Track>
      */
     public function reservations(string $id): Collection
     {
-        return Track::where('uuid', $id)->first()->reservations;
+        return Track::where('uuid', $id)->firstOrFail()->reservations;
     }
 }

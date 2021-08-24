@@ -16,10 +16,10 @@ class InMemoryResourceRepository implements ResourceRepository
 
     public function __construct()
     {
-        $this->resources = new Collection();
+        $this->resources = collect();
     }
 
-    public function find(ResourceId $id): ResourceItem
+    public function find(ResourceId $id): ?ResourceItem
     {
         return $this->resources->get($id->id()->toString());
     }
@@ -29,6 +29,10 @@ class InMemoryResourceRepository implements ResourceRepository
         $this->resources->put($resource->id()->toString(), $resource);
     }
 
+    /**
+     * @param Collection<int, ResourceId> $ids
+     * @return Collection<int, ResourceItem>
+     */
     public function findAll(Collection $ids): Collection
     {
         $rawIds = $ids->map(fn (ResourceId $id): string => $id->id()->toString());
@@ -36,6 +40,9 @@ class InMemoryResourceRepository implements ResourceRepository
             ->filter(fn (ResourceItem $item, string $id): bool => $rawIds->contains($id));
     }
 
+    /**
+     * @param Collection<int, ResourceItem> $resources
+     */
     public function saveAll(Collection $resources): void
     {
         $this->resources->push($resources);

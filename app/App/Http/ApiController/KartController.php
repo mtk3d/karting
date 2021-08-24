@@ -51,7 +51,7 @@ class KartController extends Controller
     }
 
     /**
-     * @return Collection<int, Kart>
+     * @return Collection<Kart>
      */
     public function all(): Collection
     {
@@ -69,10 +69,10 @@ class KartController extends Controller
     }
 
     /**
-     * @return Collection<int, ResourceReservation>
+     * @return Collection<ResourceReservation>
      */
     public function reservations(string $id): Collection
     {
-        return Kart::where('uuid', $id)->first()->reservations;
+        return Kart::where('uuid', $id)->firstOrFail()->reservations;
     }
 }

@@ -7,7 +7,7 @@ namespace Karting\Pricing\Infrastructure\Repository;
 use Illuminate\Support\Collection;
 use Karting\Pricing\Domain\PricedItem;
 use Karting\Pricing\Domain\PricedItemRepository;
-use Karting\Shared\Common\UUID;
+use Karting\Shared\ResourceId;
 
 class EloquentPricedItemRepository implements PricedItemRepository
 {
@@ -17,10 +17,10 @@ class EloquentPricedItemRepository implements PricedItemRepository
     }
 
     /**
-     * @param Collection<int, UUID> $resources
+     * @param Collection<int, ResourceId> $resources
      */
     public function findIn(Collection $resources): Collection
     {
-        return PricedItem::whereIn('uuid', $resources)->get();
+        return PricedItem::whereIn('uuid', $resources)->get() ?? collect();
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Karting\Availability\Application;
 
-use Illuminate\Support\Collection;
 use Karting\Availability\Application\Command\UpdateSlots;
 use Karting\Availability\Domain\ResourceRepository;
 use Karting\Availability\Domain\Slots;

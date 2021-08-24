@@ -5,12 +5,10 @@ declare(strict_types=1);
 
 namespace Karting\Availability\Application;
 
-use Illuminate\Support\Facades\Log;
 use Karting\Availability\Application\Command\ReserveResource;
 use Karting\Availability\Domain\ReservationFailed;
 use Karting\Availability\Domain\ResourceItem;
 use Karting\Availability\Domain\ResourceRepository;
-use Karting\Availability\Domain\ResourceUnavailableException;
 use Karting\Shared\Common\DomainEventBus;
 
 class ReserveResourceHandler
@@ -21,9 +19,6 @@ class ReserveResourceHandler
     ) {
     }
 
-    /**
-     * @throws ResourceUnavailableException
-     */
     public function handle(ReserveResource $reserveResource): void
     {
         /** @var ResourceItem $resource */

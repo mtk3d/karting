@@ -22,8 +22,8 @@ class ReservationCreatedListener
     public function handle(ReservationCreated $reservationCreated): void
     {
         $resources = $reservationCreated->karts()
-            ->map(fn (ResourceId $kartId): UUID => $kartId->id())
-            ->push($reservationCreated->track()->id());
+            ->push($reservationCreated->track())
+            ->map(fn (ResourceId $resourceId): UUID => $resourceId->id());
 
         $items = $this->repository->findIn($resources);
         /** @var Price $price */

@@ -9,6 +9,10 @@ use Karting\Pricing\Infrastructure\Repository\Eloquent\PriceCast;
 use Karting\Shared\Common\UUID;
 use Karting\Shared\Common\UUIDCast;
 
+/**
+ * @property UUID $uuid
+ * @property Price $price
+ */
 class PricedItem extends Model
 {
     protected $fillable = [

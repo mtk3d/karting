@@ -11,7 +11,7 @@ use Karting\Shared\ResourceId;
 
 class EloquentResourceRepository implements ResourceRepository
 {
-    public function find(ResourceId $id): ResourceItem
+    public function find(ResourceId $id): ?ResourceItem
     {
         return ResourceItem::where('uuid', $id->id())->first();
     }
@@ -21,12 +21,19 @@ class EloquentResourceRepository implements ResourceRepository
         $resource->push();
     }
 
+    /**
+     * @param Collection<int, ResourceId> $ids
+     * @return Collection<int, ResourceItem>
+     */
     public function findAll(Collection $ids): Collection
     {
         $rawIds = $ids->map(fn (ResourceId $id): string => $id->id()->toString());
         return ResourceItem::whereIn('uuid', $rawIds)->get();
     }
 
+    /**
+     * @param Collection<int, ResourceItem> $resources
+     */
     public function saveAll(Collection $resources): void
     {
         $resources->each(function (ResourceItem $item): void {

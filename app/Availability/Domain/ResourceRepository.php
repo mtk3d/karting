@@ -10,7 +10,7 @@ use Karting\Shared\ResourceId;
 
 interface ResourceRepository
 {
-    public function find(ResourceId $id): ResourceItem;
+    public function find(ResourceId $id): ?ResourceItem;
     public function save(ResourceItem $resource): void;
 
     /**

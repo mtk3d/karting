@@ -22,9 +22,6 @@ class ReserveResourcesHandler
     ) {
     }
 
-    /**
-     * @throws ResourceUnavailableException
-     */
     public function handle(ReserveResources $reserveResources): void
     {
         /** @var Collection<int, ResourceItem> $resources */

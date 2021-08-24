@@ -74,33 +74,27 @@ class ResourceItem extends Model
         $reservation = Reservation::of($period, $this->uuid, $reservationId);
         $this->reservations->add($reservation);
 
-        $events = new Collection([
+        return Result::success(collect([
             ResourceReserved::newOne($this->uuid, $period, $reservationId)
-        ]);
-
-        return Result::success($events);
+        ]));
     }
 
     public function disable(): Result
     {
         $this->enabled = false;
 
-        $events = new Collection([
+        return Result::success(collect([
             StateChanged::newOne($this->uuid, $this->enabled)
-        ]);
-
-        return Result::success($events);
+        ]));
     }
 
     public function enable(): Result
     {
         $this->enabled = true;
 
-        $events = new Collection([
+        return Result::success(collect([
             StateChanged::newOne($this->uuid, $this->enabled)
-        ]);
-
-        return Result::success($events);
+        ]));
     }
 
     public function id(): ResourceId
@@ -131,8 +125,8 @@ class ResourceItem extends Model
     {
         $this->slots = $slots;
 
-        return Result::success(new Collection(
+        return Result::success(collect([
             SlotsUpdated::newOne($this->uuid, $this->slots->quantity())
-        ));
+        ]));
     }
 }

@@ -12,7 +12,7 @@ class InMemoryCommandBus implements CommandBus
 
     public function __construct()
     {
-        $this->commands = new Collection();
+        $this->commands = collect();
     }
 
     public function dispatch(Command $command)

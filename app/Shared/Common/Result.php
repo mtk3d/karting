@@ -10,14 +10,18 @@ use Illuminate\Support\Collection;
 
 abstract class Result
 {
+    protected string $reason;
+    /** @var Collection<int, DomainEvent> */
+    protected Collection $events;
+
     /**
-     * @param Collection<int, DomainEvent> $events
+     * @param Collection<int, DomainEvent>|null $events
      * @return Success
      */
-    public static function success(?Collection $events = null): Success
+    public static function success(Collection $events = null): Success
     {
         if ($events === null) {
-            $events = new Collection();
+            $events = collect();
         }
         return new Success($events);
     }
@@ -47,16 +51,14 @@ abstract class Result
     }
 
     /**
-     * @return Collection|DomainEvent
-     *
-     * @psalm-return Collection<empty, empty>|DomainEvent
+     * @return Collection<int, DomainEvent>
      */
-    public function events()
+    public function events(): Collection
     {
         if ($this->isSuccessful()) {
             return $this->events;
         }
 
-        return new Collection();
+        return collect();
     }
 }

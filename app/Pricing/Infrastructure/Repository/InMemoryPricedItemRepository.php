@@ -15,7 +15,7 @@ class InMemoryPricedItemRepository implements PricedItemRepository
 
     public function __construct()
     {
-        $this->pricedItems = new Collection();
+        $this->pricedItems = collect();
     }
 
     public function save(PricedItem $pricedItem): void

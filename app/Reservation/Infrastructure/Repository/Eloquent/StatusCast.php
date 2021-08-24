@@ -27,7 +27,7 @@ class StatusCast implements CastsAttributes
     /**
      * @param  Model $model
      * @param  string $key
-     * @param  Status $value
+     * @param  mixed $value
      * @param  array $attributes
      * @return array
      */

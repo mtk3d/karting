@@ -27,7 +27,7 @@ class ReserveResources implements Command
      */
     public static function fromRaw(array $ids, string $from, string $to, string $reservationId): ReserveResources
     {
-        $ids = (new Collection($ids))->map([ResourceId::class, 'of']);
+        $ids = collect($ids)->map([ResourceId::class, 'of']);
         $period = CarbonPeriod::create($from, $to);
         $reservationId = ReservationId::of($reservationId);
 

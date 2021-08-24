@@ -25,7 +25,7 @@ class ReservationController
     }
 
     /**
-     * @return Collection<int, Reservation>
+     * @return Collection<Reservation>
      */
     public function all(): Collection
     {

@@ -44,7 +44,7 @@ class ReservationTest extends TestCase
         $reservationId = new ReservationId(UUID::random());
         $firstKart = new Kart(new ResourceId(UUID::random()), false);
         $secondKart = new Kart(new ResourceId(UUID::random()), false);
-        $karts = new Collection([$firstKart, $secondKart]);
+        $karts = collect([$firstKart, $secondKart]);
         $track = new Track(new ResourceId(UUID::random()), false);
         $period = CarbonPeriod::create('2020-12-06 15:30', '2020-12-06 16:30');
         $reservation = Reservation::of($reservationId, $karts, $track, $period);

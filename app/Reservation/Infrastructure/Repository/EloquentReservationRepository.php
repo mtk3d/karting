@@ -16,7 +16,7 @@ class EloquentReservationRepository implements ReservationRepository
         $reservation->push();
     }
 
-    public function find(ReservationId $id): Reservation
+    public function find(ReservationId $id): ?Reservation
     {
         return Reservation::where('uuid', $id->id())->first();
     }

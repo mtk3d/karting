@@ -21,14 +21,14 @@ class KartsCast implements CastsAttributes
      */
     public function get($model, $key, $value, $attributes)
     {
-        $kartsData = new Collection(json_decode($attributes['karts'], true));
+        $kartsData = collect(json_decode($attributes['karts'], true));
         return $kartsData->map(fn (array $kartData): Kart => Kart::fromArray($kartData));
     }
 
     /**
      * @param  Model $model
      * @param  string $key
-     * @param  Collection<int, Kart> $value
+     * @param  mixed $value
      * @param  array $attributes
      * @return array
      */

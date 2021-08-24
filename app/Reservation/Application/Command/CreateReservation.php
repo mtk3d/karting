@@ -24,7 +24,7 @@ class CreateReservation implements Command
     {
         return new CreateReservation(
             ReservationId::of($payload['uuid']),
-            (new Collection($payload['karts_ids']))->map([ResourceId::class, 'of']),
+            collect($payload['karts_ids'])->map([ResourceId::class, 'of']),
             ResourceId::of($payload['track_id']),
             new CarbonPeriod($payload['from'], $payload['to'])
         );
