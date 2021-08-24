@@ -126,4 +126,13 @@ class ResourceItem extends Model
 
         return $this->slots->hasMoreThan($taken->count());
     }
+
+    public function setSlots(Slots $slots): Result
+    {
+        $this->slots = $slots;
+
+        return Result::success(new Collection(
+            SlotsUpdated::newOne($this->uuid, $this->slots->quantity())
+        ));
+    }
 }
