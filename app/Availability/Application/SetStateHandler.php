@@ -27,10 +27,6 @@ class SetStateHandler
             $result = $resource->disable();
         }
 
-        if ($result->isFailure()) {
-            throw new ResourceUnavailableException($result->reason());
-        }
-
         $this->resourceRepository->save($resource);
 
         $result->events()->each([$this->bus, 'dispatch']);
