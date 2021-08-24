@@ -6,7 +6,6 @@ namespace Karting\Availability\Application;
 
 use Karting\Availability\Application\Command\SetState;
 use Karting\Availability\Domain\ResourceRepository;
-use Karting\Availability\Domain\ResourceUnavailableException;
 use Karting\Shared\Common\DomainEventBus;
 
 class SetStateHandler
