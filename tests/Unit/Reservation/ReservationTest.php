@@ -21,7 +21,6 @@ use Karting\Shared\Common\UUID;
 use Karting\Shared\ReservationId;
 use Karting\Shared\ResourceId;
 use Carbon\CarbonPeriod;
-use Illuminate\Support\Collection;
 use PHPUnit\Framework\TestCase;
 
 class ReservationTest extends TestCase

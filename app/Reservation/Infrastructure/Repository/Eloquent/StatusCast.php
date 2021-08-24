@@ -8,7 +8,6 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 use Karting\Reservation\Domain\Status;
-use Karting\Reservation\Domain\Track;
 
 class StatusCast implements CastsAttributes
 {

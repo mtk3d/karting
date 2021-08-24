@@ -6,9 +6,6 @@ namespace Karting\App\ReadModel\Reservation;
 
 use Karting\App\Formatter\MoneyFormatter;
 use Karting\Pricing\Domain\PriceCalculated;
-use Money\Currencies\ISOCurrencies;
-use Money\Formatter\IntlMoneyFormatter;
-use NumberFormatter;
 
 class PriceCalculatedListener
 {

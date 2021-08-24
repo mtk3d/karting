@@ -9,8 +9,6 @@ use Illuminate\Http\Response;
 use Karting\App\Http\ApiController\Request\StateRequest;
 use Karting\App\Http\ApiController\Request\TrackRequest;
 use Karting\App\Http\Controller;
-use Karting\App\ReadModel\Kart\Kart;
-use Karting\App\ReadModel\ResourceReservation\ResourceReservation;
 use Karting\App\ReadModel\Track\Track;
 use Karting\Availability\Application\Command\CreateResource;
 use Karting\Availability\Application\Command\SetState;

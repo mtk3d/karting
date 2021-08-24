@@ -25,4 +25,9 @@ return $config->setRules([
         'full_opening_tag' => true,
         'braces' => true,
         'line_ending' => true,
+        'no_unused_imports' => true,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'phpdoc_order' => true,
+        'phpdoc_types_order' => ['null_adjustment'=> 'always_last'],
     ])->setFinder($finder);

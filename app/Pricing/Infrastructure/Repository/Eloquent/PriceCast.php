@@ -6,7 +6,6 @@ namespace Karting\Pricing\Infrastructure\Repository\Eloquent;
 
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Karting\Pricing\Domain\Price;
-use Karting\Shared\ResourceId;
 
 class PriceCast implements CastsAttributes
 {

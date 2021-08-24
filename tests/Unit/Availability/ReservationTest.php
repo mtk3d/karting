@@ -5,17 +5,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Availability;
 
-use Illuminate\Support\Collection;
 use Karting\Availability\Application\Command\ReserveResource;
 use Karting\Availability\Application\Command\ReserveResources;
 use Karting\Availability\Application\ReserveResourceHandler;
 use Karting\Availability\Application\ReserveResourcesHandler;
 use Karting\Availability\Domain\ReservationFailed;
 use Karting\Availability\Domain\ResourceReserved;
-use Karting\Availability\Domain\ResourceUnavailableException;
 use Karting\Availability\Infrastructure\Repository\InMemoryResourceRepository;
 use Karting\Shared\Common\InMemoryDomainEventBus;
-use Karting\Shared\Common\UUID;
 use Karting\Shared\ReservationId;
 use PHPUnit\Framework\TestCase;
 use function Tests\Fixtures\aResource;

@@ -12,7 +12,6 @@ use Karting\Pricing\Domain\PriceSet;
 use Karting\Pricing\Infrastructure\Repository\InMemoryPricedItemRepository;
 use Karting\Shared\Common\InMemoryDomainEventBus;
 use Karting\Shared\Common\UUID;
-use Money\Money;
 use PHPUnit\Framework\TestCase;
 
 class PricedItemTest extends TestCase

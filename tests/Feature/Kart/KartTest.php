@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Kart;
 
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;

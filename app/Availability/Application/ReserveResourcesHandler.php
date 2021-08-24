@@ -9,7 +9,6 @@ use Karting\Availability\Application\Command\ReserveResources;
 use Karting\Availability\Domain\ReservationFailed;
 use Karting\Availability\Domain\ResourceItem;
 use Karting\Availability\Domain\ResourceRepository;
-use Karting\Availability\Domain\ResourceUnavailableException;
 use Karting\Shared\Common\DomainEvent;
 use Karting\Shared\Common\DomainEventBus;
 use Karting\Shared\Common\Result;

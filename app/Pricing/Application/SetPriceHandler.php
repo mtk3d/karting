@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Karting\Pricing\Application;
 
 use Karting\Pricing\Application\Command\SetPrice;
-use Karting\Pricing\Domain\Price;
 use Karting\Pricing\Domain\PriceSet;
 use Karting\Pricing\Domain\PricedItem;
 use Karting\Pricing\Domain\PricedItemRepository;
