@@ -15,27 +15,21 @@ abstract class Result
     protected Collection $events;
 
     /**
-     * @param Collection<int, DomainEvent>|null $events
+     * @param DomainEvent[]|null $events
      * @return Success
      */
-    public static function success(Collection $events = null): Success
+    public static function success(?DomainEvent ...$events): Success
     {
-        if ($events === null) {
-            $events = collect();
-        }
-        return new Success($events);
+        return new Success(collect($events));
     }
 
     /**
-     * @param Collection<int, DomainEvent>|null $events
+     * @param DomainEvent[]|null $events
      * @return Failure
      */
-    public static function failure(string $reason, Collection $events = null): Failure
+    public static function failure(string $reason, ?DomainEvent ...$events): Failure
     {
-        if ($events === null) {
-            $events = collect();
-        }
-        return new Failure($reason, $events);
+        return new Failure($reason, collect($events));
     }
 
     public function isFailure(): bool

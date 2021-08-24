@@ -15,7 +15,7 @@ class InMemoryCommandBus implements CommandBus
         $this->commands = collect();
     }
 
-    public function dispatch(Command $command)
+    public function dispatch(Command $command): void
     {
         $this->commands->push($command);
     }

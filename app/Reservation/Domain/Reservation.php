@@ -73,12 +73,12 @@ class Reservation extends Model
 
         $this->status = Status::CONFIRMED();
 
-        return Result::success(collect(
+        return Result::success(
             ReservationStatusChanged::newOne($this->uuid, $this->status)
-        ));
+        );
     }
 
-    public function cancel()
+    public function cancel(): void
     {
         $this->status = Status::CANCELED();
     }

@@ -64,37 +64,43 @@ class ResourceItem extends Model
     public function reserve(CarbonPeriod $period, ReservationId $reservationId): Result
     {
         if (!$this->enabled()) {
-            return Result::failure('ResourceItem is unavailable');
+            return Result::failure(
+                'ResourceItem is unavailable',
+                ReservationFailed::newOne($this->uuid, $period, $reservationId)
+            );
         }
 
         if (!$this->isAvailableIn($period)) {
-            return Result::failure('Cannot reserve in this period');
+            return Result::failure(
+                'Cannot reserve in this period',
+                ReservationFailed::newOne($this->uuid, $period, $reservationId)
+            );
         }
 
         $reservation = Reservation::of($period, $this->uuid, $reservationId);
         $this->reservations->add($reservation);
 
-        return Result::success(collect([
+        return Result::success(
             ResourceReserved::newOne($this->uuid, $period, $reservationId)
-        ]));
+        );
     }
 
     public function disable(): Result
     {
         $this->enabled = false;
 
-        return Result::success(collect([
+        return Result::success(
             StateChanged::newOne($this->uuid, $this->enabled)
-        ]));
+        );
     }
 
     public function enable(): Result
     {
         $this->enabled = true;
 
-        return Result::success(collect([
+        return Result::success(
             StateChanged::newOne($this->uuid, $this->enabled)
-        ]));
+        );
     }
 
     public function id(): ResourceId
@@ -125,8 +131,8 @@ class ResourceItem extends Model
     {
         $this->slots = $slots;
 
-        return Result::success(collect([
+        return Result::success(
             SlotsUpdated::newOne($this->uuid, $this->slots->quantity())
-        ]));
+        );
     }
 }

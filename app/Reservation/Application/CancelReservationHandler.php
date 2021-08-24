@@ -16,7 +16,7 @@ class CancelReservationHandler
     {
     }
 
-    public function handle(CancelReservation $cancelReservation)
+    public function handle(CancelReservation $cancelReservation): void
     {
         $reservation = $this->repository->find($cancelReservation->reservationId());
         $reservation->cancel();

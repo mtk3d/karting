@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace Karting\Availability\Application;
 
 use Karting\Availability\Application\Command\ReserveResource;
-use Karting\Availability\Domain\ReservationFailed;
 use Karting\Availability\Domain\ResourceItem;
 use Karting\Availability\Domain\ResourceRepository;
 use Karting\Shared\Common\DomainEventBus;
@@ -25,11 +24,10 @@ class ReserveResourceHandler
         $resource = $this->resourceRepository->find($reserveResource->id());
         $result = $resource->reserve($reserveResource->period(), $reserveResource->reservationId());
 
-        if ($result->isFailure()) {
-            $this->bus->dispatch(ReservationFailed::newOne($resource->id(), $reserveResource->period(), $reserveResource->reservationId()));
-        } else {
+        if ($result->isSuccessful()) {
             $this->resourceRepository->save($resource);
-            $result->events()->each([$this->bus, 'dispatch']);
         }
+
+        $result->events()->each([$this->bus, 'dispatch']);
     }
 }

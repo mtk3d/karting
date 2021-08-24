@@ -16,7 +16,7 @@ class ConfirmReservationHandler
     {
     }
 
-    public function handle(ConfirmReservation $confirmReservation)
+    public function handle(ConfirmReservation $confirmReservation): void
     {
         $reservation = $this->repository->find($confirmReservation->reservationId());
         $reservation->confirm();
