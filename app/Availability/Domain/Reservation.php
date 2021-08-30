@@ -52,13 +52,8 @@ class Reservation extends Model
         return $this->uuid;
     }
 
-    public function overlaps(CarbonPeriod $period): bool
+    public function period(): CarbonPeriod
     {
-        return $this->period->overlaps($period);
-    }
-
-    public function periodEqual(CarbonPeriod $period): bool
-    {
-        return $this->period->equalTo($period);
+        return $this->period;
     }
 }

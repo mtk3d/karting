@@ -35,7 +35,7 @@ function aResourceReservedBetween(?ResourceId $resourceId, string $from, string 
     }
 
     $resource = ResourceItem::of($resourceId, Slots::of(1));
-    $resource->reserve(CarbonPeriod::create($from, $to), $reservationId);
+    $resource->reserve(CarbonPeriod::create($from, $to), $reservationId, collect([]));
     return $resource;
 }
 
@@ -46,7 +46,7 @@ function aResourceNoSlotsBetween(?ResourceId $resourceId, string $from, string $
     }
 
     $resource = ResourceItem::of($resourceId, Slots::of(1));
-    $resource->reserve(CarbonPeriod::create($from, $to), $reservationId);
+    $resource->reserve(CarbonPeriod::create($from, $to), $reservationId, collect([]));
     return $resource;
 }
 
@@ -57,6 +57,6 @@ function aResourceWithSlotBetween(?ResourceId $resourceId, string $from, string 
     }
 
     $resource = ResourceItem::of($resourceId, Slots::of(2));
-    $resource->reserve(CarbonPeriod::create($from, $to), $reservationId);
+    $resource->reserve(CarbonPeriod::create($from, $to), $reservationId, collect([]));
     return $resource;
 }

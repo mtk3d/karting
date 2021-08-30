@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace Karting\Availability\Application;
 
 use Karting\Availability\Application\Command\ReserveResource;
+use Karting\Availability\Domain\Policy\NoOverfillSlots;
 use Karting\Availability\Domain\ResourceItem;
 use Karting\Availability\Domain\ResourceRepository;
 use Karting\Shared\Common\DomainEventBus;
@@ -22,7 +23,16 @@ class ReserveResourceHandler
     {
         /** @var ResourceItem $resource */
         $resource = $this->resourceRepository->find($reserveResource->id());
-        $result = $resource->reserve($reserveResource->period(), $reserveResource->reservationId());
+
+        $policies = collect([
+            new NoOverfillSlots()
+        ]);
+
+        $result = $resource->reserve(
+            $reserveResource->period(),
+            $reserveResource->reservationId(),
+            $policies
+        );
 
         if ($result->isSuccessful()) {
             $this->resourceRepository->save($resource);

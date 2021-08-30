@@ -61,7 +61,28 @@ class ResourceItem extends Model
         return $this->hasMany(Reservation::class, 'resource_item_id', 'uuid');
     }
 
-    public function reserve(CarbonPeriod $period, ReservationId $reservationId): Result
+    public function id(): ResourceId
+    {
+        return $this->uuid;
+    }
+
+    private function enabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @return Collection<int, CarbonPeriod>
+     */
+    public function reservedPeriods(): Collection
+    {
+        return $this->reservations->map(fn (Reservation $r): CarbonPeriod => $r->period());
+    }
+
+    /**
+     * @param Collection<int, Policy> $policies
+     */
+    public function reserve(CarbonPeriod $period, ReservationId $reservationId, Collection $policies): Result
     {
         if (!$this->enabled()) {
             return Result::failure(
@@ -70,7 +91,11 @@ class ResourceItem extends Model
             );
         }
 
-        if (!$this->isAvailableIn($period)) {
+        $satisfied = $policies->filter(function (Policy $policy) use ($period): bool {
+            return !$policy->isSatisfiedBy($period, $this->reservedPeriods(), $this->slots);
+        })->isEmpty();
+
+        if (!$satisfied) {
             return Result::failure(
                 'Cannot reserve in this period',
                 ReservationFailed::newOne($this->uuid, $period, $reservationId)
@@ -101,30 +126,6 @@ class ResourceItem extends Model
         return Result::success(
             StateChanged::newOne($this->uuid, $this->enabled)
         );
-    }
-
-    public function id(): ResourceId
-    {
-        return $this->uuid;
-    }
-
-    private function enabled(): bool
-    {
-        return $this->enabled;
-    }
-
-    private function isAvailableIn(CarbonPeriod $period): bool
-    {
-        $taken = $this->reservations
-            ->filter(function (Reservation $reservation) use ($period): bool {
-                return $reservation->overlaps($period);
-            });
-
-        if ($taken->isNotEmpty() && !$taken->first()->periodEqual($period)) {
-            return false;
-        }
-
-        return $this->slots->hasMoreThan($taken->count());
     }
 
     public function setSlots(Slots $slots): Result

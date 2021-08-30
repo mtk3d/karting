@@ -6,6 +6,7 @@ namespace Karting\Availability\Application;
 
 use Illuminate\Support\Collection;
 use Karting\Availability\Application\Command\ReserveResources;
+use Karting\Availability\Domain\Policy\NoOverfillSlots;
 use Karting\Availability\Domain\ResourceItem;
 use Karting\Availability\Domain\ResourceRepository;
 use Karting\Shared\Common\DomainEventBus;
@@ -24,10 +25,15 @@ class ReserveResourcesHandler
         /** @var Collection<int, ResourceItem> $resources */
         $resources = $this->resourceRepository->findAll($reserveResources->ids());
 
-        $results = $resources->map(function (ResourceItem $resource) use ($reserveResources): Result {
+        $policies = collect([
+            new NoOverfillSlots()
+        ]);
+
+        $results = $resources->map(function (ResourceItem $resource) use ($policies, $reserveResources): Result {
             return $resource->reserve(
                 $reserveResources->period(),
-                $reserveResources->reservationId()
+                $reserveResources->reservationId(),
+                $policies
             );
         });
 
