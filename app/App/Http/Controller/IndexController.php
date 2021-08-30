@@ -12,6 +12,6 @@ class IndexController extends Controller
 {
     public function index(): View
     {
-        return view('index', ['reservations' => Reservation::all()]);
+        return view();
     }
 }
