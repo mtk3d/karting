@@ -11,6 +11,7 @@
     <div class="-my-2 overflow-x-auto">
         <div class="p-6 max-w-lg">
             <form method="POST" action="/reservation/create" class="grid grid-cols-1 gap-6">
+                @csrf
                 <input type="hidden" name="uuid" value="{{ $uuid }}">
                 <label class="block">
                     <span class="text-gray-700">⏱️ From</span>
