@@ -1,8 +1,5 @@
 version: '3.1'
 
-networks:
-  karting: {}
-
 services:
   app:
     build:
@@ -12,8 +9,6 @@ services:
       - 9090:80
     volumes:
       - .:/var/www
-    networks:
-      - karting
 
   db:
     image: mysql
@@ -22,5 +17,3 @@ services:
       MYSQL_DATABASE: database
     ports:
       - 3307:3306
-    networks:
-      - karting

@@ -30,7 +30,7 @@ jobs:
         run: composer install --prefer-dist --no-progress
 
       - name: Run code quality check
-        run: composer run code-quality
+        run: make lint
 
       - name: Run test suite
-        run: composer run test
+        run: make test

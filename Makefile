@@ -1,24 +1,41 @@
-up: ## Run local docker env
-up: copy-env composer-install yarn-install docker-compose-up
+up: ## Start local docker env
+	@copy-env composer-install yarn-install docker-compose-up migrate-db
 
 down: ## Stop local docker env
-down: docker-compose-down
+	@docker-compose-down
 
-copy-env: \
-    if [ ! -f .env ]; then \
-        cp .env.docker.dist .env \
-    fi
+beautify: ## Beautify your code
+	@$(DOCKER_COMPOSE_EXEC) bin/php-cs-fixer fix -v --show-progress=dots
 
-composer-install: composer install
+test: ## Run code tests
+	@$(DOCKER_COMPOSE_EXEC) php artisan test
 
-yarn-install: yarn install
+lint: ## Run code linters
+	@$(DOCKER_COMPOSE_EXEC) bin/psalm
+	@$(DOCKER_COMPOSE_EXEC) bin/php-cs-fixer fix -v --dry-run --show-progress=dots
 
-docker-compose-up: docker-compose up
+migrate-db:
+	@$(DOCKER_COMPOSE_EXEC) artisan migrate
 
-docker-compose-down: docker-compose down
+copy-env:
+	@test -s .env || cp .env.docker.dist .env
+
+composer-install:
+	@composer install
+
+yarn-install:
+	@yarn install
+
+docker-compose-up:
+	@docker-compose up -d
+
+docker-compose-down:
+	@docker-compose down
 
 help:
 	@echo "\033[33mUsage:\033[0m\n  make TARGET\n\033[33m\nTargets:"
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | awk 'BEGIN {FS = ":"}; {printf "  \033[33m%-10s\033[0m%s\n", $$1, $$2}'
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | awk 'BEGIN {FS = ":"}; {printf "  \033[33m%-15s\033[0m%s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
+
+DOCKER_COMPOSE_EXEC = docker-compose exec app

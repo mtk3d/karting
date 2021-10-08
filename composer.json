@@ -69,20 +69,6 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ],
-        "test": [
-            "@php artisan test"
-        ],
-        "code-quality": [
-            "psalm",
-            "php-cs-fixer fix -v --dry-run --show-progress=dots"
-        ],
-        "check": [
-            "@code-quality",
-            "@test"
-        ],
-        "cs-fix": [
-            "php-cs-fixer fix -v --show-progress=dots"
         ]
     }
 }
