@@ -1,8 +1,8 @@
 up: ## Start local docker env
-	@copy-env composer-install yarn-install docker-compose-up migrate-db
+up: copy-env composer-install yarn-install docker-compose-up wait migrate-db
 
 down: ## Stop local docker env
-	@docker-compose-down
+down: docker-compose-down
 
 beautify: ## Beautify your code
 	bin/php-cs-fixer fix -v --show-progress=dots
@@ -18,7 +18,7 @@ shell: ## Get access to container
 	@$(DOCKER_COMPOSE_EXEC) /bin/sh
 
 migrate-db:
-	@$(DOCKER_COMPOSE_EXEC) artisan migrate
+	@$(DOCKER_COMPOSE_EXEC) php artisan migrate
 
 copy-env:
 	@test -s .env || cp .env.docker.dist .env
@@ -34,6 +34,9 @@ docker-compose-up:
 
 docker-compose-down:
 	@docker-compose down
+
+wait:
+	@sleep 5
 
 help:
 	@echo "\033[33mUsage:\033[0m\n  make TARGET\n\033[33m\nTargets:"
