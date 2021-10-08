@@ -21,7 +21,7 @@ I had tried to make Event Storming for this application. Everything is described
 ## :rocket: Run the application
 1. Copy config file
 ```bash
-cp .env.example .env
+cp .env.docker.dist .env
 ```
 2. Run docker-compose command
 ```bash
