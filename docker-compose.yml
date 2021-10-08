@@ -4,7 +4,7 @@ services:
   app:
     build:
       context: ./
-      dockerfile: ./docker/Dockerfile
+      dockerfile: .docker/php/Dockerfile
     ports:
       - 9090:80
     volumes:
@@ -13,7 +13,7 @@ services:
   db:
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: database
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
     ports:
       - 3307:3306
