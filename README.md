@@ -10,7 +10,7 @@ I'm trying to handle those problems:
 - Communication between contexts / modules (Process Managers)
 
 Thanks to Andrzej Krzywda for Instagram's private conversations about handling DDD problems in Active Record.
-The [RES example repository](https://github.com/RailsEventStore/cqrs-es-sample-with-res) is also really helpful for me in this project development.  
+The [RES ecommerce](https://github.com/RailsEventStore/ecommerce) is also really helpful for me in this project development.  
 I also learn a lot from Domain Driven Rails book by Arkency.
 Also thanks for Mariusz Gil and Kuba Pilimon for [Aggregates by example](https://github.com/mariuszgil/aggregates-by-example) repository.
 I modeled my availability context on this example.
