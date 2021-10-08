@@ -16,3 +16,5 @@ yarn-error.log
 infection.log
 /supervisord.log
 /supervisord.pid
+/bin/*
+!/bin/.gitkeep
