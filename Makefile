@@ -14,6 +14,9 @@ lint: ## Run code linters
 	bin/psalm
 	bin/php-cs-fixer fix -v --dry-run --show-progress=dots
 
+shell: ## Get access to container
+	@$(DOCKER_COMPOSE_EXEC) /bin/sh
+
 migrate-db:
 	@$(DOCKER_COMPOSE_EXEC) artisan migrate
 

@@ -19,17 +19,11 @@ I modeled my availability context on this example.
 I had tried to make Event Storming for this application. Everything is described [here](doc/event-storming.md).
 
 ## :rocket: Run the application
-1. Copy config file
+To run this application locally with docker, just run:
 ```bash
-cp .env.docker.dist .env
+make up
 ```
-2. Run docker-compose command
-```bash
-docker-compose up -d
-```
-3. Run migrations
-```bash
-docker-compose run --rm app php artisan migrate
-```
+## 
+This command will configure app, create containers and run db migrations.
 ## :speech_balloon: API
 API is documented as Postman collection file [here](doc/Karting.postman_collection.json).
