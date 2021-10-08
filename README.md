@@ -23,7 +23,6 @@ To run this application locally with docker, just run:
 ```bash
 make up
 ```
-## 
 This command will configure app, create containers and run db migrations.
 ## :speech_balloon: API
 API is documented as Postman collection file [here](doc/Karting.postman_collection.json).
