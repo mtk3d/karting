@@ -5,14 +5,14 @@ down: ## Stop local docker env
 	@docker-compose-down
 
 beautify: ## Beautify your code
-	@$(DOCKER_COMPOSE_EXEC) bin/php-cs-fixer fix -v --show-progress=dots
+	bin/php-cs-fixer fix -v --show-progress=dots
 
 test: ## Run code tests
-	@$(DOCKER_COMPOSE_EXEC) php artisan test
+	php artisan test
 
 lint: ## Run code linters
-	@$(DOCKER_COMPOSE_EXEC) bin/psalm
-	@$(DOCKER_COMPOSE_EXEC) bin/php-cs-fixer fix -v --dry-run --show-progress=dots
+	bin/psalm
+	bin/php-cs-fixer fix -v --dry-run --show-progress=dots
 
 migrate-db:
 	@$(DOCKER_COMPOSE_EXEC) artisan migrate
