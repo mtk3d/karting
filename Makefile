@@ -1,6 +1,6 @@
 .PHONY: up
 up: ## Start local docker env
-up: copy-env composer-install yarn-install docker-compose-up wait migrate-db
+up: .env composer-install yarn-install docker-compose-up wait migrate-db
 
 .PHONY: down
 down: ## Stop local docker env
@@ -27,9 +27,8 @@ shell: ## Get access to container
 migrate-db:
 	@$(DOCKER_COMPOSE_EXEC) php artisan migrate
 
-.PHONY: copy-env
-copy-env:
-	@test -s .env || cp .env.docker.dist .env
+.env:
+	@cp .env.docker.dist .env
 
 .PHONY: composer-install
 composer-install:
