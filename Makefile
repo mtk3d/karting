@@ -14,7 +14,6 @@ test: ## Run code tests
 	@$(DOCKER_COMPOSE_EXEC) $(BACKEND_TEST)
 
 lint: ## Run code linters
-lint:
 	@$(DOCKER_COMPOSE_EXEC) $(PSALM)
 	@$(DOCKER_COMPOSE_EXEC) $(PHP_CS_FIXER_CHECK)
 
