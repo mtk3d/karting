@@ -8,7 +8,7 @@ watch: ## Run webpack watch
 	@$(NODE) $(FRONTEND_BUILD) --progress --watch
 
 beautify: ## Beautify your code
-	@$(DOCKER_COMPOSE_EXEC) bin/php-cs-fixer fix -v --show-progress=dots
+	@$(DOCKER_COMPOSE_EXEC) $(PHP_CS_FIXER)
 
 test: ## Run code tests
 	@$(DOCKER_COMPOSE_EXEC) $(BACKEND_TEST)
