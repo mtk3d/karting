@@ -2,18 +2,27 @@ version: '3.1'
 
 services:
   app:
+    container_name: karting_app
     build:
       context: ./
       dockerfile: .docker/php/Dockerfile
     ports:
       - 9090:80
     volumes:
-      - .:/var/www
+      - .:/app
 
   db:
+    container_name: karting_db
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: root
     ports:
       - 3307:3306
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql: {}

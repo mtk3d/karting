@@ -1,7 +1,14 @@
-FROM mtk3d/php:8.0-fpm-nginx
+FROM php:8.0-fpm-alpine
+WORKDIR /app
 
-COPY .docker/php/opcache.ini $PHP_INI_DIR/conf.d/opcache.ini
-
-RUN apk update --no-cache && apk add icu-dev --no-cache && \
+RUN apk upgrade --no-cache && \
+    apk add --no-cache icu-dev gmp gmp-dev imagemagick nginx && \
+    docker-php-ext-configure opcache --enable-opcache && \
     docker-php-ext-configure intl && \
-    docker-php-ext-install intl bcmath
+    docker-php-ext-install gmp pdo pdo_mysql opcache bcmath
+
+COPY .docker/php/php.ini $PHP_INI_DIR/php.ini
+COPY .docker/php/nginx.conf /etc/nginx/nginx.conf
+COPY .docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/zzz-php-fpm.conf
+
+CMD ["sh", "-c", "php-fpm --daemonize && nginx"]
