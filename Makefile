@@ -5,14 +5,14 @@ down: ## Stop local docker env
 down: docker-compose-down
 
 beautify: ## Beautify your code
-	bin/php-cs-fixer fix -v --show-progress=dots
+	@bin/php-cs-fixer fix -v --show-progress=dots
 
 test: ## Run code tests
-	php artisan test
+	@php artisan test
 
 lint: ## Run code linters
-	bin/psalm
-	bin/php-cs-fixer fix -v --dry-run --show-progress=dots
+	@bin/psalm
+	@bin/php-cs-fixer fix -v --dry-run --show-progress=dots
 
 shell: ## Get access to container
 	@$(DOCKER_COMPOSE_EXEC) /bin/sh
@@ -39,7 +39,7 @@ wait:
 	@sleep 5
 
 help:
-	@echo "\033[33mUsage:\033[0m\n  make TARGET\n\033[33m\nTargets:"
+	@printf "\033[33mUsage:\033[0m\n  make TARGET\n\033[33m\nTargets:\n"
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | awk 'BEGIN {FS = ":"}; {printf "  \033[33m%-15s\033[0m%s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
