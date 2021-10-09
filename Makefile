@@ -1,5 +1,5 @@
 up: ## Start local docker env
-up: vendor node_modules .env front-build-dev docker-compose-up wait migrate-db
+up: vendor node_modules .env docker-compose-up front-build-dev migrate-db
 
 down: ## Stop local docker env
 down: docker-compose-down
@@ -39,9 +39,6 @@ docker-compose-up:
 docker-compose-down:
 	@docker-compose down
 
-wait:
-	@sleep 5
-
 front-build-dev:
 	@$(NODE) $(FRONTEND_BUILD)
 
@@ -60,7 +57,7 @@ help:
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | awk 'BEGIN {FS = ":"}; {printf "  \033[33m%-15s\033[0m%s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
-.PHONY: up down beautify test lint shell migrate-db docker-compose-up docker-compose-down wait help \
+.PHONY: up down beautify test lint shell migrate-db docker-compose-up docker-compose-down help \
 	front-build-dev front-build-prod ci-lint ci-test
 
 DOCKER_COMPOSE_EXEC = docker-compose exec app
