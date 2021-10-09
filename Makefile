@@ -1,21 +1,22 @@
 up: ## Start local docker env
-up: .env composer-install yarn-install front-build-dev docker-compose-up wait migrate-db
+up: vendor node_modules .env front-build-dev docker-compose-up wait migrate-db
 
 down: ## Stop local docker env
 down: docker-compose-down
 
 watch: ## Run webpack watch
-	@NODE_ENV=development $(FRONTEND_BUILD) --progress --watch
+	@$(NODE) $(FRONTEND_BUILD) --progress --watch
 
 beautify: ## Beautify your code
-	@bin/php-cs-fixer fix -v --show-progress=dots
+	@$(DOCKER_COMPOSE_EXEC) bin/php-cs-fixer fix -v --show-progress=dots
 
 test: ## Run code tests
-	@php artisan test
+	@$(DOCKER_COMPOSE_EXEC) $(BACKEND_TEST)
 
 lint: ## Run code linters
-	@bin/psalm
-	@bin/php-cs-fixer fix -v --dry-run --show-progress=dots
+lint:
+	@$(DOCKER_COMPOSE_EXEC) $(PSALM)
+	@$(DOCKER_COMPOSE_EXEC) $(PHP_CS_FIXER_CHECK)
 
 shell: ## Get access to container
 	@$(DOCKER_COMPOSE_EXEC) /bin/sh
@@ -25,13 +26,13 @@ migrate-db:
 
 .env:
 	@cp .env.docker.dist .env
-	@php artisan key:generate
+	@$(DOCKER_COMPOSE_EXEC) artisan key:generate
 
-composer-install:
-	@composer install
+vendor: composer.json composer.lock
+	@$(COMPOSER) composer install --ignore-platform-reqs
 
-yarn-install:
-	@yarn install
+node_modules: package.json yarn.lock
+	@$(NODE) yarn install
 
 docker-compose-up:
 	@docker-compose up -d
@@ -43,10 +44,17 @@ wait:
 	@sleep 5
 
 front-build-dev:
-	@NODE_ENV=development $(FRONTEND_BUILD)
+	@$(NODE) $(FRONTEND_BUILD)
 
 front-build-prod:
-	@NODE_ENV=production $(FRONTEND_BUILD)
+	@$(NODE) $(FRONTEND_BUILD)
+
+ci-lint:
+	@$(PSALM)
+	@$(PHP_CS_FIXER_CHECK)
+
+ci-test:
+	@$(BACKEND_TEST)
 
 help:
 	@printf "\033[33mUsage:\033[0m\n  make TARGET\n\033[33m\nTargets:\n"
@@ -54,7 +62,14 @@ help:
 
 .DEFAULT_GOAL := help
 .PHONY: up down beautify test lint shell migrate-db composer-install yarn-install docker-compose-up \
-	docker-compose-down wait help front-build-dev
+	docker-compose-down wait help front-build-dev front-build-prod ci-lint ci-test
 
 DOCKER_COMPOSE_EXEC = docker-compose exec app
+DOCKER_RUN = docker run --rm -it -w /app -v $(shell pwd):/app
+NODE = $(DOCKER_RUN) node:16.10-alpine
+COMPOSER = $(DOCKER_RUN) composer:2.1
 FRONTEND_BUILD = node_modules/webpack/bin/webpack.js --config=node_modules/laravel-mix/setup/webpack.config.js
+PSALM = bin/psalm
+PHP_CS_FIXER = bin/php-cs-fixer fix -v --show-progress=dots
+PHP_CS_FIXER_CHECK = $(PHP_CS_FIXER) --dry-run
+BACKEND_TEST = php artisan test
