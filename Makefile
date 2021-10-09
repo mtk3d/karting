@@ -5,7 +5,7 @@ down: ## Stop local docker env
 down: docker-compose-down
 
 watch: ## Run webpack watch
-	@$(NODE) $(FRONTEND_BUILD) --progress --watch
+	@$(NODE) $(FRONTEND_BUILD) --env development --progress --watch
 
 beautify: ## Beautify your code
 	@$(DOCKER_COMPOSE_EXEC) $(PHP_CS_FIXER)
@@ -44,10 +44,10 @@ docker-compose-down:
 	@docker-compose down
 
 front-build-dev:
-	@$(NODE) $(FRONTEND_BUILD)
+	@$(NODE) $(FRONTEND_BUILD) --env development
 
 front-build-prod:
-	@$(NODE) $(FRONTEND_BUILD)
+	@$(NODE) $(FRONTEND_BUILD) --env production
 
 ci-lint:
 	@$(PSALM)
