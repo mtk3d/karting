@@ -1,0 +1,3 @@
+#!/bin/bash
+
+bin/docker-run node:16.10-alpine "$@"
