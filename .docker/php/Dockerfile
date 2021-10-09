@@ -5,7 +5,7 @@ RUN apk upgrade --no-cache && \
     apk add --no-cache icu-dev gmp gmp-dev imagemagick nginx && \
     docker-php-ext-configure opcache --enable-opcache && \
     docker-php-ext-configure intl && \
-    docker-php-ext-install gmp pdo pdo_mysql opcache bcmath
+    docker-php-ext-install gmp pdo pdo_mysql opcache bcmath intl
 
 COPY .docker/php/php.ini $PHP_INI_DIR/php.ini
 COPY .docker/php/nginx.conf /etc/nginx/nginx.conf
