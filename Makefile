@@ -61,8 +61,8 @@ help:
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | awk 'BEGIN {FS = ":"}; {printf "  \033[33m%-15s\033[0m%s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
-.PHONY: up down beautify test lint shell migrate-db composer-install yarn-install docker-compose-up \
-	docker-compose-down wait help front-build-dev front-build-prod ci-lint ci-test
+.PHONY: up down beautify test lint shell migrate-db docker-compose-up docker-compose-down wait help \
+	front-build-dev front-build-prod ci-lint ci-test
 
 DOCKER_COMPOSE_EXEC = docker-compose exec app
 DOCKER_RUN = docker run --rm -it -w /app -v $(shell pwd):/app
