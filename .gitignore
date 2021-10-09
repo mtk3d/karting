@@ -18,3 +18,5 @@ infection.log
 /supervisord.pid
 /bin/*
 !/bin/.gitkeep
+/public/css
+/public/js
