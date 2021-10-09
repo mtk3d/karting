@@ -15,16 +15,16 @@
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            📅 Date
+                            <span class="mr-2">📅</span>Date
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            ✅ Confirmed
+                            <span class="mr-2">✅</span>Confirmed
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            🛣️ Track
+                            <span class="mr-2">🛣️</span>Track
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            💰 Price
+                            <span class="mr-2">💰</span>Price
                         </th>
                         <th scope="col" class="relative px-6 py-3">
                             <span class="sr-only">Pay</span>
@@ -62,7 +62,7 @@
     </div>
     <div class="p-6">
         <a href="/reservation/create" class="py-3 px-4 rounded-lg shadow focus:outline-none">
-            ➕ Create reservation
+            <span class="mr-2">➕</span>Create reservation
         </a>
     </div>
 @endsection
