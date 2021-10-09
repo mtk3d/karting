@@ -8,6 +8,7 @@
 </head>
 
 <body>
+@include('layouts.nav')
 <div class="flex flex-col">
     @yield('content')
 </div>
