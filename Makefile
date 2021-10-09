@@ -17,6 +17,10 @@ lint: ## Run code linters
 	@$(DOCKER_COMPOSE_EXEC) $(PSALM)
 	@$(DOCKER_COMPOSE_EXEC) $(PHP_CS_FIXER_CHECK)
 
+update: ## Update all dependencies
+	@$(COMPOSER) composer update --ignore-platform-reqs
+	@$(NODE) yarn upgrade
+
 shell: ## Get access to container
 	@$(DOCKER_COMPOSE_EXEC) /bin/sh
 
@@ -57,14 +61,14 @@ help:
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | awk 'BEGIN {FS = ":"}; {printf "  \033[33m%-15s\033[0m%s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
-.PHONY: up down beautify test lint shell migrate-db docker-compose-up docker-compose-down help \
+.PHONY: up down beautify test lint shell migrate-db docker-compose-up docker-compose-down help update \
 	front-build-dev front-build-prod ci-lint ci-test
 
-# Docker executes
+# Docker executable prefix
 DOCKER_COMPOSE_EXEC = docker-compose exec app
 DOCKER_RUN = docker run --rm -it -w /app -v $(shell pwd):/app
 
-# Docker images
+# Docker executables
 NODE = $(DOCKER_RUN) node:16.10-alpine
 COMPOSER = $(DOCKER_RUN) composer:2.1
 
