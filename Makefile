@@ -60,15 +60,15 @@ help:
 .PHONY: up down beautify test lint shell migrate-db docker-compose-up docker-compose-down help \
 	front-build-dev front-build-prod ci-lint ci-test
 
-## Docker executes
+# Docker executes
 DOCKER_COMPOSE_EXEC = docker-compose exec app
 DOCKER_RUN = docker run --rm -it -w /app -v $(shell pwd):/app
 
-## Docker images
+# Docker images
 NODE = $(DOCKER_RUN) node:16.10-alpine
 COMPOSER = $(DOCKER_RUN) composer:2.1
 
-## Commands
+# Commands
 FRONTEND_BUILD = node_modules/webpack/bin/webpack.js --config=node_modules/laravel-mix/setup/webpack.config.js
 PSALM = bin/psalm
 PHP_CS_FIXER = bin/php-cs-fixer fix -v --show-progress=dots
