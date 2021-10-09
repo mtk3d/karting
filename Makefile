@@ -5,37 +5,37 @@ down: ## Stop local docker env
 down: docker-compose-down
 
 watch: ## Run webpack watch
-	@$(NODE) $(FRONTEND_BUILD) --env development --progress --watch
+	@$(NODE) $(WEBPACK) --env development --progress --watch
 
 beautify: ## Beautify your code
-	@$(DOCKER_COMPOSE_EXEC) $(PHP_CS_FIXER)
+	@$(DOCKER_EXEC) $(CS_FIXER)
 
 test: ## Run code tests
-	@$(DOCKER_COMPOSE_EXEC) $(BACKEND_TEST)
+	@$(DOCKER_EXEC) $(ARTISAN_TEST)
 
 lint: ## Run code linters
-	@$(DOCKER_COMPOSE_EXEC) $(PSALM)
-	@$(DOCKER_COMPOSE_EXEC) $(PHP_CS_FIXER_CHECK)
+	@$(DOCKER_EXEC) $(PSALM)
+	@$(DOCKER_EXEC) $(CS_FIXER_CHECK)
 
 update: ## Update all dependencies
-	@$(COMPOSER) composer update --ignore-platform-reqs
-	@$(NODE) yarn upgrade
+	@$(COMPOSER) update --ignore-platform-reqs
+	@$(YARN) upgrade
 
 shell: ## Get access to container
-	@$(DOCKER_COMPOSE_EXEC) /bin/sh
+	@$(DOCKER_EXEC) /bin/sh
+
+vendor: composer.json composer.lock
+	@$(COMPOSER) install --ignore-platform-reqs
+
+node_modules: package.json yarn.lock
+	@$(YARN) install
 
 migrate-db:
-	@$(DOCKER_COMPOSE_EXEC) php artisan migrate
+	@$(PHP) artisan migrate
 
 .env:
 	@cp .env.docker.dist .env
-	@$(DOCKER_COMPOSE_EXEC) artisan key:generate
-
-vendor: composer.json composer.lock
-	@$(COMPOSER) composer install --ignore-platform-reqs
-
-node_modules: package.json yarn.lock
-	@$(NODE) yarn install
+	@$(PHP) artisan key:generate
 
 docker-compose-up:
 	@docker-compose up -d
@@ -44,37 +44,36 @@ docker-compose-down:
 	@docker-compose down
 
 front-build-dev:
-	@$(NODE) $(FRONTEND_BUILD) --env development
+	@$(NODE) $(WEBPACK) --env development
 
 front-build-prod:
-	@$(NODE) $(FRONTEND_BUILD) --env production
+	@$(NODE) $(WEBPACK) --env production
 
 ci-lint:
 	@$(PSALM)
-	@$(PHP_CS_FIXER_CHECK)
+	@$(CS_FIXER_CHECK)
 
 ci-test:
-	@$(BACKEND_TEST)
+	@$(ARTISAN_TEST)
 
 help:
 	@printf "\033[33mUsage:\033[0m\n  make TARGET\n\033[33m\nTargets:\n"
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | awk 'BEGIN {FS = ":"}; {printf "  \033[33m%-10s\033[0m%s\n", $$1, $$2}'
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//' | \
+	awk 'BEGIN {FS = ":"}; {printf "  \033[33m%-10s\033[0m%s\n", $$1, $$2}'
 
 .DEFAULT_GOAL := help
-.PHONY: up down beautify test lint shell migrate-db docker-compose-up docker-compose-down help update \
-	front-build-dev front-build-prod ci-lint ci-test
+.PHONY: up down watch beautify test lint update shell migrate-db docker-compose-up docker-compose-down \
+	front-build-dev front-build-prod ci-lint ci-test help
 
-# Docker executable prefix
-DOCKER_COMPOSE_EXEC = docker-compose exec app
-DOCKER_RUN = docker run --rm -it -w /app -v $(shell pwd):/app
+DOCKER_EXEC = docker-compose exec app
 
-# Docker executables
-NODE = $(DOCKER_RUN) node:16.10-alpine
-COMPOSER = $(DOCKER_RUN) composer:2.1
+COMPOSER = bin/composer
+NODE = bin/node
+PHP = bin/php
+YARN = bin/yarn
 
-# Commands
-FRONTEND_BUILD = node_modules/webpack/bin/webpack.js --config=node_modules/laravel-mix/setup/webpack.config.js
-PSALM = bin/psalm
-PHP_CS_FIXER = bin/php-cs-fixer fix -v --show-progress=dots
-PHP_CS_FIXER_CHECK = $(PHP_CS_FIXER) --dry-run
-BACKEND_TEST = php artisan test
+WEBPACK = node_modules/webpack/bin/webpack.js --config=node_modules/laravel-mix/setup/webpack.config.js
+PSALM = vendor/bin/psalm
+CS_FIXER = vendor/bin/php-cs-fixer fix -v --show-progress=dots
+CS_FIXER_CHECK = $(CS_FIXER) --dry-run
+ARTISAN_TEST = php artisan test
