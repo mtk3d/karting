@@ -29,6 +29,7 @@ migrate-db:
 
 .env:
 	@cp .env.docker.dist .env
+	@php artisan key:generate
 
 .PHONY: composer-install
 composer-install:

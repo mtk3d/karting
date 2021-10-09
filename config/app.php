@@ -169,11 +169,11 @@ return [
         /*
          * Application Service Providers...
          */
-        Karting\App\Provider\AppServiceProvider::class,
-        Karting\App\Provider\RouteServiceProvider::class,
-        Karting\App\Provider\EventServiceProvider::class,
-        Karting\App\Provider\RepositoryServiceProvider::class,
-        Karting\App\Provider\CommandServiceProvider::class,
+        App\Provider\AppServiceProvider::class,
+        App\Provider\RouteServiceProvider::class,
+        App\Provider\EventServiceProvider::class,
+        App\Provider\RepositoryServiceProvider::class,
+        App\Provider\CommandServiceProvider::class,
     ],
 
     /*
