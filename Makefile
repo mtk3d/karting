@@ -20,17 +20,18 @@ check: ## Run code linters
 check: vendor node_modules
 	$(PHP) $(PSALM)
 	$(PHP) $(CS_FIXER_CHECK)
-	$(COMPOSER) validate --no-check-publish
 
 update: ## Update all dependencies
-	$(COMPOSER) update --ignore-platform-reqs
+	$(COMPOSER) validate --no-check-publish
+	$(COMPOSER) update --ignore-platform-reqs --prefer-dist
 	$(YARN) upgrade
 
 shell: ## Get access to container
 	$(DOCKER_EXEC) /bin/sh
 
 vendor: composer.json composer.lock
-	$(COMPOSER) install --ignore-platform-reqs
+	$(COMPOSER) validate --no-check-publish
+	$(COMPOSER) install --ignore-platform-reqs --prefer-dist
 
 node_modules: package.json yarn.lock
 	$(YARN) install
@@ -53,13 +54,6 @@ front-build-dev: node_modules
 
 front-build-prod: node_modules
 	$(NODE) $(WEBPACK) --env production
-
-ci-lint: vendor
-	$(PSALM)
-	$(CS_FIXER_CHECK)
-
-ci-test: vendor
-	$(ARTISAN_TEST)
 
 help:
 	@printf "\033[33mUsage:\033[0m\n  make TARGET\n\033[33m\nTargets:\n"

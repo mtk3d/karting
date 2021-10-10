@@ -14,9 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Validate composer.json and composer.lock
-        run: composer validate --strict
-
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v2
@@ -27,10 +24,10 @@ jobs:
             ${{ runner.os }}-php-
 
       - name: Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: SKIP_DOCKER=true make vendor
 
       - name: Run code quality check
-        run: make ci-lint
+        run: SKIP_DOCKER=true make check
 
       - name: Run test suite
-        run: make ci-test
+        run: SKIP_DOCKER=true make test
