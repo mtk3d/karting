@@ -24,5 +24,21 @@ To run this application locally with docker, just run:
 make up
 ```
 This command will configure app, create containers and run db migrations.
+Everything is executed by docker run/exec, so you need only docker installed localy.
+
+If you work in non-native environment for docker like MasOS/Windows it could be slow.
+If you want, you can install all dependencies, and speed up work with app.
+
+Requirements:
+- PHP >=8.0
+- Node >=14
+- Yarn >=1.22
+- Composer >= 2.0
+
+Then you can run make targets locally, omitting the docker run:
+```bash
+make up SKIP_DOCKER=true
+```
+
 ## :speech_balloon: API
 API is documented as Postman collection file [here](doc/Karting.postman_collection.json).
