@@ -12,14 +12,14 @@ beautify: ## Beautify your code
 beautify: vendor
 	$(PHP) $(CS_FIXER)
 
-test: ## Run code tests
-test: vendor
-	$(PHP) $(ARTISAN_TEST)
-
 check: ## Run code linters
 check: vendor node_modules
-	$(PHP) $(PSALM)
-	$(PHP) $(CS_FIXER_CHECK)
+	$(PHP) vendor/bin/psalm
+	$(PHP) $(CS_FIXER) --dry-run
+
+test: ## Run code tests
+test: vendor
+	$(PHP) artisan test
 
 update: ## Update all dependencies
 	$(COMPOSER) validate --no-check-publish
@@ -76,7 +76,4 @@ PHP = $(BIN_DIR)php
 YARN = $(BIN_DIR)yarn
 
 WEBPACK = node_modules/webpack/bin/webpack.js --config=node_modules/laravel-mix/setup/webpack.config.js
-PSALM = vendor/bin/psalm
 CS_FIXER = vendor/bin/php-cs-fixer fix -v --show-progress=dots
-CS_FIXER_CHECK = $(CS_FIXER) --dry-run
-ARTISAN_TEST = artisan test
