@@ -37,7 +37,7 @@ Requirements:
 
 Then you can run make targets locally, omitting the docker run:
 ```bash
-make up SKIP_DOCKER=true
+SKIP_DOCKER=true make up
 ```
 
 ## :speech_balloon: API
