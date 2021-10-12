@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\ReadModel\Kart;
+namespace Karting\Track\Application;
 
 use Karting\Availability\Domain\StateChanged;
+use Karting\Track\Track;
 
 class StateChangedListener
 {
     public function handle(StateChanged $stateChanged): void
     {
         $uuid = $stateChanged->resourceId()->id()->toString();
-        $kart = Kart::where('uuid', $uuid)->first();
-        if ($kart) {
-            $kart->enabled = $stateChanged->enabled();
-            $kart->save();
+        $track = Track::where('uuid', $uuid)->first();
+        if ($track) {
+            $track->enabled = $stateChanged->enabled();
+            $track->save();
         }
     }
 }

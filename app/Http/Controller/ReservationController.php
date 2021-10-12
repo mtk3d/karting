@@ -7,11 +7,11 @@ namespace App\Http\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Http\Controller\Request\ReservationRequest;
-use App\ReadModel\Kart\Kart;
 use App\ReadModel\Reservation\Reservation;
-use App\ReadModel\Track\Track;
+use Karting\Kart\Kart;
 use Karting\Reservation\Application\Command\CreateReservation;
 use Karting\Shared\Common\CommandBus;
+use Karting\Track\Track;
 use Ramsey\Uuid\Uuid;
 
 class ReservationController

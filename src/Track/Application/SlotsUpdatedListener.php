@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\ReadModel\Track;
+namespace Karting\Track\Application;
 
 use Karting\Availability\Domain\SlotsUpdated;
+use Karting\Track\Track;
 
 class SlotsUpdatedListener
 {

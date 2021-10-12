@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Formatter;
+namespace Karting\Shared\Formatter;
 
 use Money\Currencies\ISOCurrencies;
 use Money\Formatter\IntlMoneyFormatter;

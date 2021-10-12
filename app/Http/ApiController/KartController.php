@@ -9,12 +9,11 @@ use Illuminate\Http\Response;
 use App\Http\ApiController\Request\KartRequest;
 use App\Http\ApiController\Request\StateRequest;
 use App\Http\Controller;
-use App\ReadModel\Kart\Kart;
-use App\ReadModel\ResourceReservation\ResourceReservation;
 use Karting\Availability\Application\Command\CreateResource;
 use Karting\Availability\Application\Command\SetState;
 use Karting\Availability\Domain\Slots;
 use Karting\Kart\Application\Command\CreateKart;
+use Karting\Kart\Kart;
 use Karting\Pricing\Application\Command\SetPrice;
 use Karting\Shared\Common\CommandBus;
 use Karting\Shared\Common\UUID;
@@ -66,13 +65,5 @@ class KartController extends Controller
         ));
 
         return new Response('', Response::HTTP_OK);
-    }
-
-    /**
-     * @return Collection<ResourceReservation>
-     */
-    public function reservations(string $id): Collection
-    {
-        return Kart::where('uuid', $id)->firstOrFail()->reservations;
     }
 }

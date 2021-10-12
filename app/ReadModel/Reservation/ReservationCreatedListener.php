@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\ReadModel\Reservation;
 
-use App\ReadModel\Kart\Kart;
+use Karting\Kart\Kart;
 use Karting\Reservation\Domain\ReservationCreated;
 
 class ReservationCreatedListener

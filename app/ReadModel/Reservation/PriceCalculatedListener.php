@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\ReadModel\Reservation;
 
-use App\Formatter\MoneyFormatter;
 use Karting\Pricing\Domain\PriceCalculated;
+use Karting\Shared\Formatter\MoneyFormatter;
 
 class PriceCalculatedListener
 {

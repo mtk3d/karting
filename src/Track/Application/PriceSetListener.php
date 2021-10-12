@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\ReadModel\Kart;
+namespace Karting\Track\Application;
 
-use App\Formatter\MoneyFormatter;
 use Karting\Pricing\Domain\PriceSet;
+use Karting\Shared\Formatter\MoneyFormatter;
+use Karting\Track\Track;
 
 class PriceSetListener
 {
@@ -16,11 +17,11 @@ class PriceSetListener
     public function handle(PriceSet $priceSet): void
     {
         $uuid = $priceSet->itemId()->toString();
-        $kart = Kart::where('uuid', $uuid)->first();
+        $track = Track::where('uuid', $uuid)->first();
 
-        if ($kart) {
-            $kart->price = $this->moneyFormatter->format($priceSet->money());
-            $kart->save();
+        if ($track) {
+            $track->price = $this->moneyFormatter->format($priceSet->money());
+            $track->save();
         }
     }
 }

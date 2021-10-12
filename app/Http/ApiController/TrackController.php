@@ -9,7 +9,6 @@ use Illuminate\Http\Response;
 use App\Http\ApiController\Request\StateRequest;
 use App\Http\ApiController\Request\TrackRequest;
 use App\Http\Controller;
-use App\ReadModel\Track\Track;
 use Karting\Availability\Application\Command\CreateResource;
 use Karting\Availability\Application\Command\SetState;
 use Karting\Availability\Domain\Slots;
@@ -18,6 +17,7 @@ use Karting\Shared\Common\CommandBus;
 use Karting\Shared\Common\UUID;
 use Karting\Shared\ResourceId;
 use Karting\Track\Application\Command\CreateTrack;
+use Karting\Track\Track;
 use Money\Currency;
 use Money\Money;
 
@@ -66,13 +66,5 @@ class TrackController extends Controller
         ));
 
         return new Response('', Response::HTTP_OK);
-    }
-
-    /**
-     * @return Collection<Track>
-     */
-    public function reservations(string $id): Collection
-    {
-        return Track::where('uuid', $id)->firstOrFail()->reservations;
     }
 }

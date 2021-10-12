@@ -18,6 +18,8 @@ class CreateKartsTable extends Migration
             $table->uuid('uuid')->unique();
             $table->text('name');
             $table->longText('description')->nullable();
+            $table->boolean('enabled')->default(true);
+            $table->string('price')->default('$0.00');
             $table->timestamps();
         });
     }

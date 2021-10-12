@@ -7,8 +7,8 @@ namespace App\ReadModel\Reservation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use App\ReadModel\Kart\Kart;
-use App\ReadModel\Track\Track;
+use Karting\Kart\Kart;
+use Karting\Track\Track;
 
 class Reservation extends Model
 {

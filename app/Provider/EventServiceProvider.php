@@ -20,18 +20,12 @@ class EventServiceProvider extends ServiceProvider
         \Karting\Availability\Domain\ResourceReserved::class => [
             \App\ReadModel\ResourceReservation\ResourceReservedListener::class,
         ],
-        \Karting\Track\TrackCreated::class => [
-            \App\ReadModel\Track\TrackCreatedListener::class,
-        ],
-        \Karting\Kart\KartCreated::class => [
-            \App\ReadModel\Kart\KartCreatedListener::class,
-        ],
         \Karting\Availability\Domain\StateChanged::class => [
-            \App\ReadModel\Kart\StateChangedListener::class,
-            \App\ReadModel\Track\StateChangedListener::class,
+            \Karting\Kart\Application\StateChangedListener::class,
+            \Karting\Track\Application\StateChangedListener::class,
         ],
         \Karting\Availability\Domain\SlotsUpdated::class => [
-            \App\ReadModel\Track\SlotsUpdatedListener::class,
+            \Karting\Track\Application\SlotsUpdatedListener::class,
         ],
         \Karting\Reservation\Domain\ReservationCreated::class => [
             \App\ReadModel\Reservation\ReservationCreatedListener::class,
@@ -41,8 +35,8 @@ class EventServiceProvider extends ServiceProvider
             \App\ReadModel\Reservation\ReservationStatusListener::class,
         ],
         \Karting\Pricing\Domain\PriceSet::class => [
-            \App\ReadModel\Kart\PriceSetListener::class,
-            \App\ReadModel\Track\PriceSetListener::class,
+            \Karting\Kart\Application\PriceSetListener::class,
+            \Karting\Track\Application\PriceSetListener::class,
         ],
         \Karting\Pricing\Domain\PriceCalculated::class => [
             \App\ReadModel\Reservation\PriceCalculatedListener::class,
