@@ -6,8 +6,9 @@ namespace Karting\Availability\Domain\Schedule;
 
 use Carbon\CarbonInterface;
 use InvalidArgumentException;
+use JsonSerializable;
 
-class Time
+class Time implements JsonSerializable
 {
     private int $hours;
     private int $minutes;
@@ -46,5 +47,14 @@ class Time
             abs($this->minutes - $time->minutes),
             abs($this->seconds - $time->seconds)
         );
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'hour' => $this->hours,
+            'minutes' => $this->minutes,
+            'seconds' => $this->seconds,
+        ];
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Karting\Availability\Domain\Schedule;
+namespace Karting\Availability\Domain\Schedule\RecurrenceRule;
 
 use MyCLabs\Enum\Enum;
 

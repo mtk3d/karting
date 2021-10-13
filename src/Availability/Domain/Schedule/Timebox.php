@@ -5,24 +5,51 @@ declare(strict_types=1);
 namespace Karting\Availability\Domain\Schedule;
 
 use Carbon\CarbonPeriod;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Karting\Availability\Domain\Policy;
+use Karting\Availability\Domain\Slots;
+use Karting\Availability\Infrastructure\Repository\Eloquent\RecurrenceCast;
+use Karting\Availability\Infrastructure\Repository\Eloquent\TimeCast;
+use Karting\Shared\Common\UUID;
+use Karting\Shared\Common\UUIDCast;
 
-class Timebox
+/**
+ * @property UUID $uuid
+ * @property Time $start_time
+ * @property Time $end_time
+ * @property Recurrence $recurrence
+ */
+class Timebox extends Model implements Policy
 {
-    private Time $startTime;
-    private Time $endTime;
-    private Periodicity $periodicity;
+    protected $fillable = [
+        'uuid',
+        'start_time',
+        'end_time',
+        'recurrence',
+    ];
 
-    public function __construct(Time $startTime, Time $endTime, Periodicity $periodicity)
+    protected $casts = [
+        'uuid' => UUIDCast::class,
+        'start_time' => TimeCast::class,
+        'end_time' => TimeCast::class,
+        'recurrence' => RecurrenceCast::class,
+    ];
+
+    public static function of(UUID $id, Time $startTime, Time $endTime, Recurrence $recurrence): Timebox
     {
-        $this->startTime = $startTime;
-        $this->endTime = $endTime;
-        $this->periodicity = $periodicity;
+        return new Timebox([
+            'uuid' => $id,
+            'start_time' => $startTime,
+            'end_time' => $endTime,
+            'recurrence' => $recurrence,
+        ]);
     }
 
-    public function meet(CarbonPeriod $period): bool
+    public function isSatisfiedBy(CarbonPeriod $period, Collection $reservedPeriods, Slots $slots): bool
     {
-        return $this->startTime->equalsDate($period->getStartDate()) &&
-            $this->endTime->equalsDate($period->getEndDate()) &&
-            $this->periodicity->meet($period);
+        return $this->start_time->equalsDate($period->getStartDate()) &&
+            $this->end_time->equalsDate($period->getEndDate()) &&
+            $this->recurrence->meet($period);
     }
 }
