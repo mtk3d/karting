@@ -7,7 +7,7 @@ namespace Karting\Availability\Domain\Schedule;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 
-class EveryYear implements Every
+class EveryYear implements RecurrenceRule
 {
     private Carbon $date;
 
@@ -19,7 +19,7 @@ class EveryYear implements Every
     public function meet(CarbonPeriod $period): bool
     {
         $startDate = $period->getStartDate();
-        return $startDate->day === $this->date->day &&
-            $startDate->month === $this->date->month;
+        return $startDate->isoFormat('D') === $this->date->isoFormat('D') &&
+            $startDate->isoFormat('M') === $this->date->isoFormat('M');
     }
 }

@@ -8,8 +8,8 @@ Route::get('/', 'IndexController@index');
 
 Route::prefix('reservation')->group(function () {
     Route::get('/', 'ReservationController@index');
-    Route::get('/reservation/create', 'ReservationController@create');
-    Route::post('/reservation/create', 'ReservationController@reserve');
+    Route::get('/create', 'ReservationController@create');
+    Route::post('/create', 'ReservationController@reserve');
 });
 
 Route::prefix('track')->group(function () {

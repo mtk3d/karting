@@ -7,7 +7,7 @@ namespace Karting\Availability\Domain\Schedule;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 
-class InDate implements Every
+class InDay implements RecurrenceRule
 {
     private CarbonInterface $date;
 
@@ -18,6 +18,7 @@ class InDate implements Every
 
     public function meet(CarbonPeriod $period): bool
     {
+        // only day month year without hours *
         return $period->getStartDate()->equalTo($this->date);
     }
 }

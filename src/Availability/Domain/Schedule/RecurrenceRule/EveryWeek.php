@@ -6,7 +6,7 @@ namespace Karting\Availability\Domain\Schedule;
 
 use Carbon\CarbonPeriod;
 
-class EveryWeek implements Every
+class EveryWeek implements RecurrenceRule
 {
     private WeekDay $weekDay;
 

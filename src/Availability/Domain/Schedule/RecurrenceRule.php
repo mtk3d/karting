@@ -6,7 +6,7 @@ namespace Karting\Availability\Domain\Schedule;
 
 use Carbon\CarbonPeriod;
 
-interface Every
+interface HowOften
 {
     public function meet(CarbonPeriod $period): bool;
 }
