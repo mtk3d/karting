@@ -10,13 +10,13 @@ class ReservationIdCast implements CastsAttributes
 {
     public function get($model, string $key, $value, array $attributes)
     {
-        return ReservationId::of($attributes['uuid']);
+        return ReservationId::of($attributes[$key]);
     }
 
     public function set($model, string $key, $value, array $attributes)
     {
         return [
-            'uuid' => $value->toString()
+            $key => $value->id()->toString()
         ];
     }
 }

@@ -6,5 +6,4 @@ namespace Karting\Availability\Domain\Schedule;
 
 interface TimeboxRepository
 {
-
 }
