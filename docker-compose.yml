@@ -1,13 +1,23 @@
 version: '3.1'
 
 services:
+  web:
+    container_name: karting_web
+    build:
+      context: ./
+      dockerfile: .docker/web/Dockerfile
+    ports:
+      - 9090:80
+    depends_on:
+      - app
+    volumes:
+      - ./public:/app/public
+
   app:
     container_name: karting_app
     build:
       context: ./
       dockerfile: .docker/php/Dockerfile
-    ports:
-      - 9090:80
     volumes:
       - .:/app
 

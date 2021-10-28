@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-alpine
+FROM php:8.0-fpm-alpine as base
 WORKDIR /app
 
 RUN apk upgrade --no-cache && \
@@ -8,7 +8,8 @@ RUN apk upgrade --no-cache && \
     docker-php-ext-install gmp pdo pdo_mysql opcache bcmath intl
 
 COPY .docker/php/php.ini $PHP_INI_DIR/php.ini
-COPY .docker/php/nginx.conf /etc/nginx/nginx.conf
 COPY .docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/zzz-php-fpm.conf
 
-CMD ["sh", "-c", "php-fpm --daemonize && nginx"]
+RUN adduser -D -u 1000 -g appuser appuser
+RUN chown -R appuser:appuser /app
+USER appuser
