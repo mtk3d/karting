@@ -1,4 +1,4 @@
-# Couple CRUD modules with app
+# Coupling CRUD modules with app
 
 * Status: accepted <!-- optional -->
 * Deciders: @mtk3d <!-- optional -->

@@ -43,7 +43,7 @@ SKIP_DOCKER=true make up
 ## :speech_balloon: API
 API is documented as Postman collection file [here](doc/Karting.postman_collection.json).
 
-## :page_facing_up:	Active Decision Records
+## :page_facing_up:	Architecture Decision Records
 In this project, there is [MADR](https://adr.github.io/madr/) used. You can find them [here](doc/adr/index.md).
 
 ## :pushpin: TODO
