@@ -10,6 +10,7 @@ use App\Http\Controller\Request\ReservationRequest;
 use App\ReadModel\Reservation\Reservation;
 use Karting\Kart\Kart;
 use Karting\Reservation\Application\Command\CreateReservation;
+use Karting\Reservation\Domain\ReservationConfirmationException;
 use Karting\Shared\Common\CommandBus;
 use Karting\Track\Track;
 use Ramsey\Uuid\Uuid;

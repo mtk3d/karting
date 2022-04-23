@@ -173,6 +173,7 @@ return [
         App\Provider\RouteServiceProvider::class,
         App\Provider\EventServiceProvider::class,
         App\Provider\RepositoryServiceProvider::class,
+        App\Provider\FactoryServiceProvider::class,
         App\Provider\CommandServiceProvider::class,
     ],
 

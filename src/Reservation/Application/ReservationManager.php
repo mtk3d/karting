@@ -39,7 +39,7 @@ class ReservationManager
         $reservation->updateProgress($resourceReserved->resourceId());
         $this->repository->save($reservation);
 
-        if ($reservation->finished() && !$reservation->confirmed()) {
+        if ($reservation->isFinished() && !$reservation->isConfirmed()) {
             $this->bus->dispatch(new ConfirmReservation($reservation->id()));
         }
     }
@@ -48,7 +48,7 @@ class ReservationManager
     {
         $reservation = $this->repository->find($reservationFailed->reservationId());
 
-        if (!$reservation->confirmed()) {
+        if (!$reservation->isConfirmed()) {
             $this->bus->dispatch(new CancelReservation($reservation->id()));
         }
     }
