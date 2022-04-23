@@ -24,7 +24,7 @@ class InMemoryReservationRepository implements ReservationRepository
         $this->items->push($reservation);
     }
 
-    public function find(ReservationId $id): ?Reservation
+    public function find(ReservationId $id): Reservation
     {
         return $this->items
             ->first(

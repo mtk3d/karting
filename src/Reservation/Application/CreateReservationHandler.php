@@ -6,8 +6,8 @@ namespace Karting\Reservation\Application;
 
 use Karting\Reservation\Application\Command\CreateReservation;
 use Karting\Reservation\Domain\Kart;
-use Karting\Reservation\Domain\Reservation;
 use Karting\Reservation\Domain\ReservationCreated;
+use Karting\Reservation\Domain\ReservationFactory;
 use Karting\Reservation\Domain\ReservationRepository;
 use Karting\Reservation\Domain\Track;
 use Karting\Shared\Common\DomainEventBus;
@@ -15,16 +15,18 @@ use Karting\Shared\ResourceId;
 
 class CreateReservationHandler
 {
-    public function __construct(private ReservationRepository $repository, private DomainEventBus $bus)
-    {
-    }
+    public function __construct(
+        private ReservationRepository $repository,
+        private ReservationFactory $reservationFactory,
+        private DomainEventBus $bus
+    ) {}
 
     public function handle(CreateReservation $createReservation): void
     {
-        $reservation = Reservation::of(
+        $reservation = $this->reservationFactory->from(
             $createReservation->reservationId(),
-            $createReservation->kartIds()->map(fn (ResourceId $id): Kart => new Kart($id, false)),
-            new Track($createReservation->trackId(), false),
+            $createReservation->kartIds(),
+            $createReservation->trackId(),
             $createReservation->period()
         );
 

@@ -7,17 +7,19 @@ namespace Karting\Reservation\Infrastructure\Repository;
 
 use Karting\Reservation\Domain\Reservation;
 use Karting\Reservation\Domain\ReservationRepository;
+use Karting\Reservation\Infrastructure\Repository\Eloquent\ReservationModel;
 use Karting\Shared\ReservationId;
 
 class EloquentReservationRepository implements ReservationRepository
 {
     public function save(Reservation $reservation): void
     {
-        $reservation->push();
+        $reservation->model()->push();
     }
 
-    public function find(ReservationId $id): ?Reservation
+    public function find(ReservationId $id): Reservation
     {
-        return Reservation::where('uuid', $id->id())->first();
+        $model = ReservationModel::where('uuid', $id->id())->first();
+        return new Reservation($model);
     }
 }

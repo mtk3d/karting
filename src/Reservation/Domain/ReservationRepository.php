@@ -11,5 +11,5 @@ interface ReservationRepository
 {
     public function save(Reservation $reservation): void;
 
-    public function find(ReservationId $id): ?Reservation;
+    public function find(ReservationId $id): Reservation;
 }
